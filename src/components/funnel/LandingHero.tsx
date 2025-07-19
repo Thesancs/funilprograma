@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect } from 'react';
@@ -5,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Heart, Leaf, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 const Logo = () => (
     <svg width="112" height="112" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-24 h-24 sm:w-28 sm:h-28 text-primary">
@@ -35,17 +37,20 @@ export default function LandingHero() {
                 <Logo />
             </div>
 
-            <Card className="w-full max-w-2xl text-left animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <Card className="w-full max-w-2xl text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl md:text-3xl font-bold text-foreground">
                   Crie sua conta e desbloqueie uma jornada personalizada para você e seu bebê!
                 </CardTitle>
-                <CardDescription className="font-body text-base md:text-lg text-muted-foreground pt-2">
+              </CardHeader>
+              <CardContent className="space-y-4">
+                 <CardDescription className="font-body text-base md:text-lg text-muted-foreground">
                   Seu corpo muda a cada semana, e sua alimentação precisa acompanhar esse ritmo. Vamos montar um caminho leve, baseado em como você está hoje.
                 </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2 font-body text-base text-foreground">
+
+                <Separator />
+                
+                <ul className="space-y-2 font-body text-base text-foreground inline-flex flex-col items-start text-left">
                   <li className="flex items-center gap-2">
                     <CheckCircle2 className="h-5 w-5 text-primary" />
                     <span>Diagnóstico gratuito</span>
