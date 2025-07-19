@@ -27,10 +27,11 @@ export default function QuizGravidez() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-8">
-        <div className="w-48 h-96 flex items-center justify-center">
-            <svg viewBox="0 0 300 600" className="h-full w-auto drop-shadow-lg">
-                <path d="M198.8,118.2c0,10.5-8.5,19-19,19s-19-8.5-19-19s8.5-19,19-19S198.8,107.7,198.8,118.2z M179.8,141.2 c-12,0-21.8,9.8-21.8,21.8v18.7l-15.5,34.3c-2,4.5-2.2,9.6-0.6,14.3c0,0,0,0,0,0l26.2,121.2c2.1,9.6,10.6,16.5,20.4,16.5h0.3 c9.8,0,18.3-6.9,20.4-16.5l14.5-98.9c0.2-1.3,0.3-2.6,0.3-3.9v-72C203.8,151,192.8,141.2,179.8,141.2z" fill="hsl(var(--foreground))" />
-                <ellipse id="barriga" cx="160" cy="250" rx={rx} ry={ry} fill="hsl(var(--foreground))" style={{ transition: 'all 0.3s ease-in-out' }} />
+        <div className="w-48 h-64 flex items-center justify-center">
+            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" className="h-full w-auto drop-shadow-lg">
+                <circle cx="150" cy="40" r="20" fill="hsl(var(--foreground))" />
+                <path d="M135,60 Q130,130 140,200" fill="none" stroke="hsl(var(--foreground))" strokeWidth="10" />
+                <ellipse id="barriga" cx="180" cy="140" rx={rx} ry={ry} fill="hsl(var(--foreground))" style={{ transition: 'all 0.3s ease-in-out' }} />
             </svg>
         </div>
         
