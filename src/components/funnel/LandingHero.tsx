@@ -38,7 +38,7 @@ export default function LandingHero() {
             <Card className="w-full max-w-2xl text-left animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl md:text-3xl font-bold text-foreground">
-                  👶 Crie sua conta de gestante e desbloqueie sua jornada personalizada de bem-estar
+                  Crie sua conta e desbloqueie uma jornada personalizada para você e seu bebê!
                 </CardTitle>
                 <CardDescription className="font-body text-base md:text-lg text-muted-foreground pt-2">
                   Seu corpo muda a cada semana, e sua alimentação precisa acompanhar esse ritmo. Vamos montar um caminho leve, baseado em como você está hoje.
