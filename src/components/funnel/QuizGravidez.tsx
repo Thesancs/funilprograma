@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -7,8 +6,8 @@ import { Slider } from '@/components/ui/slider';
 
 const bellySizes = [
   { rx: 10, ry: 10 }, // 1º trimestre
-  { rx: 25, ry: 20 }, // 2º trimestre
-  { rx: 35, ry: 28 }, // 3º trimestre
+  { rx: 60, ry: 80 }, // 2º trimestre
+  { rx: 90, ry: 120 }, // 3º trimestre
 ];
 
 export default function QuizGravidez() {
@@ -28,10 +27,9 @@ export default function QuizGravidez() {
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-8">
         <div className="w-48 h-64 flex items-center justify-center">
-            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" className="h-full w-auto drop-shadow-lg">
-                <circle cx="150" cy="40" r="20" fill="hsl(var(--foreground))" />
-                <path d="M135,60 Q130,130 140,200" fill="none" stroke="hsl(var(--foreground))" strokeWidth="10" />
-                <ellipse id="barriga" cx="180" cy="140" rx={rx} ry={ry} fill="hsl(var(--foreground))" style={{ transition: 'all 0.3s ease-in-out' }} />
+             <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" className="h-full w-auto drop-shadow-lg">
+                <path d="M200,550 Q190,400 200,300 Q210,250 200,200 Q190,150 220,100 Q230,80 250,80 Q270,80 280,100 Q300,150 290,200 Q280,250 290,300 Q300,400 290,550 Z" fill="hsl(var(--foreground))"/>
+                <ellipse id="barriga" cx="330" cy="300" rx={rx} ry={ry} fill="hsl(var(--foreground))" style={{ transition: 'all 0.3s ease-in-out' }}/>
             </svg>
         </div>
         
