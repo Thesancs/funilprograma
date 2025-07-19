@@ -3,18 +3,11 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Heart, Leaf, CheckCircle2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
-const Logo = () => (
-    <svg width="112" height="112" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-24 h-24 sm:w-28 sm:h-28 text-primary">
-        <path fillRule="evenodd" clipRule="evenodd" d="M12 3.5C9.79086 3.5 8 5.29086 8 7.5C8 9.70914 9.79086 11.5 12 11.5C14.2091 11.5 16 9.70914 16 7.5C16 5.29086 14.2091 3.5 12 3.5ZM6 7.5C6 4.18629 8.68629 1.5 12 1.5C15.3137 1.5 18 4.18629 18 7.5C18 10.8137 15.3137 13.5 12 13.5C8.68629 13.5 6 10.8137 6 7.5Z" fill="currentColor"/>
-        <path d="M4.10842 16.2023C4.48243 15.1189 5.37876 14.25 6.5 14.25H17.5C18.6212 14.25 19.5176 15.1189 19.8916 16.2023L21.7821 21.6069C22.0945 22.4925 21.5034 23.5 20.5693 23.5H3.43068C2.49657 23.5 1.90549 22.4925 2.21793 21.6069L4.10842 16.2023Z" fill="currentColor"/>
-    </svg>
-);
-
 
 export default function LandingHero() {
   useEffect(() => {
@@ -34,7 +27,14 @@ export default function LandingHero() {
 
         <div className="z-10 flex flex-col items-center justify-center space-y-4 md:space-y-6 py-16">
             <div className="mb-4 animate-in fade-in slide-in-from-top-12 duration-1000" data-ai-hint="mother baby">
-                <Logo />
+                <Image 
+                  src="https://i.imgur.com/pWBIXpR.png" 
+                  alt="Logo Bem-Vinda, Mamãe!" 
+                  width={112} 
+                  height={112} 
+                  className="w-24 h-24 sm:w-28 sm:h-28"
+                  priority
+                />
             </div>
 
             <Card className="w-full max-w-2xl text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
