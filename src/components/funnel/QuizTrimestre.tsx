@@ -5,6 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Star } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 
 const trimesters = [
   { label: '3º mês', icon: '🤰🏻', points: 150 },
@@ -13,12 +19,30 @@ const trimesters = [
 ];
 
 export default function QuizTrimestre() {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
   const [selectedTrimester, setSelectedTrimester] = useState<string | null>(null);
   const [points, setPoints] = useState(0);
 
   useEffect(() => {
-    console.log('[QuizTrimestre] Component mounted');
-  }, []);
+    if (!api) {
+      return
+    }
+
+    setCurrent(api.selectedScrollSnap())
+
+    const handleSelect = () => {
+      const selectedIndex = api.selectedScrollSnap();
+      setCurrent(selectedIndex);
+      handleSelectTrimester(trimesters[selectedIndex].label, trimesters[selectedIndex].points);
+    };
+
+    api.on("select", handleSelect)
+
+    return () => {
+      api.off("select", handleSelect)
+    }
+  }, [api])
 
   const handleSelectTrimester = (label: string, trimesterPoints: number) => {
     if (selectedTrimester === null) { // Only award points on the first selection
@@ -52,27 +76,31 @@ export default function QuizTrimestre() {
             🤰 Qual trimestre você está?
           </h1>
           
-          <div className="grid w-full grid-cols-3 gap-3 md:gap-4">
-            {trimesters.map((trim) => (
-              <div
-                key={trim.label}
-                onClick={() => handleSelectTrimester(trim.label, trim.points)}
-                className={cn(
-                  "flex flex-col items-center justify-center gap-2 p-4 border-2 rounded-lg cursor-pointer transition-all duration-300",
-                  selectedTrimester === trim.label
-                    ? "border-primary scale-105 shadow-lg bg-primary/10"
-                    : "border-border hover:border-primary/50 hover:bg-accent/50"
-                )}
-              >
-                <span className="text-4xl md:text-5xl">{trim.icon}</span>
-                <span className="font-medium text-foreground text-sm md:text-base">{trim.label}</span>
-              </div>
-            ))}
-          </div>
+          <Carousel setApi={setApi} className="w-full max-w-xs">
+            <CarouselContent>
+              {trimesters.map((trim, index) => (
+                <CarouselItem key={index}>
+                  <div className="p-1">
+                      <div
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-2 p-4 border-2 rounded-lg cursor-pointer transition-all duration-300",
+                           current === index
+                            ? "border-primary scale-105 shadow-lg bg-primary/10"
+                            : "border-border"
+                        )}
+                      >
+                        <span className="text-4xl md:text-5xl">{trim.icon}</span>
+                        <span className="font-medium text-foreground text-sm md:text-base">{trim.label}</span>
+                      </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
 
           <Button 
             onClick={handleNext}
-            disabled={!selectedTrimester}
+            disabled={selectedTrimester === null}
             size="lg"
             className="w-full md:w-auto md:px-12 transition-transform duration-200 hover:scale-105"
           >
