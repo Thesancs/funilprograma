@@ -108,13 +108,15 @@ export default function CadastroPage() {
               </Button>
             </form>
           </Form>
-           <Link href="/" className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary hover:underline">
-              <ArrowLeft className="h-4 w-4" />
-              Voltar para a página inicial
-            </Link>
+           <div className="flex justify-center">
+            <Link href="/" className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary hover:underline">
+                <ArrowLeft className="h-4 w-4" />
+                Voltar para a página inicial
+              </Link>
+           </div>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2 pt-6">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground text-center">
                 © 2025 Bem-Estar Gestacional | Todos os direitos reservados
             </p>
         </CardFooter>
