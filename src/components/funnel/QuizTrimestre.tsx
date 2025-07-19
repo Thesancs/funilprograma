@@ -22,7 +22,7 @@ export default function QuizTrimestre() {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [selectedTrimester, setSelectedTrimester] = useState<string | null>(null);
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(150);
 
   useEffect(() => {
     if (!api) {
@@ -30,11 +30,13 @@ export default function QuizTrimestre() {
     }
 
     setCurrent(api.selectedScrollSnap())
+    // Select the first item by default
+    handleSelectTrimester(trimesters[0].label, trimesters[0].points, true);
 
     const handleSelect = () => {
       const selectedIndex = api.selectedScrollSnap();
       setCurrent(selectedIndex);
-      handleSelectTrimester(trimesters[selectedIndex].label, trimesters[selectedIndex].points);
+      handleSelectTrimester(trimesters[selectedIndex].label, trimesters[selectedIndex].points, false);
     };
 
     api.on("select", handleSelect)
@@ -44,10 +46,12 @@ export default function QuizTrimestre() {
     }
   }, [api])
 
-  const handleSelectTrimester = (label: string, trimesterPoints: number) => {
-    if (selectedTrimester === null) { // Only award points on the first selection
-        setPoints(points + trimesterPoints);
-        console.log(`[QuizTrimestre] Added ${trimesterPoints} points. Total: ${points + trimesterPoints}`);
+  const handleSelectTrimester = (label: string, trimesterPoints: number, isInitial: boolean) => {
+    // We don't add points on the initial selection, only on user interaction.
+    // The points already start at 150.
+    if (!isInitial) {
+        // Since we are not adding more points, this logic can be simplified
+        // but it is kept in case the logic changes in the future.
     }
     setSelectedTrimester(label);
     console.log('[QuizTrimestre] Selected trimester:', label);
