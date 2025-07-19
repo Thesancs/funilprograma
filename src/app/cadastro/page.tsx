@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -36,6 +37,7 @@ export default function CadastroPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,8 +58,8 @@ export default function CadastroPage() {
         title: "Conta criada com sucesso!",
         description: "Você será redirecionada em breve.",
       });
-      // Here you would typically redirect the user
-      // e.g. router.push('/dashboard');
+      // Redirect to the quiz page
+      router.push('/quiz');
     }, 10000);
   }
 
@@ -116,7 +118,7 @@ export default function CadastroPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Senha</FormLabel>
+                    <FormLabel>Senha🔐</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="Sua senha segura" {...field} />
                     </FormControl>
