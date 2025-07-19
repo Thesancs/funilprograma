@@ -36,8 +36,8 @@ export default function QuizTrimestre() {
   }
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
-        <div className="absolute top-0 right-0 md:top-4 md:right-4">
+    <div className="flex flex-col items-center w-full max-w-2xl mx-auto gap-4">
+        <div className="w-full flex justify-end">
             <div className="flex items-center gap-2 rounded-full bg-background/80 px-4 py-2">
                 <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                 <span className="font-semibold text-foreground">
