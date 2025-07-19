@@ -35,6 +35,7 @@ const formSchema = z.object({
 export default function CadastroPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,6 +48,7 @@ export default function CadastroPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    setSubmittedName(values.name);
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -62,9 +64,12 @@ export default function CadastroPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background">
-        <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center px-4">
           <Loader2 className="h-16 w-16 animate-spin text-primary" />
-          <p className="text-lg text-foreground">Criando sua conta, aguarde...</p>
+          <p className="text-xl font-semibold text-foreground">Criando sua conta, aguarde...</p>
+          <p className="text-md text-muted-foreground">
+            Parabéns pelo seu primeiro passo, {submittedName}! Vamos te ajudar a viver uma gestação mais leve e consciente.
+          </p>
         </div>
       </div>
     );
