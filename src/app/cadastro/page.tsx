@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -107,11 +108,12 @@ export default function CadastroPage() {
               </Button>
             </form>
           </Form>
+           <Link href="/" className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary hover:underline">
+              <ArrowLeft className="h-4 w-4" />
+              Voltar para a página inicial
+            </Link>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2 pt-6">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-primary hover:underline">
-                Voltar para a página inicial
-            </Link>
             <p className="text-xs text-muted-foreground">
                 © 2025 Bem-Estar Gestacional | Todos os direitos reservados
             </p>
