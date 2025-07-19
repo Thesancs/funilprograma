@@ -108,9 +108,12 @@ export default function CadastroPage() {
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex justify-center">
-            <p className="text-sm text-muted-foreground">
-                Já tem uma conta? <Link href="/login" className="text-primary hover:underline">Faça login</Link>
+        <CardFooter className="flex flex-col items-center space-y-2 pt-6">
+            <Link href="/" className="text-sm text-muted-foreground hover:text-primary hover:underline">
+                Voltar para a página inicial
+            </Link>
+            <p className="text-xs text-muted-foreground">
+                © 2025 Bem-Estar Gestacional | Todos os direitos reservados
             </p>
         </CardFooter>
       </Card>
