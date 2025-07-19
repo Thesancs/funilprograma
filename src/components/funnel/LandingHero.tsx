@@ -67,14 +67,15 @@ export default function LandingHero() {
               </CardContent>
             </Card>
 
-            <div className="pt-6 animate-in fade-in zoom-in-95 duration-1000 delay-600">
+            <div className="pt-6 animate-in fade-in zoom-in-95 duration-1000 delay-600 text-center">
+                <p className="mb-2 font-semibold text-foreground uppercase tracking-wider">COMEÇE AGORA MESMO</p>
                 <Link href="/cadastro" passHref>
                     <Button
                     size="lg"
                     className="px-8 py-6 text-base md:text-lg font-semibold rounded-full shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1"
                     onClick={handleCtaClick}
                     >
-                    Fazer meu diagnóstico gratuito
+                    Criar minha conta agora
                     </Button>
                 </Link>
             </div>
