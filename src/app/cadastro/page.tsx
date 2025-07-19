@@ -53,11 +53,6 @@ export default function CadastroPage() {
     setSubmittedName(values.name);
     setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false);
-      toast({
-        title: "Conta criada com sucesso!",
-        description: "Você será redirecionada em breve.",
-      });
       // Redirect to the quiz page
       router.push('/quiz');
     }, 10000);
