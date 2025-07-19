@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +34,7 @@ const formSchema = z.object({
 
 export default function CadastroPage() {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,10 +47,27 @@ export default function CadastroPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    toast({
-      title: "Conta criada com sucesso!",
-      description: "Você será redirecionada em breve.",
-    });
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      toast({
+        title: "Conta criada com sucesso!",
+        description: "Você será redirecionada em breve.",
+      });
+      // Here you would typically redirect the user
+      // e.g. router.push('/dashboard');
+    }, 10000);
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background">
+        <div className="flex flex-col items-center justify-center space-y-4">
+          <Loader2 className="h-16 w-16 animate-spin text-primary" />
+          <p className="text-lg text-foreground">Criando sua conta, aguarde...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -92,7 +111,7 @@ export default function CadastroPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Senha 🔐</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="Sua senha segura" {...field} />
                     </FormControl>
@@ -103,7 +122,8 @@ export default function CadastroPage() {
               <p className="px-1 text-center text-sm text-muted-foreground">
                 Ao criar sua conta, você desbloqueia acesso completo ao seu plano personalizado, com evolução ao longo da gestação.
               </p>
-              <Button type="submit" className="w-full" size="lg">
+              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Criar minha conta
               </Button>
             </form>
@@ -116,9 +136,11 @@ export default function CadastroPage() {
            </div>
         </CardContent>
         <CardFooter className="flex flex-col items-center space-y-2 pt-6">
-            <p className="text-xs text-muted-foreground text-center">
-                © 2025 Bem-Estar Gestacional | Todos os direitos reservados
-            </p>
+            <div className="text-center">
+              <p className="text-xs text-muted-foreground">
+                  © 2025 Bem-Estar Gestacional | Todos os direitos reservados
+              </p>
+            </div>
         </CardFooter>
       </Card>
     </div>
