@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
 
@@ -120,66 +121,68 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   };
 
   return (
-    <div className="w-full max-w-md mx-auto text-center flex flex-col items-center justify-center h-full">
-      {status === 'initial' && (
-        <div className="animate-in fade-in duration-500">
-          <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
-            🌬️ Vamos respirar juntas? <br/> Inspire 4s → Segure 4s → Expire 6s (5x)
-          </h2>
-          <Button
-            onClick={handleStart}
-            size="lg"
-            className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-6"
-          >
-            Iniciar Respiração Guiada
-          </Button>
-        </div>
-      )}
-
-      {status === 'running' && (
-        <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-500">
-            <p className="text-sm font-medium text-[#344154]">⏳ Tempo restante: {formatTime(timeLeft)}</p>
-            <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
-                <div
-                    className={cn(
-                    'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
-                    getCircleClass(),
-                     currentPhase === 'Inspire' && 'duration-[4000ms]',
-                     currentPhase === 'Expire' && 'duration-[6000ms]'
-                    )}
-                />
-                 <div
-                    className={cn(
-                    'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
-                    getCircleClass(),
-                     currentPhase === 'Inspire' && 'duration-[4000ms]',
-                     currentPhase === 'Expire' && 'duration-[6000ms]'
-                    )}
-                />
-                <div className="z-10 text-white drop-shadow-lg flex flex-col items-center">
-                    <span className="text-2xl font-bold">{currentPhase}</span>
-                    <span className="text-xl font-mono">{phaseTimeLeft}</span>
+    <Card className="w-full max-w-md mx-auto text-center">
+        <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
+            {status === 'initial' && (
+                <div className="animate-in fade-in duration-500">
+                <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
+                    🌬️ Vamos respirar juntas? <br/> Inspire 4s → Segure 4s → Expire 6s (5x)
+                </h2>
+                <Button
+                    onClick={handleStart}
+                    size="lg"
+                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-6"
+                >
+                    Iniciar Respiração Guiada
+                </Button>
                 </div>
-            </div>
-        </div>
-      )}
+            )}
 
-      {status === 'finished' && (
-        <div className="animate-in fade-in duration-500 text-center">
-          <h2 className="text-xl font-medium text-[#344154]">
-            🎁 Você desbloqueou uma recompensa bônus!
-          </h2>
-          <Button
-            onClick={handleNext}
-            disabled={isLoading}
-            size="lg"
-            className="rounded-full bg-[#344154] text-white px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
-          >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Finalizar e ver meu plano
-          </Button>
-        </div>
-      )}
-    </div>
+            {status === 'running' && (
+                <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-500">
+                    <p className="text-sm font-medium text-[#344154]">⏳ Tempo restante: {formatTime(timeLeft)}</p>
+                    <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
+                        <div
+                            className={cn(
+                            'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
+                            getCircleClass(),
+                            currentPhase === 'Inspire' && 'duration-[4000ms]',
+                            currentPhase === 'Expire' && 'duration-[6000ms]'
+                            )}
+                        />
+                        <div
+                            className={cn(
+                            'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
+                            getCircleClass(),
+                            currentPhase === 'Inspire' && 'duration-[4000ms]',
+                            currentPhase === 'Expire' && 'duration-[6000ms]'
+                            )}
+                        />
+                        <div className="z-10 text-white drop-shadow-lg flex flex-col items-center">
+                            <span className="text-2xl font-bold">{currentPhase}</span>
+                            <span className="text-xl font-mono">{phaseTimeLeft}</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {status === 'finished' && (
+                <div className="animate-in fade-in duration-500 text-center">
+                <h2 className="text-xl font-medium text-[#344154]">
+                    🎁 Você desbloqueou uma recompensa bônus!
+                </h2>
+                <Button
+                    onClick={handleNext}
+                    disabled={isLoading}
+                    size="lg"
+                    className="rounded-full bg-[#344154] text-white px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
+                >
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Finalizar e ver meu plano
+                </Button>
+                </div>
+            )}
+        </CardContent>
+    </Card>
   );
 }
