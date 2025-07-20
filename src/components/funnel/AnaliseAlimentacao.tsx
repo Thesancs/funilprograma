@@ -1,13 +1,14 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 interface AnaliseAlimentacaoProps {
   pontos: number;
@@ -77,7 +78,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   };
 
   const analisarResultados = (finalResultados: string[]) => {
-    console.log('[AnaliseAlimentacao]', finalResultados);
     const escolhasBoas = finalResultados.filter(r => r === 'bom').length;
     const total = finalResultados.length;
     const percentualBom = (escolhasBoas / total) * 100;
@@ -124,7 +124,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                       exit={{ opacity: 0, y: -20 }}
                       className="w-full flex flex-col items-center"
                   >
-                      <h2 className="text-2xl sm:text-3xl text-center font-semibold mb-4 text-white">
+                      <h2 className="text-xl sm:text-2xl text-center font-semibold mb-4 text-white">
                       🍽️ Como está sua alimentação hoje?
                       </h2>
                       <div className="relative h-[400px] w-[300px] flex items-center justify-center">
@@ -170,6 +170,16 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                           </motion.div>
                       </AnimatePresence>
                       </div>
+                      <div className="flex justify-between w-full max-w-[300px] px-4 mt-4 text-white">
+                        <div className="flex items-center gap-2">
+                          <ThumbsDown className="h-6 w-6" />
+                          <span className="font-semibold">Não</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold">Sim</span>
+                          <ThumbsUp className="h-6 w-6" />
+                        </div>
+                      </div>
                   </motion.div>
                   ) : (
                   <motion.div
@@ -193,7 +203,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
           </CardContent>
       </Card>
       {!showFeedback && (
-        <p className="text-sm text-white/80 mt-4 text-center">Arraste para o lado para classificar os pratos.</p>
+        <p className="text-sm text-white/80 mt-4 text-center">Arraste para a direita (Sim) ou para a esquerda (Não).</p>
       )}
     </>
   );
