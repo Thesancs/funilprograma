@@ -103,84 +103,88 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   }
 
   return (
-    <div className="w-full max-w-md mx-auto text-center flex flex-col justify-center items-center h-full">
-      <AnimatePresence>
-        {!showFeedback ? (
-          <motion.div
-            key="quiz"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full"
-          >
-            <h2 className="text-2xl sm:text-3xl text-center font-semibold mb-8">
-              🍽️ Como está sua alimentação hoje?
-            </h2>
-            <div className="relative h-[450px] flex items-center justify-center">
-              <AnimatePresence initial={false} custom={direction}>
+    <Card className="w-full max-w-md mx-auto">
+        <CardContent className="p-6 flex flex-col items-center justify-center min-h-[36rem]">
+            <div className="w-full text-center flex flex-col justify-center items-center h-full">
+            <AnimatePresence>
+                {!showFeedback ? (
                 <motion.div
-                  key={index}
-                  className="absolute w-[300px] h-[400px]"
-                  custom={direction}
-                  variants={cardVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: 'spring', stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 },
-                  }}
-                  drag="x"
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={1}
-                  onDragEnd={(e, { offset, velocity }) => {
-                    const swipe = Math.abs(offset.x) * velocity.x;
-                    if (swipe < -10000) {
-                      handleSwipe('ruim');
-                    } else if (swipe > 10000) {
-                      handleSwipe('bom');
-                    }
-                  }}
+                    key="quiz"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="w-full"
                 >
-                  <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
-                    <Image
-                      src={prato.imagem}
-                      alt={prato.nome}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={prato.dataAiHint}
-                      priority
-                    />
-                    <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
-                      <p className="font-bold text-lg text-foreground">{prato.nome}</p>
+                    <h2 className="text-2xl sm:text-3xl text-center font-semibold mb-8">
+                    🍽️ Como está sua alimentação hoje?
+                    </h2>
+                    <div className="relative h-[450px] flex items-center justify-center">
+                    <AnimatePresence initial={false} custom={direction}>
+                        <motion.div
+                        key={index}
+                        className="absolute w-[300px] h-[400px]"
+                        custom={direction}
+                        variants={cardVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                            x: { type: 'spring', stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.2 },
+                        }}
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={1}
+                        onDragEnd={(e, { offset, velocity }) => {
+                            const swipe = Math.abs(offset.x) * velocity.x;
+                            if (swipe < -10000) {
+                            handleSwipe('ruim');
+                            } else if (swipe > 10000) {
+                            handleSwipe('bom');
+                            }
+                        }}
+                        >
+                        <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
+                            <Image
+                            src={prato.imagem}
+                            alt={prato.nome}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={prato.dataAiHint}
+                            priority
+                            />
+                            <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
+                            <p className="font-bold text-lg text-foreground">{prato.nome}</p>
+                            </div>
+                        </Card>
+                        </motion.div>
+                    </AnimatePresence>
                     </div>
-                  </Card>
+                    <div className="flex justify-between w-full max-w-xs mx-auto mt-8 text-lg font-bold">
+                        <Button variant="outline" size="lg" onClick={() => handleSwipe('ruim')}>Não OK</Button>
+                        <Button variant="outline" size="lg" onClick={() => handleSwipe('bom')}>OK</Button>
+                    </div>
                 </motion.div>
-              </AnimatePresence>
+                ) : (
+                <motion.div
+                    key="feedback"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center gap-8"
+                >
+                    <p className="text-center text-[#344154] text-lg sm:text-xl font-medium">{feedback}</p>
+                    <Button 
+                        onClick={handleNext}
+                        size="lg"
+                        className="bg-[#9D4C63] text-white rounded-full px-8 py-6"
+                    >
+                    Continuar
+                    </Button>
+                </motion.div>
+                )}
+            </AnimatePresence>
             </div>
-             <div className="flex justify-between w-full max-w-xs mx-auto mt-8 text-lg font-bold">
-                <Button variant="outline" size="lg" onClick={() => handleSwipe('ruim')}>Não OK</Button>
-                <Button variant="outline" size="lg" onClick={() => handleSwipe('bom')}>OK</Button>
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="feedback"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center gap-8"
-          >
-            <p className="text-center text-[#344154] text-lg sm:text-xl font-medium">{feedback}</p>
-            <Button 
-                onClick={handleNext}
-                size="lg"
-                className="bg-[#9D4C63] text-white rounded-full px-8 py-6"
-            >
-              Continuar
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        </CardContent>
+    </Card>
   );
 }
