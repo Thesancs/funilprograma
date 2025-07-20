@@ -23,7 +23,8 @@ const CYCLE_PHASES = [
 export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiadaProps) {
   const [status, setStatus] = useState<'initial' | 'running' | 'finished'>('initial');
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
-  const [currentPhase, setCurrentPhase] = useState(CYCLE_PHASES[0].name);
+  const [currentPhase, setCurrentPhase] = useState('Expire'); // Start with Expire
+  const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -49,22 +50,32 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
 
   useEffect(() => {
     if (status !== 'running') return;
-  
+
     const elapsedSeconds = TOTAL_DURATION - timeLeft;
-    const currentCycleTime = elapsedSeconds % 14; 
-  
+    const currentCycleTime = elapsedSeconds % 14;
+
+    let phase;
     if (currentCycleTime < 4) {
-      setCurrentPhase('Inspire');
+      phase = 'Inspire';
     } else if (currentCycleTime < 8) {
-      setCurrentPhase('Segure');
+      phase = 'Segure';
     } else {
-      setCurrentPhase('Expire');
+      phase = 'Expire';
     }
+    setCurrentPhase(phase);
+    
   }, [timeLeft, status]);
 
   const handleStart = () => {
     console.log('[RespiracaoGuiada] Iniciando respiração guiada');
-    setStatus('running');
+    setIsAnimating(false); // Reset animation state
+    setCurrentPhase('Expire'); // Ensure it starts small
+    
+    // Short delay to allow the initial state to render before starting animation
+    setTimeout(() => {
+        setStatus('running');
+        setIsAnimating(true); // Start animation
+    }, 100);
   };
 
   const handleNext = () => {
@@ -80,6 +91,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   };
 
   const getCircleClass = () => {
+    if (!isAnimating) return 'scale-100'; // Start small before animation begins
     switch (currentPhase) {
       case 'Inspire':
         return 'scale-150';
