@@ -31,7 +31,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -50,7 +49,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
     }
   };
 
-  const analisarResultados(finalResultados: string[]) => {
+  const analisarResultados = (finalResultados: string[]) => {
     console.log('[AnaliseAlimentacao]', finalResultados);
     const escolhasBoas = finalResultados.filter(r => r === 'bom').length;
     const total = finalResultados.length;
@@ -80,7 +79,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   };
 
   const handleNext = () => {
-    setIsLoading(true);
     // Navegar para uma página de resultados/plano final, por enquanto, volta para o início.
     router.push('/');
   }
@@ -147,12 +145,10 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
           >
             <p className="text-center text-[#344154] text-lg sm:text-xl font-medium">{feedback}</p>
             <Button 
-                onClick={handleNext} 
-                disabled={isLoading}
+                onClick={handleNext}
                 size="lg"
                 className="bg-[#9D4C63] text-white rounded-full px-8 py-6"
             >
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Continuar
             </Button>
           </motion.div>
