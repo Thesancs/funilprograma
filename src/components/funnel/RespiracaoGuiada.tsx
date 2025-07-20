@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
 
@@ -27,7 +27,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   const [status, setStatus] = useState<'initial' | 'running' | 'finished'>('initial');
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
   const [currentPhase, setCurrentPhase] = useState('Expire');
-  const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[0].duration);
+  const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[2].duration);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -53,7 +53,13 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   }, [status, timeLeft, pontos, setPontos, toast]);
 
   useEffect(() => {
-    if (status !== 'running') return;
+    if (status !== 'running') {
+        if (status === 'initial') {
+            setCurrentPhase('Expire');
+            setPhaseTimeLeft(CYCLE_PHASES[2].duration)
+        }
+        return;
+    }
 
     const elapsedSeconds = TOTAL_DURATION - timeLeft;
     const currentCycleTime = elapsedSeconds % CYCLE_DURATION;
@@ -74,30 +80,23 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
       timeInPhase = currentCycleTime - (CYCLE_PHASES[0].duration + CYCLE_PHASES[1].duration);
       setPhaseTimeLeft(CYCLE_PHASES[2].duration - timeInPhase);
     }
-    setCurrentPhase(phaseName);
     
-  }, [timeLeft, status]);
+    if (phaseName !== currentPhase) {
+        setCurrentPhase(phaseName);
+    }
+    
+  }, [timeLeft, status, currentPhase]);
 
   const handleStart = () => {
     console.log('[RespiracaoGuiada] Iniciando respiração guiada');
-    setIsAnimating(false);
-    setCurrentPhase('Expire');
-    
-    setTimeout(() => {
-        setStatus('running');
-        setIsAnimating(true);
-    }, 100);
+    setStatus('running');
+    setIsAnimating(true);
   };
 
   const handleNext = () => {
     setIsLoading(true);
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
-    toast({
-        title: "✨ Parabéns por completar o quiz!",
-        description: "Seu plano personalizado está sendo criado.",
-        duration: 5000,
-    });
-    router.push(`/`);
+    router.push(`/quiz/alimentacao?pontos=${pontos}`);
   };
 
   const getCircleClass = () => {
@@ -126,7 +125,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
             {status === 'initial' && (
                 <div className="animate-in fade-in duration-500">
                 <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
-                    🌬️ Vamos respirar juntas? <br/> Inspire 4s → Segure 4s → Expire 6s (5x)
+                    🌬️ Vamos respirar juntas? <br/> Inspire por 4s → Segure por 4s → Expire por 6s (5x)
                 </h2>
                 <Button
                     onClick={handleStart}
@@ -147,6 +146,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                             'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
                             getCircleClass(),
                             currentPhase === 'Inspire' && 'duration-[4000ms]',
+                            currentPhase === 'Segure' && 'duration-[4000ms]',
                             currentPhase === 'Expire' && 'duration-[6000ms]'
                             )}
                         />
@@ -155,6 +155,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                             'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
                             getCircleClass(),
                             currentPhase === 'Inspire' && 'duration-[4000ms]',
+                            currentPhase === 'Segure' && 'duration-[4000ms]',
                             currentPhase === 'Expire' && 'duration-[6000ms]'
                             )}
                         />
@@ -178,7 +179,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                     className="rounded-full bg-[#344154] text-white px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
                 >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Finalizar e ver meu plano
+                    Continuar
                 </Button>
                 </div>
             )}
