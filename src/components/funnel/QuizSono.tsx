@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Heart } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 type OpcaoSono = "nenhuma" | "facil" | "mal" | "pessimo";
 
@@ -16,9 +17,9 @@ interface QuizSonoProps {
 
 const bgColors: Record<OpcaoSono, string> = {
   nenhuma: "bg-gradient-to-b from-[#D9A8B6] to-background",
-  facil: "bg-[#344154]", // Azul escuro
-  mal: "bg-[#B3A4D4]", // Roxo claro
-  pessimo: "bg-[#B16262]", // Vermelho suave
+  facil: "bg-[#344154]",
+  mal: "bg-[#B3A4D4]",
+  pessimo: "bg-[#B16262]",
 };
 
 const opcoes = [
@@ -27,11 +28,12 @@ const opcoes = [
   { id: 'pessimo', emoji: '😩', label: 'Não dorme nada bem' },
 ] as const;
 
-
 export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
   const [selecionado, setSelecionado] = useState<OpcaoSono>("nenhuma");
   const [bgColor, setBgColor] = useState(bgColors.nenhuma);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     console.log('[QuizSono] Component mounted');
@@ -39,7 +41,13 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
 
   const handleSelect = (opcao: OpcaoSono) => {
     if (selecionado === "nenhuma") {
-      setPontos(prev => prev + 100);
+      const newPoints = pontos + 100;
+      setPontos(newPoints);
+      toast({
+        title: "✨ +100 Pontos de Cuidado!",
+        description: "Seu bem-estar é nossa prioridade.",
+        duration: 3000,
+      });
       console.log('[QuizSono] +100 pontos adicionados');
     }
     setSelecionado(opcao);
@@ -48,8 +56,11 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
   };
 
   const handleNext = () => {
+    setIsLoading(true);
     console.log('[QuizSono] Avançando para a próxima etapa...');
-    // router.push('/proxima-etapa'); // Navegar para a próxima página do quiz
+    setTimeout(() => {
+      router.push(`/quiz/ansiedade?pontos=${pontos}`);
+    }, 1500);
   };
 
   return (
@@ -60,7 +71,7 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
       </div>
 
       <div className="w-full max-w-lg text-center">
-        <Card className="bg-card text-card-foreground shadow-xl">
+        <Card className="bg-card/90 text-card-foreground shadow-xl backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl font-bold">
               😴 Como está seu sono?
@@ -91,10 +102,11 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
         <div className="mt-12">
             <Button
             onClick={handleNext}
-            disabled={selecionado === "nenhuma"}
+            disabled={selecionado === "nenhuma" || isLoading}
             size="lg"
             className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             >
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Continuar
             </Button>
         </div>
