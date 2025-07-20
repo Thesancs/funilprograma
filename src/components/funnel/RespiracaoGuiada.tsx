@@ -39,7 +39,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
       timer = setInterval(() => {
         setTimeLeft(prev => prev - 1);
       }, 1000);
-    } else if (timeLeft === 0 && status === 'running') {
+    } else if (timeLeft <= 0 && status === 'running') {
       setStatus('finished');
       const newPoints = pontos + 150;
       setPontos(newPoints);
@@ -50,7 +50,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
       });
     }
     return () => clearInterval(timer);
-  }, [status, timeLeft, pontos, setPontos, toast]);
+  }, [status, timeLeft, pontos, setPontos, toast, router]);
 
   useEffect(() => {
     if (status !== 'running') {
@@ -96,7 +96,9 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   const handleNext = () => {
     setIsLoading(true);
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
-    const finalPoints = status === 'finished' ? pontos : pontos;
+    // It's possible the component hasn't re-rendered with the new points yet
+    // So we calculate it here to be safe.
+    const finalPoints = status === 'finished' ? pontos + 150 : pontos;
     router.push(`/quiz/alimentacao?pontos=${finalPoints}`);
   };
 
