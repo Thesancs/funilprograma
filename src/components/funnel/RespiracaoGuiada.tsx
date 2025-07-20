@@ -71,7 +71,12 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
     setIsLoading(true);
     // Lógica para navegar para a próxima página do quiz
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
-    // router.push(`/proxima-etapa?pontos=${pontos}`);
+    toast({
+        title: "✨ Parabéns por completar o quiz!",
+        description: "Seu plano personalizado está sendo criado.",
+        duration: 5000,
+    });
+    router.push(`/`);
   };
 
   const getCircleClass = () => {
@@ -86,6 +91,19 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
         return 'scale-100';
     }
   };
+  
+  const getPhaseDurationClass = () => {
+    switch (currentPhase) {
+      case 'Inspire':
+        return 'duration-[4000ms]';
+      case 'Segure':
+        return 'duration-[4000ms]'; // a escala não muda, então a duração não importa aqui
+      case 'Expire':
+        return 'duration-[6000ms]';
+      default:
+        return 'duration-1000';
+    }
+  }
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -116,14 +134,16 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
             <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
                 <div
                     className={cn(
-                    'absolute rounded-full bg-primary/30 w-full h-full transition-transform duration-[4000ms] ease-in-out',
-                    getCircleClass()
+                    'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
+                    getCircleClass(),
+                    getPhaseDurationClass()
                     )}
                 />
                  <div
                     className={cn(
-                    'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform duration-[4000ms] ease-in-out',
-                    getCircleClass()
+                    'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
+                    getCircleClass(),
+                    getPhaseDurationClass()
                     )}
                 />
                 <span className="z-10 text-2xl font-bold text-white drop-shadow-lg">{currentPhase}</span>
@@ -143,7 +163,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
             className="rounded-full bg-[#344154] text-white px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
           >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Avançar
+            Finalizar e ver meu plano
           </Button>
         </div>
       )}
