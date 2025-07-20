@@ -91,19 +91,6 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
         return 'scale-100';
     }
   };
-  
-  const getPhaseDurationClass = () => {
-    switch (currentPhase) {
-      case 'Inspire':
-        return 'duration-[4000ms]';
-      case 'Segure':
-        return 'duration-[4000ms]'; // a escala não muda, então a duração não importa aqui
-      case 'Expire':
-        return 'duration-[6000ms]';
-      default:
-        return 'duration-1000';
-    }
-  }
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -136,14 +123,16 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                     className={cn(
                     'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
                     getCircleClass(),
-                    getPhaseDurationClass()
+                     currentPhase === 'Inspire' && 'duration-[4000ms]',
+                     currentPhase === 'Expire' && 'duration-[6000ms]'
                     )}
                 />
                  <div
                     className={cn(
                     'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
                     getCircleClass(),
-                    getPhaseDurationClass()
+                     currentPhase === 'Inspire' && 'duration-[4000ms]',
+                     currentPhase === 'Expire' && 'duration-[6000ms]'
                     )}
                 />
                 <span className="z-10 text-2xl font-bold text-white drop-shadow-lg">{currentPhase}</span>
