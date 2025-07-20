@@ -43,7 +43,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
   };
 
   const getFeedback = () => {
-    if (!hasInteracted) return "Arraste o círculo para ajustar";
+    if (!hasInteracted) return "Arraste na garrafa para ajustar";
     if (litrosSelecionados < 1.5) return "Hidrate-se mais! 🫤";
     if (litrosSelecionados >= 1.5 && litrosSelecionados < 2.5) return "Hidratação razoável. 💧";
     return "Ótimo nível de água! 🥰";
@@ -74,30 +74,39 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
           💧 Quanto de água você bebe por dia?
         </h2>
 
-        <div className="flex items-center justify-center w-full my-6">
-          <div 
-            ref={constraintsRef}
-            className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
-          >
-            <motion.div
-              className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
-              style={{ height: waterHeightPercentage }}
-            />
-            <div className="absolute -top-10 w-full text-center pointer-events-none">
-              <span className="font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
-            </div>
-             <motion.div
-              className="absolute w-full h-full cursor-grab active:cursor-grabbing flex items-end justify-center"
-              style={{ y }}
-              drag="y"
-              dragConstraints={constraintsRef}
-              dragElastic={0}
-              dragMomentum={false}
-              onDrag={handleDrag}
+        <div className="flex items-end justify-center w-full my-6 gap-2">
+            <div 
+                ref={constraintsRef}
+                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
             >
-                <div className="w-6 h-6 rounded-full bg-primary/80 border-2 border-white mb-[-12px]"/>
-            </motion.div>
-          </div>
+                <motion.div
+                    className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
+                    style={{ height: waterHeightPercentage }}
+                />
+                <div className="absolute -top-10 w-full text-center pointer-events-none">
+                    <span className="font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
+                </div>
+                <motion.div
+                    className="absolute w-full h-full cursor-grab active:cursor-grabbing"
+                    style={{ y }}
+                    drag="y"
+                    dragConstraints={constraintsRef}
+                    dragElastic={0}
+                    dragMomentum={false}
+                    onDrag={handleDrag}
+                />
+            </div>
+             <div className="relative h-72 flex flex-col justify-between text-xs text-muted-foreground">
+                {[4, 3, 2, 1].map((litro) => {
+                    const topPosition = (1 - (litro - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * 100;
+                    return (
+                        <div key={litro} style={{ position: 'absolute', top: `${topPosition}%`, transform: 'translateY(-50%)', right: '0' }} className="flex items-center gap-1">
+                            <span>{litro}L</span>
+                            <div className="w-2 h-px bg-muted-foreground" />
+                        </div>
+                    );
+                })}
+            </div>
         </div>
 
         <p className="text-center text-muted-foreground h-6">{getFeedback()}</p>
