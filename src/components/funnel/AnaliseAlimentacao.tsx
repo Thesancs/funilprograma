@@ -114,16 +114,16 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
-                      className="w-full"
+                      className="w-full flex flex-col items-center"
                   >
                       <h2 className="text-2xl sm:text-3xl text-center font-semibold mb-4">
                       🍽️ Como está sua alimentação hoje?
                       </h2>
-                      <div className="relative h-[400px] flex items-center justify-center">
+                      <div className="relative h-[400px] w-[300px] flex items-center justify-center">
                       <AnimatePresence initial={false} custom={direction}>
                           <motion.div
                           key={index}
-                          className="absolute w-[300px] h-[400px]"
+                          className="absolute w-full h-full"
                           custom={direction}
                           variants={cardVariants}
                           initial="enter"
@@ -139,9 +139,9 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                           onDragEnd={(e, { offset, velocity }) => {
                               const swipe = Math.abs(offset.x) * velocity.x;
                               if (swipe < -10000) {
-                              handleSwipe('ruim');
+                                handleSwipe('ruim');
                               } else if (swipe > 10000) {
-                              handleSwipe('bom');
+                                handleSwipe('bom');
                               }
                           }}
                           >
@@ -160,11 +160,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                           </Card>
                           </motion.div>
                       </AnimatePresence>
-                      </div>
-                      
-                      <div className="flex justify-between w-full max-w-xs mx-auto mt-4 text-lg font-bold">
-                          <Button variant="outline" size="lg" onClick={() => handleSwipe('ruim')}>Não OK</Button>
-                          <Button variant="outline" size="lg" onClick={() => handleSwipe('bom')}>OK</Button>
                       </div>
                   </motion.div>
                   ) : (
@@ -188,7 +183,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
               </div>
           </CardContent>
       </Card>
-      <p className="text-sm text-muted-foreground mt-4 text-center">Arraste para o lado ou use os botões para classificar os pratos.</p>
+      <p className="text-sm text-muted-foreground mt-4 text-center">Arraste para o lado para classificar os pratos.</p>
     </>
   );
 }
