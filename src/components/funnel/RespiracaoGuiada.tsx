@@ -134,6 +134,13 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                 >
                     Iniciar Respiração Guiada
                 </Button>
+                <Button
+                    onClick={handleNext}
+                    variant="link"
+                    className="mt-4"
+                >
+                    Pular (temp)
+                </Button>
                 </div>
             )}
 
