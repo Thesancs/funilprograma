@@ -19,11 +19,14 @@ const CYCLE_PHASES = [
   { name: 'Segure', duration: 4 },
   { name: 'Expire', duration: 6 },
 ];
+const CYCLE_DURATION = CYCLE_PHASES.reduce((acc, phase) => acc + phase.duration, 0);
+
 
 export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiadaProps) {
   const [status, setStatus] = useState<'initial' | 'running' | 'finished'>('initial');
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
-  const [currentPhase, setCurrentPhase] = useState('Expire'); // Start with Expire
+  const [currentPhase, setCurrentPhase] = useState('Expire');
+  const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[0].duration);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -52,35 +55,41 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
     if (status !== 'running') return;
 
     const elapsedSeconds = TOTAL_DURATION - timeLeft;
-    const currentCycleTime = elapsedSeconds % 14;
+    const currentCycleTime = elapsedSeconds % CYCLE_DURATION;
 
-    let phase;
-    if (currentCycleTime < 4) {
-      phase = 'Inspire';
-    } else if (currentCycleTime < 8) {
-      phase = 'Segure';
+    let phaseName = 'Expire';
+    let timeInPhase = 0;
+
+    if (currentCycleTime < CYCLE_PHASES[0].duration) {
+      phaseName = 'Inspire';
+      timeInPhase = currentCycleTime;
+      setPhaseTimeLeft(CYCLE_PHASES[0].duration - timeInPhase);
+    } else if (currentCycleTime < CYCLE_PHASES[0].duration + CYCLE_PHASES[1].duration) {
+      phaseName = 'Segure';
+      timeInPhase = currentCycleTime - CYCLE_PHASES[0].duration;
+      setPhaseTimeLeft(CYCLE_PHASES[1].duration - timeInPhase);
     } else {
-      phase = 'Expire';
+      phaseName = 'Expire';
+      timeInPhase = currentCycleTime - (CYCLE_PHASES[0].duration + CYCLE_PHASES[1].duration);
+      setPhaseTimeLeft(CYCLE_PHASES[2].duration - timeInPhase);
     }
-    setCurrentPhase(phase);
+    setCurrentPhase(phaseName);
     
   }, [timeLeft, status]);
 
   const handleStart = () => {
     console.log('[RespiracaoGuiada] Iniciando respiração guiada');
-    setIsAnimating(false); // Reset animation state
-    setCurrentPhase('Expire'); // Ensure it starts small
+    setIsAnimating(false);
+    setCurrentPhase('Expire');
     
-    // Short delay to allow the initial state to render before starting animation
     setTimeout(() => {
         setStatus('running');
-        setIsAnimating(true); // Start animation
+        setIsAnimating(true);
     }, 100);
   };
 
   const handleNext = () => {
     setIsLoading(true);
-    // Lógica para navegar para a próxima página do quiz
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
     toast({
         title: "✨ Parabéns por completar o quiz!",
@@ -91,7 +100,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   };
 
   const getCircleClass = () => {
-    if (!isAnimating) return 'scale-100'; // Start small before animation begins
+    if (!isAnimating) return 'scale-100';
     switch (currentPhase) {
       case 'Inspire':
         return 'scale-150';
@@ -147,7 +156,10 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                      currentPhase === 'Expire' && 'duration-[6000ms]'
                     )}
                 />
-                <span className="z-10 text-2xl font-bold text-white drop-shadow-lg">{currentPhase}</span>
+                <div className="z-10 text-white drop-shadow-lg flex flex-col items-center">
+                    <span className="text-2xl font-bold">{currentPhase}</span>
+                    <span className="text-xl font-mono">{phaseTimeLeft}</span>
+                </div>
             </div>
         </div>
       )}
