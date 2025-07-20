@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -128,47 +127,47 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                       🍽️ Como está sua alimentação hoje?
                       </h2>
                       <div className="relative h-[400px] w-[300px] flex items-center justify-center">
-                      <AnimatePresence initial={false} custom={direction}>
-                          <motion.div
-                            key={index}
-                            className="absolute w-full h-full"
-                            style={{ x, backgroundColor }}
-                            custom={direction}
-                            variants={cardVariants}
-                            initial="enter"
-                            animate="center"
-                            exit="exit"
-                            transition={{
-                                x: { type: 'spring', stiffness: 300, damping: 30 },
-                                opacity: { duration: 0.2 },
-                            }}
-                            drag="x"
-                            dragConstraints={{ left: 0, right: 0 }}
-                            dragElastic={1}
-                            onDragEnd={(e, { offset, velocity }) => {
-                                const swipe = Math.abs(offset.x) * velocity.x;
-                                if (swipe < -10000) {
-                                handleSwipe('ruim');
-                                } else if (swipe > 10000) {
-                                handleSwipe('bom');
-                                }
-                            }}
-                          >
-                            <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
-                                <Image
-                                src={prato.imagem}
-                                alt={prato.nome}
-                                fill
-                                className="object-cover"
-                                data-ai-hint={prato.dataAiHint}
-                                priority
-                                />
-                                <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
-                                <p className="font-bold text-lg text-foreground">{prato.nome}</p>
-                                </div>
-                            </Card>
-                          </motion.div>
-                      </AnimatePresence>
+                        <AnimatePresence initial={false} custom={direction}>
+                            <motion.div
+                              key={index}
+                              className="absolute w-full h-full"
+                              style={{ x, backgroundColor }}
+                              custom={direction}
+                              variants={cardVariants}
+                              initial="enter"
+                              animate="center"
+                              exit="exit"
+                              transition={{
+                                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                                  opacity: { duration: 0.2 },
+                              }}
+                              drag="x"
+                              dragConstraints={{ left: 0, right: 0 }}
+                              dragElastic={1}
+                              onDragEnd={(e, { offset, velocity }) => {
+                                  const swipe = Math.abs(offset.x) * velocity.x;
+                                  if (swipe < -10000) {
+                                  handleSwipe('ruim');
+                                  } else if (swipe > 10000) {
+                                  handleSwipe('bom');
+                                  }
+                              }}
+                            >
+                              <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
+                                  <Image
+                                  src={prato.imagem}
+                                  alt={prato.nome}
+                                  fill
+                                  className="object-cover"
+                                  data-ai-hint={prato.dataAiHint}
+                                  priority
+                                  />
+                                  <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
+                                  <p className="font-bold text-lg text-foreground">{prato.nome}</p>
+                                  </div>
+                              </Card>
+                            </motion.div>
+                        </AnimatePresence>
                       </div>
                       <div className="flex justify-between w-full max-w-[300px] px-4 mt-4 text-white">
                         <div className="flex items-center gap-2">
