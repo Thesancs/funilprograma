@@ -40,16 +40,6 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
   }, []);
 
   const handleSelect = (opcao: OpcaoSono) => {
-    if (selecionado === "nenhuma") {
-      const newPoints = pontos + 100;
-      setPontos(newPoints);
-      toast({
-        title: "✨ +100 Pontos de Cuidado!",
-        description: "Seu bem-estar é nossa prioridade.",
-        duration: 3000,
-      });
-      console.log('[QuizSono] +100 pontos adicionados');
-    }
     setSelecionado(opcao);
     setBgColor(bgColors[opcao]);
     console.log(`[QuizSono] Opção selecionada: ${opcao}`);
@@ -57,9 +47,19 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
 
   const handleNext = () => {
     setIsLoading(true);
+    const newPoints = pontos + 100;
+    setPontos(newPoints);
+    
+    toast({
+        title: "✨ +100 Pontos de Cuidado!",
+        description: "Seu bem-estar é nossa prioridade.",
+        duration: 3000,
+    });
+    console.log('[QuizSono] +100 pontos adicionados');
+
     console.log('[QuizSono] Avançando para a próxima etapa...');
     setTimeout(() => {
-      router.push(`/quiz/ansiedade?pontos=${pontos}`);
+      router.push(`/quiz/ansiedade?pontos=${newPoints}`);
     }, 1500);
   };
 
