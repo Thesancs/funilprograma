@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
@@ -13,37 +13,29 @@ interface ConsumoAguaProps {
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const BOTTLE_HEIGHT_PX = 288; // 18rem or h-72
-const MIN_LITERS = 0.5;
-const MAX_LITERS = 5.0;
-
 export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
+  const [litros, setLitros] = useState(2.5);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [litrosSelecionados, setLitrosSelecionados] = useState(2.5);
-
+  
   const router = useRouter();
   const { toast } = useToast();
-  const constraintsRef = useRef(null);
-  
-  const y = useMotionValue(BOTTLE_HEIGHT_PX / 2); // Start in the middle
 
-  const waterHeight = useTransform(y, [BOTTLE_HEIGHT_PX, 0], [0, BOTTLE_HEIGHT_PX]);
-  
-  const handleDrag = () => {
+  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!hasInteracted) {
       setHasInteracted(true);
     }
-    const currentY = y.get();
-    const fillPercentage = (BOTTLE_HEIGHT_PX - currentY) / BOTTLE_HEIGHT_PX;
-    const newLitros = MIN_LITERS + fillPercentage * (MAX_LITERS - MIN_LITERS);
-    setLitrosSelecionados(Math.max(MIN_LITERS, Math.min(MAX_LITERS, newLitros)));
+    setLitros(parseFloat(event.target.value));
   };
+  
+  // 0.5L (min) should map to a small percentage, and 5L (max) to 100%.
+  // Using a simple linear mapping: ( (current - min) / (max - min) ) * 100
+  const nivelPercent = ((litros - 0.5) / (5.0 - 0.5)) * 100;
 
   const getFeedback = () => {
-    if (!hasInteracted) return "Arraste na garrafa para ajustar";
-    if (litrosSelecionados < 1.5) return "Hidrate-se mais! 🫤";
-    if (litrosSelecionados >= 1.5 && litrosSelecionados < 2.5) return "Hidratação razoável. 💧";
+    if (!hasInteracted) return "Ajuste a quantidade de água";
+    if (litros < 1.5) return "Hidrate-se mais! 🫤";
+    if (litros >= 1.5 && litros < 2.5) return "Hidratação razoável. 💧";
     return "Ótimo nível de água! 🥰";
   };
 
@@ -52,6 +44,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
     const pontosGanhos = 100;
     const newPoints = pontos + pontosGanhos;
     setPontos(newPoints);
+    console.log('[ConsumoAgua]', litros);
 
     toast({
       title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
@@ -74,36 +67,29 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
 
         <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 
-                ref={constraintsRef}
-                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden cursor-grab active:cursor-grabbing"
+                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
+                style={{ pointerEvents: 'none' }} // Impede cliques na garrafa
             >
-                <motion.div
-                    className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
-                    style={{ height: waterHeight }}
-                />
-                <motion.div
-                    className="absolute w-full h-full"
-                    style={{ y }}
-                    drag="y"
-                    dragConstraints={constraintsRef}
-                    dragElastic={0}
-                    dragMomentum={false}
-                    onDrag={handleDrag}
+                <div
+                    className="absolute bottom-0 left-0 w-full bg-[#A0C4E3] transition-all duration-300 ease-in-out"
+                    style={{ height: `${nivelPercent}%`, pointerEvents: 'none' }}
                 />
             </div>
-             <div className="relative h-72 flex flex-col justify-between text-xs text-muted-foreground">
-                <span className="absolute -top-6 text-foreground font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
-                {[...Array(5)].map((_, i) => {
-                    const litro = MAX_LITERS - i - 0.5;
-                    if (litro < 1) return null;
-                     const topPosition = (1 - (litro - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * 100;
-                    return (
-                        <div key={litro} style={{ position: 'absolute', top: `${topPosition}%`, transform: 'translateY(-50%)', left: '0' }} className="flex items-center gap-1">
-                            <div className="w-2 h-px bg-muted-foreground" />
-                            <span>{Math.floor(litro)}L</span>
-                        </div>
-                    );
-                })}
+            
+            <input
+              type="range"
+              min={0.5}
+              max={5.0}
+              step={0.1}
+              value={litros}
+              onChange={handleSliderChange}
+              className="h-72 w-4 cursor-pointer appearance-none bg-transparent accent-primary [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-primary/20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+              style={{ writingMode: 'vertical-lr' }}
+              aria-label="Quantidade de água em litros"
+            />
+             
+            <div className="relative h-72 w-12 text-xs text-muted-foreground">
+                <span className="absolute -top-6 text-foreground font-bold text-lg">{litros.toFixed(1)} L</span>
             </div>
         </div>
 
