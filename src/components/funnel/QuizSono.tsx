@@ -60,7 +60,7 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
       </div>
 
       <div className="w-full max-w-lg text-center">
-        <Card className="bg-white/10 backdrop-blur-sm border-0 text-white">
+        <Card className="bg-card text-card-foreground shadow-xl">
           <CardHeader>
             <CardTitle className="text-2xl sm:text-3xl font-bold">
               😴 Como está seu sono?
@@ -73,11 +73,10 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
                   key={opcao.id}
                   onClick={() => handleSelect(opcao.id)}
                   className={cn(
-                    "p-6 bg-white/10 border-2 border-transparent rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/20",
-                    "backdrop-blur-sm",
+                    "p-6 bg-background/50 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:bg-accent/80",
                     {
-                      "border-white scale-105": selecionado === opcao.id,
-                      "opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
+                      "border-primary scale-105 bg-accent": selecionado === opcao.id,
+                      "border-transparent opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
                     }
                   )}
                 >
