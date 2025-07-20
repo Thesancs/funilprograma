@@ -40,7 +40,7 @@ export default function QuizPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#D9A8B6] to-background p-4 gap-8">
       <div className="w-full max-w-md mx-auto">
-        <div className="flex justify-end items-center mb-4 relative h-8">
+        <div className="w-full flex justify-end items-center mb-4">
             <div className="flex items-center gap-2 text-foreground font-semibold">
                 <Heart className="h-5 w-5 text-primary" />
                 <span>Pontos de cuidado: {pontos}</span>
