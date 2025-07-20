@@ -168,7 +168,8 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                         </motion.div>
                     </AnimatePresence>
                   </div>
-                  <div className="flex justify-between w-full max-w-[300px] px-4 mt-4 text-foreground">
+                  <p className="mt-4 text-sm text-muted-foreground">Arraste e escolha sua opção</p>
+                  <div className="flex justify-between w-full max-w-[300px] px-4 mt-2 text-foreground">
                     <div className="flex items-center gap-2">
                       <ThumbsDown className="h-6 w-6" />
                       <span className="font-semibold">Não</span>
