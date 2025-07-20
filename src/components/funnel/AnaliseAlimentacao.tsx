@@ -4,11 +4,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from 'lucide-react';
 
 interface AnaliseAlimentacaoProps {
   pontos: number;
@@ -26,24 +25,44 @@ const pratos = [
   { id: 'graos', nome: 'Grãos Integrais', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'whole grains' },
 ];
 
+const cardVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 300 : -300,
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? 300 : -300,
+    opacity: 0,
+  }),
+};
+
 export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAlimentacaoProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [index, setIndex] = useState(0);
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
+  const [direction, setDirection] = useState(0);
   const router = useRouter();
   const { toast } = useToast();
 
-  const x = useMotionValue(0);
-  const rotate = useTransform(x, [-150, 150], [-20, 20]);
-  const opacity = useTransform(x, [-150, 150], [0.5, 0.5]);
+  const activeIndex = index % pratos.length;
+  const prato = pratos[activeIndex];
 
-  const handleSwipe = (direction: 'bom' | 'ruim') => {
-    const newResultados = [...resultados, pratos[currentIndex].tipo === direction ? 'bom' : 'ruim'];
+  const handleSwipe = (swipeDirection: 'bom' | 'ruim') => {
+    setDirection(swipeDirection === 'bom' ? 1 : -1);
+    
+    const currentPrato = pratos[activeIndex];
+    const newResultados = [...resultados, currentPrato.tipo === swipeDirection ? 'bom' : 'ruim'];
     setResultados(newResultados);
 
-    if (currentIndex + 1 < pratos.length) {
-      setCurrentIndex(currentIndex + 1);
+    if (activeIndex + 1 < pratos.length) {
+       setIndex(index + 1);
     } else {
       analisarResultados(newResultados);
     }
@@ -68,7 +87,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
     }
     
     setFeedback(feedbackFinal);
-    setShowFeedback(true);
     setPontos(pontos + pontosGanhos);
 
     toast({
@@ -76,10 +94,11 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
       description: "Cuidar da alimentação é um ato de amor.",
       duration: 4000
     });
+    
+    setShowFeedback(true);
   };
 
   const handleNext = () => {
-    // Navegar para uma página de resultados/plano final, por enquanto, volta para o início.
     router.push('/');
   }
 
@@ -98,42 +117,50 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
               🍽️ Como está sua alimentação hoje?
             </h2>
             <div className="relative h-[450px] flex items-center justify-center">
-              <AnimatePresence>
-                {pratos.slice(currentIndex).map((prato, index) => {
-                  const isTop = index === 0;
-                  return (
-                    <motion.div
-                      key={prato.id}
-                      className="absolute w-[300px] h-[400px]"
-                      style={isTop ? { x, rotate, opacity } : { scale: 1 - (index * 0.05), y: index * 10 }}
-                      drag={isTop ? "x" : false}
-                      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-                      onDragEnd={(e, { offset }) => {
-                        if (offset.x > 100) handleSwipe('bom');
-                        if (offset.x < -100) handleSwipe('ruim');
-                      }}
-                    >
-                      <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
-                        <Image
-                          src={prato.imagem}
-                          alt={prato.nome}
-                          fill
-                          className="object-cover"
-                          data-ai-hint={prato.dataAiHint}
-                          priority={isTop}
-                        />
-                        <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
-                          <p className="font-bold text-lg text-foreground">{prato.nome}</p>
-                        </div>
-                      </Card>
-                    </motion.div>
-                  );
-                }).reverse()}
+              <AnimatePresence initial={false} custom={direction}>
+                <motion.div
+                  key={index}
+                  className="absolute w-[300px] h-[400px]"
+                  custom={direction}
+                  variants={cardVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: 'spring', stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.2 },
+                  }}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(e, { offset, velocity }) => {
+                    const swipe = Math.abs(offset.x) * velocity.x;
+                    if (swipe < -10000) {
+                      handleSwipe('ruim');
+                    } else if (swipe > 10000) {
+                      handleSwipe('bom');
+                    }
+                  }}
+                >
+                  <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
+                    <Image
+                      src={prato.imagem}
+                      alt={prato.nome}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={prato.dataAiHint}
+                      priority
+                    />
+                    <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
+                      <p className="font-bold text-lg text-foreground">{prato.nome}</p>
+                    </div>
+                  </Card>
+                </motion.div>
               </AnimatePresence>
             </div>
              <div className="flex justify-between w-full max-w-xs mx-auto mt-8 text-lg font-bold">
-                <span className="text-destructive">👈 Não OK</span>
-                <span className="text-green-600">OK 👉</span>
+                <Button variant="outline" size="lg" onClick={() => handleSwipe('ruim')}>Não OK</Button>
+                <Button variant="outline" size="lg" onClick={() => handleSwipe('bom')}>OK</Button>
             </div>
           </motion.div>
         ) : (
