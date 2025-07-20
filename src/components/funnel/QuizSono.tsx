@@ -22,6 +22,13 @@ const bgColors: Record<OpcaoSono, string> = {
   pessimo: "bg-[#B16262]",
 };
 
+const textColors: Record<OpcaoSono, string> = {
+  nenhuma: "text-foreground",
+  facil: "text-white",
+  mal: "text-white",
+  pessimo: "text-white",
+};
+
 const opcoes = [
   { id: 'facil', emoji: '😴', label: 'Dorme fácil' },
   { id: 'mal', emoji: '😐', label: 'Dorme mal às vezes' },
@@ -31,6 +38,7 @@ const opcoes = [
 export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
   const [selecionado, setSelecionado] = useState<OpcaoSono>("nenhuma");
   const [bgColor, setBgColor] = useState(bgColors.nenhuma);
+  const [textColor, setTextColor] = useState(textColors.nenhuma);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -42,6 +50,7 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
   const handleSelect = (opcao: OpcaoSono) => {
     setSelecionado(opcao);
     setBgColor(bgColors[opcao]);
+    setTextColor(textColors[opcao]);
     console.log(`[QuizSono] Opção selecionada: ${opcao}`);
   };
 
@@ -65,52 +74,56 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
 
   return (
     <main className={cn("flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500", bgColor)}>
-      <div className="absolute top-4 right-4 flex items-center gap-2 text-white font-semibold">
-        <Heart className="h-5 w-5 text-white/80" />
-        <span>Pontos de cuidado: {pontos}</span>
-      </div>
-
-      <div className="w-full max-w-lg text-center">
-        <Card className="bg-card/90 text-card-foreground shadow-xl backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl sm:text-3xl font-bold">
-              😴 Como está seu sono?
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              {opcoes.map((opcao) => (
-                <Card
-                  key={opcao.id}
-                  onClick={() => handleSelect(opcao.id)}
-                  className={cn(
-                    "p-6 bg-background/50 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:bg-accent/80",
-                    {
-                      "border-primary scale-105 bg-accent": selecionado === opcao.id,
-                      "border-transparent opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
-                    }
-                  )}
-                >
-                  <div className="text-4xl mb-2">{opcao.emoji}</div>
-                  <p className="font-semibold">{opcao.label}</p>
-                </Card>
-              ))}
+        <div className="w-full max-w-lg mx-auto">
+            <div className={cn("w-full flex justify-end items-center mb-4", textColor)}>
+                <div className="flex items-center gap-2 font-semibold">
+                    <Heart className="h-5 w-5" />
+                    <span>Pontos de cuidado: {pontos}</span>
+                </div>
             </div>
-          </CardContent>
-        </Card>
-        
-        <div className="mt-12">
-            <Button
-            onClick={handleNext}
-            disabled={selecionado === "nenhuma" || isLoading}
-            size="lg"
-            className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Continuar
-            </Button>
+
+            <div className="text-center">
+                <Card className="bg-card/90 text-card-foreground shadow-xl backdrop-blur-sm">
+                <CardHeader>
+                    <CardTitle className="text-2xl sm:text-3xl font-bold">
+                    😴 Como está seu sono?
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                    {opcoes.map((opcao) => (
+                        <Card
+                        key={opcao.id}
+                        onClick={() => handleSelect(opcao.id)}
+                        className={cn(
+                            "p-6 bg-background/50 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:bg-accent/80",
+                            {
+                            "border-primary scale-105 bg-accent": selecionado === opcao.id,
+                            "border-transparent opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
+                            }
+                        )}
+                        >
+                        <div className="text-4xl mb-2">{opcao.emoji}</div>
+                        <p className="font-semibold">{opcao.label}</p>
+                        </Card>
+                    ))}
+                    </div>
+                </CardContent>
+                </Card>
+                
+                <div className="mt-12">
+                    <Button
+                    onClick={handleNext}
+                    disabled={selecionado === "nenhuma" || isLoading}
+                    size="lg"
+                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Continuar
+                    </Button>
+                </div>
+            </div>
         </div>
-      </div>
     </main>
   );
 }
