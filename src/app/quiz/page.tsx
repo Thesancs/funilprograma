@@ -1,26 +1,33 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
-import { Heart, PlusCircle } from 'lucide-react';
+import { Heart, PlusCircle, Loader2 } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
 
 export default function QuizPage() {
   const [pontos, setPontos] = useState(150);
-  const [showPointsToast, setShowPointsToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleNext = () => {
+    setIsLoading(true);
     const newPoints = pontos + 100;
     setPontos(newPoints);
-    setShowPointsToast(true);
+    
+    toast({
+        title: "✨ +100 Pontos de Cuidado!",
+        description: "Você está no caminho certo para uma gestação saudável.",
+        duration: 3000,
+    });
     
     setTimeout(() => {
-      setShowPointsToast(false);
       router.push(`/quiz/sono?pontos=${newPoints}`);
-    }, 2000);
+    }, 1500); // Reduced delay to make navigation faster after toast
   };
 
   return (
@@ -31,17 +38,11 @@ export default function QuizPage() {
                 <Heart className="h-5 w-5 text-primary" />
                 <span>Pontos de cuidado: {pontos}</span>
             </div>
-            <div className={cn(
-              "absolute top-0 right-0 flex items-center gap-2 text-primary font-bold transition-all duration-500",
-              showPointsToast ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-            )}>
-              <PlusCircle className="h-5 w-5" />
-              <span>+100</span>
-            </div>
         </div>
         <QuizGravidez />
         <div className="mt-8 text-center">
-            <Button size="lg" onClick={handleNext} disabled={showPointsToast}>
+            <Button size="lg" onClick={handleNext} disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Avançar
             </Button>
         </div>
