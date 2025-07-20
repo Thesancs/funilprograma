@@ -11,8 +11,7 @@ export default function QuizPage() {
   const router = useRouter();
 
   const handleNext = () => {
-    // Lógica para navegar para a próxima página do quiz
-    console.log('Avançando para a próxima etapa...');
+    router.push('/quiz/sono');
   };
 
   return (
