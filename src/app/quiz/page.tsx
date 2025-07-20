@@ -1,18 +1,25 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
-import { Heart, PlusCircle, Loader2 } from 'lucide-react';
+import { Heart, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-import { cn } from '@/lib/utils';
 
 export default function QuizPage() {
   const [pontos, setPontos] = useState(150);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+
+  useEffect(() => {
+    toast({
+        title: "🎉 Bem-vinda! Você ganhou 150 Pontos de Cuidado!",
+        description: "Responda o quiz para ganhar mais pontos.",
+        duration: 4000,
+    });
+  }, [toast]);
 
   const handleNext = () => {
     setIsLoading(true);
@@ -27,7 +34,7 @@ export default function QuizPage() {
     
     setTimeout(() => {
       router.push(`/quiz/sono?pontos=${newPoints}`);
-    }, 1500); // Reduced delay to make navigation faster after toast
+    }, 1500);
   };
 
   return (
