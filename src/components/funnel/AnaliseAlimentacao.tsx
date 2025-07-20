@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { motion, AnimatePresence, useMotionValue, useTransform, MotionValue } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
@@ -12,7 +12,6 @@ import { useToast } from "@/hooks/use-toast";
 interface AnaliseAlimentacaoProps {
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
-  setBgColor: (color: MotionValue<string> | string) => void;
 }
 
 const pratos = [
@@ -43,7 +42,7 @@ const cardVariants = {
   }),
 };
 
-export default function AnaliseAlimentacao({ pontos, setPontos, setBgColor }: AnaliseAlimentacaoProps) {
+export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAlimentacaoProps) {
   const [index, setIndex] = useState(0);
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
@@ -59,14 +58,6 @@ export default function AnaliseAlimentacao({ pontos, setPontos, setBgColor }: An
     "rgba(0, 0, 0, 0)",
     "rgba(34, 197, 94, 0.3)"
   ]);
-
-  useEffect(() => {
-    if (!showFeedback) {
-      setBgColor(backgroundColor);
-    } else {
-      setBgColor('transparent');
-    }
-  }, [showFeedback, backgroundColor, setBgColor]);
 
   const activeIndex = index % pratos.length;
   const prato = pratos[activeIndex];
@@ -139,43 +130,43 @@ export default function AnaliseAlimentacao({ pontos, setPontos, setBgColor }: An
                       <div className="relative h-[400px] w-[300px] flex items-center justify-center">
                       <AnimatePresence initial={false} custom={direction}>
                           <motion.div
-                          key={index}
-                          className="absolute w-full h-full"
-                          style={{ x }}
-                          custom={direction}
-                          variants={cardVariants}
-                          initial="enter"
-                          animate="center"
-                          exit="exit"
-                          transition={{
-                              x: { type: 'spring', stiffness: 300, damping: 30 },
-                              opacity: { duration: 0.2 },
-                          }}
-                          drag="x"
-                          dragConstraints={{ left: 0, right: 0 }}
-                          dragElastic={1}
-                          onDragEnd={(e, { offset, velocity }) => {
-                              const swipe = Math.abs(offset.x) * velocity.x;
-                              if (swipe < -10000) {
+                            key={index}
+                            className="absolute w-full h-full"
+                            style={{ x, backgroundColor }}
+                            custom={direction}
+                            variants={cardVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{
+                                x: { type: 'spring', stiffness: 300, damping: 30 },
+                                opacity: { duration: 0.2 },
+                            }}
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={1}
+                            onDragEnd={(e, { offset, velocity }) => {
+                                const swipe = Math.abs(offset.x) * velocity.x;
+                                if (swipe < -10000) {
                                 handleSwipe('ruim');
-                              } else if (swipe > 10000) {
+                                } else if (swipe > 10000) {
                                 handleSwipe('bom');
-                              }
-                          }}
+                                }
+                            }}
                           >
-                          <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
-                              <Image
-                              src={prato.imagem}
-                              alt={prato.nome}
-                              fill
-                              className="object-cover"
-                              data-ai-hint={prato.dataAiHint}
-                              priority
-                              />
-                              <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
-                              <p className="font-bold text-lg text-foreground">{prato.nome}</p>
-                              </div>
-                          </Card>
+                            <Card className="w-full h-full rounded-xl shadow-md overflow-hidden">
+                                <Image
+                                src={prato.imagem}
+                                alt={prato.nome}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={prato.dataAiHint}
+                                priority
+                                />
+                                <div className="absolute bottom-0 w-full p-4 bg-white/80 backdrop-blur-sm">
+                                <p className="font-bold text-lg text-foreground">{prato.nome}</p>
+                                </div>
+                            </Card>
                           </motion.div>
                       </AnimatePresence>
                       </div>
