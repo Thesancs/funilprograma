@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -28,8 +29,6 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
     setLitros(parseFloat(event.target.value));
   };
   
-  // 0.5L (min) should map to a small percentage, and 5L (max) to 100%.
-  // Using a simple linear mapping: ( (current - min) / (max - min) ) * 100
   const nivelPercent = ((litros - 0.5) / (5.0 - 0.5)) * 100;
 
   const getFeedback = () => {
@@ -53,8 +52,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
     });
 
     setTimeout(() => {
-      // TODO: Navigate to the next step when it's created
-      router.push(`/?pontos=${newPoints}`);
+      router.push(`/quiz/atividade-fisica?pontos=${newPoints}`);
     }, 1500);
   };
 
@@ -68,11 +66,14 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
         <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 
                 className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
-                style={{ pointerEvents: 'none' }} // Impede cliques na garrafa
+                style={{ pointerEvents: 'none' }}
             >
-                <div
-                    className="absolute bottom-0 left-0 w-full bg-[#A0C4E3] transition-all duration-300 ease-in-out"
+                <motion.div
+                    className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
                     style={{ height: `${nivelPercent}%`, pointerEvents: 'none' }}
+                    initial={{ height: 0 }}
+                    animate={{ height: `${nivelPercent}%`}}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                 />
             </div>
             
