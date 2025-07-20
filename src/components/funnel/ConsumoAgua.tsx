@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-
 
 interface ConsumoAguaProps {
   pontos: number;
@@ -28,16 +26,17 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
   const { toast } = useToast();
   const constraintsRef = useRef(null);
   
-  const y = useMotionValue(BOTTLE_HEIGHT_PX - (((2.5 - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * BOTTLE_HEIGHT_PX));
+  const y = useMotionValue(BOTTLE_HEIGHT_PX / 2); // Start in the middle
 
-  const waterHeightPercentage = useTransform(y, [BOTTLE_HEIGHT_PX, 0], [0, 100]);
+  const waterHeight = useTransform(y, [BOTTLE_HEIGHT_PX, 0], [0, BOTTLE_HEIGHT_PX]);
   
-  const handleDrag = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDrag = () => {
     if (!hasInteracted) {
       setHasInteracted(true);
     }
     const currentY = y.get();
-    const newLitros = ((BOTTLE_HEIGHT_PX - currentY) / BOTTLE_HEIGHT_PX) * (MAX_LITERS - MIN_LITERS) + MIN_LITERS;
+    const fillPercentage = (BOTTLE_HEIGHT_PX - currentY) / BOTTLE_HEIGHT_PX;
+    const newLitros = MIN_LITERS + fillPercentage * (MAX_LITERS - MIN_LITERS);
     setLitrosSelecionados(Math.max(MIN_LITERS, Math.min(MAX_LITERS, newLitros)));
   };
 
@@ -73,20 +72,17 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
           💧 Quanto de água você bebe por dia?
         </h2>
 
-        <div className="flex items-end justify-center w-full my-6 gap-2">
+        <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 
                 ref={constraintsRef}
-                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
+                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden cursor-grab active:cursor-grabbing"
             >
                 <motion.div
                     className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
-                    style={{ height: waterHeightPercentage.get() + '%' }}
+                    style={{ height: waterHeight }}
                 />
-                <div className="absolute -top-10 w-full text-center pointer-events-none">
-                    <span className="font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
-                </div>
                 <motion.div
-                    className="absolute w-full h-full cursor-grab active:cursor-grabbing"
+                    className="absolute w-full h-full"
                     style={{ y }}
                     drag="y"
                     dragConstraints={constraintsRef}
@@ -96,12 +92,15 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
                 />
             </div>
              <div className="relative h-72 flex flex-col justify-between text-xs text-muted-foreground">
-                {[4, 3, 2, 1].map((litro) => {
-                    const topPosition = (1 - (litro - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * 100;
+                <span className="absolute -top-6 text-foreground font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
+                {[...Array(5)].map((_, i) => {
+                    const litro = MAX_LITERS - i - 0.5;
+                    if (litro < 1) return null;
+                     const topPosition = (1 - (litro - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * 100;
                     return (
-                        <div key={litro} style={{ position: 'absolute', top: `${topPosition}%`, transform: 'translateY(-50%)', right: '0' }} className="flex items-center gap-1">
-                            <span>{litro}L</span>
+                        <div key={litro} style={{ position: 'absolute', top: `${topPosition}%`, transform: 'translateY(-50%)', left: '0' }} className="flex items-center gap-1">
                             <div className="w-2 h-px bg-muted-foreground" />
+                            <span>{Math.floor(litro)}L</span>
                         </div>
                     );
                 })}
