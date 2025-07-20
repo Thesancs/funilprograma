@@ -96,7 +96,8 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
   const handleNext = () => {
     setIsLoading(true);
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
-    router.push(`/quiz/alimentacao?pontos=${pontos}`);
+    const finalPoints = status === 'finished' ? pontos : pontos;
+    router.push(`/quiz/alimentacao?pontos=${finalPoints}`);
   };
 
   const getCircleClass = () => {
@@ -177,8 +178,9 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
             {status === 'finished' && (
                 <div className="animate-in fade-in duration-500 text-center">
                 <h2 className="text-xl font-medium text-[#344154]">
-                    🎁 Você desbloqueou uma recompensa bônus!
+                    🎉 Uau! Que relaxante!
                 </h2>
+                <p className="text-muted-foreground mt-2">Você se sente mais calma agora.</p>
                 <Button
                     onClick={handleNext}
                     disabled={isLoading}
