@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef } from 'react';
@@ -81,7 +80,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
             >
                 <motion.div
                     className="absolute bottom-0 left-0 w-full bg-[#A0C4E3]"
-                    style={{ height: waterHeightPercentage }}
+                    style={{ height: waterHeightPercentage.get() + '%' }}
                 />
                 <div className="absolute -top-10 w-full text-center pointer-events-none">
                     <span className="font-bold text-lg">{litrosSelecionados.toFixed(1)} L</span>
