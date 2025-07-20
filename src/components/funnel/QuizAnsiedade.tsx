@@ -47,7 +47,7 @@ export default function QuizAnsiedade({ pontos, setPontos }: QuizAnsiedadeProps)
 
     setTimeout(() => {
       console.log('Navegando para a proxima etapa...');
-      // router.push(`/proxima-etapa?pontos=${newPoints}`);
+      router.push(`/quiz/respiracao?pontos=${newPoints}`);
     }, 2500);
   };
 
