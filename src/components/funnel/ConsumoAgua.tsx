@@ -29,7 +29,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
   const { toast } = useToast();
   const constraintsRef = useRef(null);
   
-  const y = useMotionValue(BOTTLE_HEIGHT_PX / 2);
+  const y = useMotionValue(BOTTLE_HEIGHT_PX - (((2.5 - MIN_LITERS) / (MAX_LITERS - MIN_LITERS)) * BOTTLE_HEIGHT_PX));
 
   const waterHeightPercentage = useTransform(y, [BOTTLE_HEIGHT_PX, 0], [0, 100]);
   
