@@ -94,7 +94,8 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
     }
     
     setFeedback(feedbackFinal);
-    setPontos(pontos + pontosGanhos);
+    const newPoints = pontos + pontosGanhos;
+    setPontos(newPoints);
 
     toast({
       title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
@@ -106,7 +107,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   };
 
   const handleNext = () => {
-    router.push('/');
+    router.push(`/quiz/agua?pontos=${pontos}`);
   }
 
   return (
@@ -146,9 +147,9 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
                           onDragEnd={(e, { offset, velocity }) => {
                               const swipe = Math.abs(offset.x) * velocity.x;
                               if (swipe < -10000) {
-                              handleSwipe('ruim');
+                                handleSwipe('ruim');
                               } else if (swipe > 10000) {
-                              handleSwipe('bom');
+                                handleSwipe('bom');
                               }
                           }}
                         >
