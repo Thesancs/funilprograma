@@ -4,7 +4,7 @@
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle, Clock } from 'lucide-react';
 import OfertaFinal from '@/components/funnel/OfertaFinal';
 import { useCountdown } from '@/hooks/use-countdown';
 
@@ -19,14 +19,15 @@ function OfertaContent() {
     return (
         <div className="flex flex-col items-center gap-4 text-center">
             {acabou ? (
-                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg">
-                    <p className="font-bold text-lg">Seu tempo acabou! 😔</p>
-                    <p>Infelizmente, a oferta especial expirou.</p>
+                <div className="flex items-center gap-2 text-red-700 bg-red-100 px-4 py-2 rounded-full">
+                    <AlertTriangle className="h-5 w-5" />
+                    <p className="font-semibold">Seu tempo acabou! A oferta especial expirou.</p>
                 </div>
             ) : (
-                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg">
-                    <p className="font-bold">Sua oferta expira em:</p>
-                    <p className="text-2xl font-mono font-bold tracking-widest">
+                 <div className="flex items-center gap-2 text-primary-foreground bg-primary/80 px-4 py-2 rounded-full shadow-md">
+                    <Clock className="h-5 w-5" />
+                    <p className="font-semibold">Sua oferta expira em:</p>
+                    <p className="text-lg font-mono font-bold tracking-widest">
                     {minutos.toString().padStart(2, '0')}:{segundos.toString().padStart(2, '0')}
                     </p>
                 </div>
