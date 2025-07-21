@@ -26,13 +26,6 @@ const beneficios = [
   "Grupo VIP exclusivo",
 ];
 
-const faixasDesconto = [
-  { faixa: "0-100 pontos", desconto: "10%" },
-  { faixa: "101-200 pontos", desconto: "30%" },
-  { faixa: "201-300 pontos", desconto: "50%" },
-  { faixa: "301+ pontos", desconto: "70% de desconto" },
-];
-
 const calcDesconto = (pontos: number) => {
   if (pontos <= 100) return 10;
   if (pontos <= 200) return 30;
@@ -75,25 +68,6 @@ export default function OfertaFinal({ nome, pontos }: OfertaFinalProps) {
             <p className="text-4xl font-bold text-foreground">
               Por apenas <span className="text-primary">R$ {PRECO_FINAL.toFixed(2)}</span>
             </p>
-          </div>
-          
-          <div className="border rounded-lg overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-semibold">Faixa de Pontos</TableHead>
-                  <TableHead className="font-semibold text-right">Seu Desconto</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {faixasDesconto.map((faixa, index) => (
-                  <TableRow key={index} className={descontoPercentual.toString() === faixa.desconto.replace('%', '') ? "bg-primary/10" : ""}>
-                    <TableCell>{faixa.faixa}</TableCell>
-                    <TableCell className="text-right font-bold text-primary">{faixa.desconto}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
           </div>
 
           <div>
