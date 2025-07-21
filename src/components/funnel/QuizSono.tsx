@@ -87,7 +87,7 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
                 <Card className="bg-card/90 text-card-foreground shadow-xl backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle className="text-2xl sm:text-3xl font-bold">
-                    😴 Como está seu sono?
+                    Como está seu sono?
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
