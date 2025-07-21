@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -24,7 +24,6 @@ const faixas = {
     bgColor: "bg-[#344154]",
     mercúrioColor: "bg-blue-300",
     textColor: "text-white",
-    cardTextColor: "text-gray-800"
   },
   medio: {
     emoji: "😬",
@@ -32,7 +31,6 @@ const faixas = {
     bgColor: "bg-[#F4D35E]",
     mercúrioColor: "bg-yellow-300",
     textColor: "text-gray-800",
-    cardTextColor: "text-gray-800"
   },
   alto: {
     emoji: "😱",
@@ -40,7 +38,6 @@ const faixas = {
     bgColor: "bg-[#B16262]",
     mercúrioColor: "bg-red-300",
     textColor: "text-white",
-    cardTextColor: "text-gray-800"
   }
 };
 
@@ -50,8 +47,10 @@ const getFaixa = (nivel: number) => {
   return faixas.alto;
 };
 
-export const getBackgroundColor = (nivel: number) => {
-    return getFaixa(nivel).bgColor;
+export const getBackgroundColor = (nivel: number, returnAll = false) => {
+    const faixa = getFaixa(nivel);
+    if (returnAll) return faixa;
+    return faixa.bgColor;
 }
 
 export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
@@ -91,10 +90,6 @@ export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setN
 
   return (
      <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center text-center">
-        <div className={cn("absolute top-4 right-4 flex items-center gap-2 font-semibold", faixaAtual.textColor)}>
-            <Heart className="h-5 w-5" />
-            <span>Pontos de cuidado: {pontos}</span>
-        </div>
         <Card className="w-full bg-card/80 backdrop-blur-sm shadow-xl">
             <CardContent className="p-4 flex flex-col items-center justify-center">
                 <h2 className={cn("text-lg sm:text-xl font-semibold mb-2 text-card-foreground")}>
