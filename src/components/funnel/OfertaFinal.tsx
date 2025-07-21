@@ -5,18 +5,16 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CheckCircle, Star, ShieldCheck, Heart } from 'lucide-react';
-import { useCountdown } from '@/hooks/use-countdown';
+import { CheckCircle, Star, ShieldCheck } from 'lucide-react';
 
 interface OfertaFinalProps {
   nome: string;
   pontos: number;
+  ofertaExpirada: boolean;
 }
 
 const PRECO_ORIGINAL = 147.90;
 const PRECO_FINAL = 37.90;
-const DURATION_SECONDS = 15 * 60; // 15 minutos
 
 const beneficios = [
   "Dietas personalizadas por trimestre",
@@ -33,14 +31,13 @@ const calcDesconto = (pontos: number) => {
   return 70;
 };
 
-export default function OfertaFinal({ nome, pontos }: OfertaFinalProps) {
+export default function OfertaFinal({ nome, pontos, ofertaExpirada }: OfertaFinalProps) {
   const router = useRouter();
-  const { minutos, segundos, acabou } = useCountdown(DURATION_SECONDS);
 
   const descontoPercentual = useMemo(() => calcDesconto(pontos), [pontos]);
 
   const handleCtaClick = () => {
-    if (acabou) return;
+    if (ofertaExpirada) return;
     console.log('[OfertaFinal]', pontos, descontoPercentual);
     // TODO: A rota /checkout não existe
     // router.push('/checkout');
@@ -82,20 +79,13 @@ export default function OfertaFinal({ nome, pontos }: OfertaFinalProps) {
             </ul>
           </div>
           
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg text-center">
-            <p className="font-bold">Sua oferta expira em:</p>
-            <p className="text-2xl font-mono font-bold tracking-widest">
-              {minutos.toString().padStart(2, '0')}:{segundos.toString().padStart(2, '0')}
-            </p>
-          </div>
-
           <Button 
             size="lg"
             onClick={handleCtaClick}
-            disabled={acabou}
+            disabled={ofertaExpirada}
             className="w-full h-14 bg-[#9D4C63] text-white rounded-full text-lg font-bold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            {acabou ? "Oferta Expirada" : `Quero garantir por R$ ${PRECO_FINAL.toFixed(2)}`}
+            {ofertaExpirada ? "Oferta Expirada" : `Quero garantir por R$ ${PRECO_FINAL.toFixed(2)}`}
           </Button>
 
            <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
