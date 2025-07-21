@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useMemo } from 'react';
@@ -83,17 +82,16 @@ export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setN
     });
 
     setTimeout(() => {
-      // Navegar para a próxima etapa (a ser definida)
-      router.push(`/?pontos=${newPoints}`);
+      router.push(`/plano?pontos=${newPoints}`);
     }, 1500);
   };
 
   return (
-     <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center text-center">
+     <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
         <Card className="w-full bg-card/80 backdrop-blur-sm shadow-xl">
             <CardContent className="p-4 flex flex-col items-center justify-center">
-                <h2 className={cn("text-lg sm:text-xl font-semibold mb-2 text-card-foreground")}>
-                    😨 Como está o seu medo na gestação hoje?
+                <h2 className={cn("text-lg font-semibold mb-2 text-card-foreground")}>
+                    😨 Como está o seu medo hoje?
                 </h2>
 
                 <div className="flex flex-col items-center justify-center gap-2 w-full">
@@ -104,13 +102,13 @@ export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setN
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.3 }}
-                            className="text-3xl sm:text-4xl"
+                            className="text-4xl"
                         >
                             {faixaAtual.emoji}
                         </motion.div>
                     </AnimatePresence>
                     
-                    <div className="relative w-8 sm:w-10 h-48 sm:h-56">
+                    <div className="relative w-8 h-48">
                         <div className="absolute inset-0 w-full h-full rounded-full bg-gray-200 border border-[#344154]/40 overflow-hidden">
                             <motion.div 
                                 className={cn("absolute bottom-0 left-0 w-full", faixaAtual.mercúrioColor)}
@@ -132,7 +130,7 @@ export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setN
                         />
                     </div>
                     
-                    <p className={cn("text-sm sm:text-base mt-2 h-10 text-card-foreground")}>
+                    <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
                         {faixaAtual.feedback}
                     </p>
                 </div>
