@@ -31,9 +31,9 @@ const textColors: Record<OpcaoSono, string> = {
 };
 
 const opcoes = [
-  { id: 'facil', emoji: '😴', label: 'Dorme fácil' },
-  { id: 'mal', emoji: '😐', label: 'Dorme mal às vezes' },
-  { id: 'pessimo', emoji: '😩', label: 'Não dorme nada bem' },
+  { id: 'facil', emoji: '😴', label: 'Durmo fácil' },
+  { id: 'mal', emoji: '😐', label: 'Durmo mal às vezes' },
+  { id: 'pessimo', emoji: '😩', label: 'Não durmo nada bem' },
 ] as const;
 
 export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
