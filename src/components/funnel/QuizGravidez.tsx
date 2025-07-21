@@ -5,15 +5,12 @@ import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 
-const bellySizes = [
-  { rx: 10, ry: 10 }, // 1º trimestre
-  { rx: 60, ry: 80 }, // 2º trimestre - not used for rx/ry, but keeps array consistent
-  { rx: 90, ry: 120 }, // 3º trimestre - not used for rx/ry, but keeps array consistent
-];
+interface QuizGravidezProps {
+  nome: string;
+}
 
-export default function QuizGravidez() {
+export default function QuizGravidez({ nome }: QuizGravidezProps) {
   const [trimestre, setTrimestre] = useState(1);
-  const { rx, ry } = bellySizes[trimestre - 1];
 
   const handleSliderChange = (value: number[]) => {
     setTrimestre(value[0]);
@@ -63,7 +60,7 @@ export default function QuizGravidez() {
     <Card className="w-full max-w-md text-center">
       <CardHeader>
         <CardTitle className="font-headline text-xl md:text-2xl font-bold text-foreground">
-          Você está no {trimestre}º trimestre
+          {nome}, qual trimestre você está?
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-8">
@@ -72,6 +69,7 @@ export default function QuizGravidez() {
         </div>
         
         <div className="w-full max-w-xs px-4">
+            <p className="mb-4 text-center text-muted-foreground">Você está no {trimestre}º trimestre</p>
             <Slider
                 defaultValue={[1]}
                 value={[trimestre]}

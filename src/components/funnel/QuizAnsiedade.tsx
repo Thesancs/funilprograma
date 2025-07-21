@@ -55,7 +55,7 @@ export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedade
   return (
     <div className="w-full max-w-md mx-auto text-center">
       <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground">
-        😟 Como está sua ansiedade?
+         Como está sua ansiedade?
       </h2>
       <div className="flex flex-col gap-4">
         {opcoes.map((opcao) => (

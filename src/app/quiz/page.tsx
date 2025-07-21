@@ -49,7 +49,7 @@ function QuizContent() {
                 <span>Pontos de cuidado: {pontos}</span>
             </div>
         </div>
-        <QuizGravidez />
+        <QuizGravidez nome={nome} />
         <div className="mt-8 text-center">
             <Button size="lg" onClick={handleNext} disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
