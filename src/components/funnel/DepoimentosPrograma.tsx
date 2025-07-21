@@ -55,6 +55,43 @@ export default function DepoimentosPrograma() {
 
   return (
     <div className="w-full flex flex-col items-center gap-12 py-8">
+      {/* Seção do Programa */}
+      <section className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
+          <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
+             <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-foreground">
+                👶 Conheça o Programa Bem-Estar Gestacional
+            </h2>
+            <p className="text-muted-foreground mb-6 max-w-md">
+                Uma jornada completa para você viver uma gestação mais leve, saudável e consciente, semana a semana.
+            </p>
+            <ul className="space-y-3 mb-8">
+                {beneficios.map((beneficio, index) => (
+                    <li key={index} className="flex items-center gap-3">
+                        <CheckCircle className="w-5 h-5 text-primary" />
+                        <span className="text-foreground">{beneficio}</span>
+                    </li>
+                ))}
+            </ul>
+             <Button 
+                size="lg"
+                onClick={handleCtaClick}
+                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+            >
+                Quero saber mais
+            </Button>
+          </div>
+          <div className="hidden lg:block lg:w-1/2">
+            <Image 
+                src="https://placehold.co/600x400.png"
+                alt="Mockup do programa"
+                width={600}
+                height={400}
+                className="rounded-lg shadow-xl"
+                data-ai-hint="app mockup"
+            />
+          </div>
+      </section>
+
       {/* Seção de Depoimentos */}
       <section className="w-full flex flex-col items-center text-center">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground">
@@ -94,43 +131,6 @@ export default function DepoimentosPrograma() {
           <CarouselPrevious className="hidden sm:flex" />
           <CarouselNext className="hidden sm:flex" />
         </Carousel>
-      </section>
-
-      {/* Seção do Programa */}
-      <section className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
-          <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
-             <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-foreground">
-                👶 Conheça o Programa Bem-Estar Gestacional
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-md">
-                Uma jornada completa para você viver uma gestação mais leve, saudável e consciente, semana a semana.
-            </p>
-            <ul className="space-y-3 mb-8">
-                {beneficios.map((beneficio, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-primary" />
-                        <span className="text-foreground">{beneficio}</span>
-                    </li>
-                ))}
-            </ul>
-             <Button 
-                size="lg"
-                onClick={handleCtaClick}
-                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
-            >
-                Quero saber mais
-            </Button>
-          </div>
-          <div className="hidden lg:block lg:w-1/2">
-            <Image 
-                src="https://placehold.co/600x400.png"
-                alt="Mockup do programa"
-                width={600}
-                height={400}
-                className="rounded-lg shadow-xl"
-                data-ai-hint="app mockup"
-            />
-          </div>
       </section>
     </div>
   );
