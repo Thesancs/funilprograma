@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 interface AnaliseAlimentacaoProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -42,7 +43,7 @@ const cardVariants = {
   }),
 };
 
-export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAlimentacaoProps) {
+export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseAlimentacaoProps) {
   const [index, setIndex] = useState(0);
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
@@ -107,7 +108,7 @@ export default function AnaliseAlimentacao({ pontos, setPontos }: AnaliseAliment
   };
 
   const handleNext = () => {
-    router.push(`/quiz/agua?pontos=${pontos}`);
+    router.push(`/quiz/agua?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
   }
 
   return (

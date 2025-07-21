@@ -54,8 +54,8 @@ export default function CadastroPage() {
     setIsLoading(true);
     setTimeout(() => {
       // Redirect to the quiz page
-      router.push('/quiz');
-    }, 10000);
+      router.push(`/quiz?nome=${encodeURIComponent(values.name)}`);
+    }, 4000);
   }
 
   if (isLoading) {

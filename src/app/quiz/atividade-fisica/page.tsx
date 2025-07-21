@@ -10,6 +10,7 @@ import AtividadeFisica from '@/components/funnel/AtividadeFisica';
 function AtividadeFisicaContent() {
     const searchParams = useSearchParams();
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
 
     return (
@@ -21,7 +22,7 @@ function AtividadeFisicaContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <AtividadeFisica pontos={pontos} setPontos={setPontos} />
+                <AtividadeFisica nome={nome} pontos={pontos} setPontos={setPontos} />
             </div>
         </main>
     );

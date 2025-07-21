@@ -10,6 +10,7 @@ import ConsumoAgua from '@/components/funnel/ConsumoAgua';
 function AguaContent() {
     const searchParams = useSearchParams();
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
 
     return (
@@ -21,7 +22,7 @@ function AguaContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <ConsumoAgua pontos={pontos} setPontos={setPontos} />
+                <ConsumoAgua nome={nome} pontos={pontos} setPontos={setPontos} />
             </div>
         </main>
     );

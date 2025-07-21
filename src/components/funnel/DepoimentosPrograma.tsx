@@ -8,6 +8,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Star, CheckCircle } from "lucide-react";
 
+interface DepoimentosProgramaProps {
+  nome: string;
+  pontos: number;
+}
+
 const depoimentos = [
   {
     nome: "Juliana S.",
@@ -45,12 +50,12 @@ const beneficios = [
   "Checklists e orientações semanais",
 ];
 
-export default function DepoimentosPrograma() {
+export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgramaProps) {
   const router = useRouter();
 
   const handleCtaClick = () => {
     console.log('[DepoimentosPrograma] CTA clicked, navigating to /oferta');
-    router.push('/oferta');
+    router.push(`/oferta?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
   };
 
   return (

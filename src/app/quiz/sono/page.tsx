@@ -7,10 +7,11 @@ import QuizSono from '@/components/funnel/QuizSono';
 function QuizSonoContent() {
   const searchParams = useSearchParams();
   const initialPontos = parseInt(searchParams.get('pontos') || '150', 10);
+  const nome = searchParams.get('nome') || 'Mamãe';
   const [pontos, setPontos] = useState(initialPontos);
 
   return (
-    <QuizSono pontos={pontos} setPontos={setPontos} />
+    <QuizSono nome={nome} pontos={pontos} setPontos={setPontos} />
   );
 }
 

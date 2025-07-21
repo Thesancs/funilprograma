@@ -1,25 +1,28 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
 import { Heart, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
-export default function QuizPage() {
-  const [pontos, setPontos] = useState(150);
-  const [isLoading, setIsLoading] = useState(false);
+function QuizContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
 
+  const [pontos, setPontos] = useState(150);
+  const [isLoading, setIsLoading] = useState(false);
+  const nome = searchParams.get('nome') || 'Mamãe';
+  
   useEffect(() => {
     toast({
-        title: "🎉 Bem-vinda! Você ganhou 150 Pontos de Cuidado!",
+        title: `🎉 Bem-vinda, ${nome}! Você ganhou 150 Pontos de Cuidado!`,
         description: "Responda o quiz para ganhar mais pontos.",
         duration: 4000,
     });
-  }, [toast]);
+  }, [toast, nome]);
 
   const handleNext = () => {
     setIsLoading(true);
@@ -33,7 +36,7 @@ export default function QuizPage() {
     });
     
     setTimeout(() => {
-      router.push(`/quiz/sono?pontos=${newPoints}`);
+      router.push(`/quiz/sono?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 
@@ -56,4 +59,17 @@ export default function QuizPage() {
       </div>
     </main>
   );
+}
+
+
+export default function QuizPage() {
+  return (
+    <Suspense fallback={
+        <div className="flex min-h-screen w-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+    }>
+      <QuizContent />
+    </Suspense>
+  )
 }

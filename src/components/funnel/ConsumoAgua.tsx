@@ -10,11 +10,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
 
 interface ConsumoAguaProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
+export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProps) {
   const [litros, setLitros] = useState(2.5);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +53,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
     });
 
     setTimeout(() => {
-      router.push(`/quiz/atividade-fisica?pontos=${newPoints}`);
+      router.push(`/quiz/atividade-fisica?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 
@@ -65,7 +66,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
 
         <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 
-                className="relative w-28 sm:w-32 h-72 bg-[#DEEAF5] rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
+                className="relative w-28 sm:w-32 h-72 rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
                 style={{ pointerEvents: 'none' }}
             >
                 <motion.div
@@ -85,7 +86,7 @@ export default function ConsumoAgua({ pontos, setPontos }: ConsumoAguaProps) {
               value={litros}
               onChange={handleSliderChange}
               className="h-72 w-4 cursor-pointer appearance-none bg-transparent accent-primary [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-primary/20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
-              style={{ writingMode: 'vertical-lr' }}
+              style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
               aria-label="Quantidade de água em litros"
             />
              

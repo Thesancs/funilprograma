@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
 
 interface RespiracaoGuiadaProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -23,7 +24,7 @@ const CYCLE_PHASES = [
 const CYCLE_DURATION = CYCLE_PHASES.reduce((acc, phase) => acc + phase.duration, 0);
 
 
-export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiadaProps) {
+export default function RespiracaoGuiada({ nome, pontos, setPontos }: RespiracaoGuiadaProps) {
   const [status, setStatus] = useState<'initial' | 'running' | 'finished'>('initial');
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
   const [currentPhase, setCurrentPhase] = useState('Expire');
@@ -98,8 +99,12 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
     // It's possible the component hasn't re-rendered with the new points yet
     // So we calculate it here to be safe.
-    const finalPoints = status === 'finished' ? pontos + 150 : pontos;
-    router.push(`/quiz/alimentacao?pontos=${finalPoints}`);
+    let finalPoints = pontos;
+    if(status === 'finished') {
+      finalPoints = pontos + 150;
+    }
+
+    router.push(`/quiz/alimentacao?pontos=${finalPoints}&nome=${encodeURIComponent(nome)}`);
   };
 
   const getCircleClass = () => {
@@ -142,7 +147,7 @@ export default function RespiracaoGuiada({ pontos, setPontos }: RespiracaoGuiada
                     variant="link"
                     className="mt-4"
                 >
-                    Pular (temp)
+                    Pular
                 </Button>
                 </div>
             )}

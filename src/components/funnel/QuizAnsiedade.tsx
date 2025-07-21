@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 
 type OpcaoAnsiedade = "alta" | "media" | "baixa";
 interface QuizAnsiedadeProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -24,7 +25,7 @@ const opcoes = [
   { id: 'baixa', emoji: '😌', label: 'Baixa, estou tranquila' },
 ] as const;
 
-export default function QuizAnsiedade({ pontos, setPontos }: QuizAnsiedadeProps) {
+export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedadeProps) {
   const [selecionado, setSelecionado] = useState<OpcaoAnsiedade | null>(null);
   const [frase, setFrase] = useState("");
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function QuizAnsiedade({ pontos, setPontos }: QuizAnsiedadeProps)
 
     setTimeout(() => {
       console.log('Navegando para a proxima etapa...');
-      router.push(`/quiz/respiracao?pontos=${newPoints}`);
+      router.push(`/quiz/respiracao?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 2500);
   };
 

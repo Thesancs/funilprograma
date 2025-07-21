@@ -9,6 +9,7 @@ import DepoimentosPrograma from '@/components/funnel/DepoimentosPrograma';
 function PlanoContent() {
     const searchParams = useSearchParams();
     const pontos = parseInt(searchParams.get('pontos') || '0', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
 
     return (
         <main className={cn("flex min-h-screen flex-col items-center justify-start p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500 overflow-y-auto")}>
@@ -19,7 +20,7 @@ function PlanoContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <DepoimentosPrograma />
+                <DepoimentosPrograma nome={nome} pontos={pontos} />
             </div>
         </main>
     );

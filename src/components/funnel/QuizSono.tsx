@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 type OpcaoSono = "nenhuma" | "facil" | "mal" | "pessimo";
 
 interface QuizSonoProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -35,7 +36,7 @@ const opcoes = [
   { id: 'pessimo', emoji: '😩', label: 'Não dorme nada bem' },
 ] as const;
 
-export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
+export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
   const [selecionado, setSelecionado] = useState<OpcaoSono>("nenhuma");
   const [bgColor, setBgColor] = useState(bgColors.nenhuma);
   const [textColor, setTextColor] = useState(textColors.nenhuma);
@@ -68,7 +69,7 @@ export default function QuizSono({ pontos, setPontos }: QuizSonoProps) {
 
     console.log('[QuizSono] Avançando para a próxima etapa...');
     setTimeout(() => {
-      router.push(`/quiz/ansiedade?pontos=${newPoints}`);
+      router.push(`/quiz/ansiedade?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 

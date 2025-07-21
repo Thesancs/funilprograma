@@ -12,6 +12,7 @@ import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
 interface AtividadeFisicaProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -44,7 +45,7 @@ const getPontosParaValor = (valor: number) => {
   return 150;
 };
 
-export default function AtividadeFisica({ pontos, setPontos }: AtividadeFisicaProps) {
+export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFisicaProps) {
   const [frequencia, setFrequencia] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,7 +79,7 @@ export default function AtividadeFisica({ pontos, setPontos }: AtividadeFisicaPr
     }
 
     setTimeout(() => {
-      router.push(`/quiz/termometro-emocional?pontos=${newPoints}`);
+      router.push(`/quiz/termometro-emocional?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 

@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface TermometroEmocionalProps {
+  nome: string;
   pontos: number;
   setPontos: React.Dispatch<React.SetStateAction<number>>;
   nivelMedo: number;
@@ -52,7 +53,7 @@ export const getBackgroundColor = (nivel: number, returnAll = false) => {
     return faixa.bgColor;
 }
 
-export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
+export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -82,7 +83,7 @@ export default function TermometroEmocional({ pontos, setPontos, nivelMedo, setN
     });
 
     setTimeout(() => {
-      router.push(`/plano?pontos=${newPoints}`);
+      router.push(`/plano?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 

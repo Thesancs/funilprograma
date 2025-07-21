@@ -10,6 +10,7 @@ import TermometroEmocional, { getBackgroundColor } from '@/components/funnel/Ter
 function TermometroEmocionalContent() {
     const searchParams = useSearchParams();
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
     const [nivelMedo, setNivelMedo] = useState(0);
 
@@ -29,7 +30,8 @@ function TermometroEmocionalContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <TermometroEmocional 
+                <TermometroEmocional
+                    nome={nome}
                     pontos={pontos} 
                     setPontos={setPontos}
                     nivelMedo={nivelMedo}

@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 function QuizAnsiedadeContent() {
   const searchParams = useSearchParams();
   const initialPontos = parseInt(searchParams.get('pontos') || '250', 10);
+  const nome = searchParams.get('nome') || 'Mamãe';
   const [pontos, setPontos] = useState(initialPontos);
 
   return (
@@ -19,7 +20,7 @@ function QuizAnsiedadeContent() {
         <Heart className="h-5 w-5 text-primary" />
         <span>Pontos de cuidado: {pontos}</span>
       </div>
-      <QuizAnsiedade pontos={pontos} setPontos={setPontos} />
+      <QuizAnsiedade nome={nome} pontos={pontos} setPontos={setPontos} />
     </main>
   );
 }

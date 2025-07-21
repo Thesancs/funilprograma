@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 function AlimentacaoContent() {
     const searchParams = useSearchParams();
     const initialPontos = parseInt(searchParams.get('pontos') || '450', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
 
     return (
@@ -22,7 +23,7 @@ function AlimentacaoContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <AnaliseAlimentacao pontos={pontos} setPontos={setPontos} />
+                <AnaliseAlimentacao nome={nome} pontos={pontos} setPontos={setPontos} />
             </div>
         </main>
     );

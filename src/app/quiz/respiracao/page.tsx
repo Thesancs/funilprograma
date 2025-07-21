@@ -10,6 +10,7 @@ import RespiracaoGuiada from '@/components/funnel/RespiracaoGuiada';
 function RespiracaoContent() {
     const searchParams = useSearchParams();
     const initialPontos = parseInt(searchParams.get('pontos') || '300', 10);
+    const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
 
     return (
@@ -21,7 +22,7 @@ function RespiracaoContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <RespiracaoGuiada pontos={pontos} setPontos={setPontos} />
+                <RespiracaoGuiada nome={nome} pontos={pontos} setPontos={setPontos} />
             </div>
         </main>
     );
