@@ -67,9 +67,9 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             <Image 
                 src="https://i.imgur.com/pWBIXpR.png" 
                 alt="Logo Bem-Vinda, Mamãe!" 
-                width={112} 
-                height={112} 
-                className="w-24 h-24 sm:w-28 sm:h-28"
+                width={144} 
+                height={144} 
+                className="w-32 h-32 sm:w-36 sm:h-36"
                 priority
             />
         </div>
