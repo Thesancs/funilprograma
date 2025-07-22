@@ -16,7 +16,7 @@ interface AnaliseAlimentacaoProps {
 }
 
 const pratos = [
-  { id: 'frutas', nome: 'Frutas Frescas', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'fresh fruits' },
+  { id: 'frutas', nome: 'Frutas Frescas', imagem: 'https://i.imgur.com/OWoDM7I.jpeg', tipo: 'bom', dataAiHint: 'fresh fruits' },
   { id: 'salada', nome: 'Salada Colorida', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'colorful salad' },
   { id: 'grelhados', nome: 'Frango Grelhado', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'grilled chicken' },
   { id: 'fritura', nome: 'Batata Frita', imagem: 'https://placehold.co/300x400.png', tipo: 'ruim', dataAiHint: 'french fries' },
