@@ -132,29 +132,42 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
     <Card className="w-full max-w-md mx-auto text-center">
         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
             {status === 'initial' && (
-                <div className="animate-in fade-in duration-500 flex flex-col items-center">
+                <div className="animate-in fade-in duration-500 flex flex-col items-center gap-4">
                 <Image
                     src="https://i.imgur.com/RqvBZIk.png"
                     alt="Mulher meditando"
                     width={150}
                     height={150}
-                    className="mb-4"
+                    className="mb-2"
                     data-ai-hint="woman meditating"
                 />
                 <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
-                    🌬️ Vamos respirar juntas? <br/> Inspire por 4s → Segure por 4s → Expire por 6s (5x)
+                    🌬️ Vamos respirar juntas?
                 </h2>
+
+                <div className="w-full flex flex-col sm:flex-row gap-2 my-2">
+                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                        <p className="font-semibold text-sm">Inspire por 4 segundos</p>
+                    </div>
+                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                        <p className="font-semibold text-sm">Segure por 4 segundos</p>
+                    </div>
+                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                        <p className="font-semibold text-sm">Expire por 6 segundos</p>
+                    </div>
+                </div>
+
                 <Button
                     onClick={handleStart}
                     size="lg"
-                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-6"
+                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-4"
                 >
                     Iniciar Respiração Guiada
                 </Button>
                 <Button
                     onClick={handleNext}
                     variant="link"
-                    className="mt-4"
+                    className="mt-2"
                 >
                     Pular
                 </Button>
