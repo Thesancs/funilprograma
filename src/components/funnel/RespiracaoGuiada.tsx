@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -15,7 +16,8 @@ interface RespiracaoGuiadaProps {
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const TOTAL_DURATION = 70; // 5 cycles * 14s each
+const TOTAL_DURATION = 30; // 30 segundos de exercício
+const PRE_START_COUNTDOWN = 5; // 5 segundos antes de começar
 const CYCLE_PHASES = [
   { name: 'Inspire', duration: 4 },
   { name: 'Segure', duration: 4 },
@@ -25,7 +27,8 @@ const CYCLE_DURATION = CYCLE_PHASES.reduce((acc, phase) => acc + phase.duration,
 
 
 export default function RespiracaoGuiada({ nome, pontos, setPontos }: RespiracaoGuiadaProps) {
-  const [status, setStatus] = useState<'initial' | 'running' | 'finished'>('initial');
+  const [status, setStatus] = useState<'initial' | 'countdown' | 'running' | 'finished'>('initial');
+  const [countdown, setCountdown] = useState(PRE_START_COUNTDOWN);
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
   const [currentPhase, setCurrentPhase] = useState('Expire');
   const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[2].duration);
@@ -36,6 +39,16 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
+    
+    if (status === 'countdown' && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+    } else if (countdown === 0 && status === 'countdown') {
+       setStatus('running');
+       setIsAnimating(true);
+    }
+
     if (status === 'running' && timeLeft > 0) {
       timer = setInterval(() => {
         setTimeLeft(prev => prev - 1);
@@ -51,7 +64,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
       });
     }
     return () => clearInterval(timer);
-  }, [status, timeLeft, pontos, setPontos, toast, router]);
+  }, [status, timeLeft, pontos, setPontos, toast, router, countdown]);
 
   useEffect(() => {
     if (status !== 'running') {
@@ -89,22 +102,15 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
   }, [timeLeft, status, currentPhase]);
 
   const handleStart = () => {
-    console.log('[RespiracaoGuiada] Iniciando respiração guiada');
-    setStatus('running');
-    setIsAnimating(true);
+    console.log('[RespiracaoGuiada] Iniciando contagem regressiva');
+    setStatus('countdown');
   };
 
   const handleNext = () => {
     setIsLoading(true);
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
-    // It's possible the component hasn't re-rendered with the new points yet
-    // So we calculate it here to be safe.
-    let finalPoints = pontos;
-    if(status === 'finished') {
-      finalPoints = pontos + 150;
-    }
-
-    router.push(`/quiz/alimentacao?pontos=${finalPoints}&nome=${encodeURIComponent(nome)}`);
+    
+    router.push(`/quiz/alimentacao?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
   };
 
   const getCircleClass = () => {
@@ -173,6 +179,13 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     Pular
                 </Button>
                 </div>
+            )}
+            
+            {status === 'countdown' && (
+              <div className="flex flex-col items-center justify-center gap-4 animate-in fade-in duration-500">
+                <p className="text-lg font-medium text-foreground">Prepare-se...</p>
+                <p className="text-6xl font-bold text-primary">{countdown}</p>
+              </div>
             )}
 
             {status === 'running' && (
