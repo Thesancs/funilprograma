@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowRight } from 'lucide-react';
 
 interface RespiracaoGuiadaProps {
   nome: string;
@@ -145,13 +145,15 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     🌬️ Vamos respirar juntas?
                 </h2>
 
-                <div className="w-full flex flex-col sm:flex-row gap-2 my-2">
+                <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2 my-2">
                     <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Inspire por 4 segundos</p>
                     </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0 hidden sm:block" />
                     <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Segure por 4 segundos</p>
                     </div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0 hidden sm:block" />
                     <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Expire por 6 segundos</p>
                     </div>
