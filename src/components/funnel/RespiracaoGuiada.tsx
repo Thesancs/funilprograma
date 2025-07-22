@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -141,8 +140,8 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     className="mb-2"
                     data-ai-hint="woman meditating"
                 />
-                <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
-                    🌬️ Vamos respirar juntas?
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+                    Vamos respirar juntas?
                 </h2>
 
                 <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2 my-2">
