@@ -139,7 +139,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
             {status === 'initial' && (
                 <div className="animate-in fade-in duration-500 flex flex-col items-center gap-4">
                 <Image
-                    src="https://i.imgur.com/OWoDM7I.jpeg"
+                    src="https://i.imgur.com/RqvBZIk.png"
                     alt="Mulher meditando"
                     width={150}
                     height={150}
