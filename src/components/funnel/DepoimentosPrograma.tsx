@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -7,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Star, CheckCircle } from "lucide-react";
+import { Separator } from '../ui/separator';
 
 interface DepoimentosProgramaProps {
   nome: string;
@@ -96,6 +98,22 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             />
           </div>
       </section>
+
+      {/* Logo */}
+      <div className="w-full flex flex-col items-center gap-8">
+        <Separator className="w-1/2" />
+        <div className="my-4" data-ai-hint="mother baby">
+            <Image 
+                src="https://i.imgur.com/pWBIXpR.png" 
+                alt="Logo Bem-Vinda, Mamãe!" 
+                width={112} 
+                height={112} 
+                className="w-24 h-24 sm:w-28 sm:h-28"
+                priority
+            />
+        </div>
+        <Separator className="w-1/2" />
+      </div>
 
       {/* Seção de Depoimentos */}
       <section className="w-full flex flex-col items-center text-center">
