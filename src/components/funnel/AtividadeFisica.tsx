@@ -22,7 +22,7 @@ const atividades = [
   { valor: 1, label: "1 a 2 vezes", emoji: "🚶‍♀️", imagem: "https://i.imgur.com/65EKzvH.png", dataAiHint: "woman walking" },
   { valor: 3, label: "3 a 4 vezes", emoji: "🤸‍♀️", imagem: "https://i.imgur.com/DE7vElV.png", dataAiHint: "woman pilates" },
   { valor: 5, label: "5 a 6 vezes", emoji: "🏃‍♀️", imagem: "https://i.imgur.com/ljJh5oa.png", dataAiHint: "woman running" },
-  { valor: 7, label: "Todos os dias", emoji: "🔥", imagem: "https://i.imgur.com/V4NmYXA.jpeg", dataAiHint: "daily exercise" }
+  { valor: 7, label: "Todos os dias", emoji: "🔥", imagem: "https://i.imgur.com/spabmNB.jpeg", dataAiHint: "daily exercise" }
 ];
 
 const getAtividadeParaValor = (valor: number) => {
