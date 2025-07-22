@@ -18,31 +18,35 @@ interface AtividadeFisicaProps {
 }
 
 const atividades = [
-  { valor: 0, label: "Descansando", emoji: "🛋️", imagem: "https://i.imgur.com/kS9j65Y.png", dataAiHint: "woman resting" },
-  { valor: 1, label: "Caminhada", emoji: "🚶‍♀️", imagem: "https://i.imgur.com/mY3qkA8.png", dataAiHint: "woman walking" },
-  { valor: 3, label: "Pilates", emoji: "🤸‍♀️", imagem: "https://i.imgur.com/QJ1Y1Yf.png", dataAiHint: "woman pilates" },
-  { valor: 5, label: "Corrida", emoji: "🏃‍♀️", imagem: "https://i.imgur.com/bX6XQ28.png", dataAiHint: "woman running" },
+  { valor: 0, label: "Nenhuma vez", emoji: "😴", imagem: "https://i.imgur.com/kS9j65Y.png", dataAiHint: "woman resting" },
+  { valor: 1, label: "1 a 2 vezes", emoji: "🚶‍♀️", imagem: "https://i.imgur.com/mY3qkA8.png", dataAiHint: "woman walking" },
+  { valor: 3, label: "3 a 4 vezes", emoji: "🤸‍♀️", imagem: "https://i.imgur.com/QJ1Y1Yf.png", dataAiHint: "woman pilates" },
+  { valor: 5, label: "5 a 6 vezes", emoji: "🏃‍♀️", imagem: "https://i.imgur.com/bX6XQ28.png", dataAiHint: "woman running" },
+  { valor: 7, label: "Todos os dias", emoji: "🔥", imagem: "https://placehold.co/150x150.png", dataAiHint: "daily exercise" }
 ];
 
 const getAtividadeParaValor = (valor: number) => {
   if (valor === 0) return atividades[0];
   if (valor >= 1 && valor <= 2) return atividades[1];
   if (valor >= 3 && valor <= 4) return atividades[2];
-  return atividades[3];
+  if (valor >= 5 && valor <= 6) return atividades[3];
+  return atividades[4];
 };
 
 const getFeedbackParaValor = (valor: number) => {
   if (valor === 0) return "Vamos começar devagar! 💪";
   if (valor >= 1 && valor <= 2) return "Bom começo, continue!";
   if (valor >= 3 && valor <= 4) return "Excelente ritmo!";
-  return "Uau! Mantenha essa energia!";
+  if (valor >= 5 && valor <= 6) return "Uau! Mantenha essa energia!";
+  return "Incrível! Você é uma inspiração!";
 };
 
 const getPontosParaValor = (valor: number) => {
   if (valor === 0) return 0;
   if (valor >= 1 && valor <= 2) return 50;
   if (valor >= 3 && valor <= 4) return 100;
-  return 150;
+  if (valor >= 5 && valor <= 6) return 150;
+  return 200;
 };
 
 export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFisicaProps) {
@@ -87,7 +91,7 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
     <Card className="w-full max-w-md mx-auto bg-card text-card-foreground shadow-lg">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
         <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-6">
-          🏃‍♀️ Com que frequência você pratica atividade física por semana?
+          Com que frequência você pratica atividade física por semana?
         </h2>
 
         <div className="w-full flex flex-col items-center gap-6">
@@ -102,7 +106,7 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
                         className="w-full h-full flex flex-col items-center justify-center"
                     >
                         <Image src={atividadeAtual.imagem} alt={atividadeAtual.label} width={150} height={150} className="drop-shadow-lg" data-ai-hint={atividadeAtual.dataAiHint}/>
-                        <p className="font-semibold mt-2 text-lg">{atividadeAtual.label}</p>
+                        <p className="font-semibold mt-2 text-lg">{atividadeAtual.label} {atividadeAtual.emoji}</p>
                     </motion.div>
                 </AnimatePresence>
             </div>

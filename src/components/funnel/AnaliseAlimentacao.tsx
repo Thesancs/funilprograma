@@ -17,13 +17,13 @@ interface AnaliseAlimentacaoProps {
 
 const pratos = [
   { id: 'frutas', nome: 'Frutas Frescas', imagem: 'https://i.imgur.com/OWoDM7I.jpeg', tipo: 'bom', dataAiHint: 'fresh fruits' },
-  { id: 'salada', nome: 'Salada Colorida', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'colorful salad' },
-  { id: 'grelhados', nome: 'Frango Grelhado', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'grilled chicken' },
-  { id: 'fritura', nome: 'Batata Frita', imagem: 'https://placehold.co/300x400.png', tipo: 'ruim', dataAiHint: 'french fries' },
-  { id: 'doces', nome: 'Doces e Bolos', imagem: 'https://placehold.co/300x400.png', tipo: 'ruim', dataAiHint: 'sweets cakes' },
-  { id: 'legumes', nome: 'Legumes Cozidos', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'cooked vegetables' },
-  { id: 'refrigerante', nome: 'Refrigerante', imagem: 'https://placehold.co/300x400.png', tipo: 'ruim', dataAiHint: 'soda can' },
-  { id: 'graos', nome: 'Grãos Integrais', imagem: 'https://placehold.co/300x400.png', tipo: 'bom', dataAiHint: 'whole grains' },
+  { id: 'salada', nome: 'Salada Colorida', imagem: 'https://i.imgur.com/bYnPmnd.jpeg', tipo: 'bom', dataAiHint: 'colorful salad' },
+  { id: 'grelhados', nome: 'Frango Grelhado', imagem: 'https://i.imgur.com/0eekQkq.jpeg', tipo: 'bom', dataAiHint: 'grilled chicken' },
+  { id: 'fritura', nome: 'Batata Frita', imagem: 'https://i.imgur.com/89L76s8.jpeg', tipo: 'ruim', dataAiHint: 'french fries' },
+  { id: 'doces', nome: 'Doces e Bolos', imagem: 'https://i.imgur.com/h9GsDa9.png', tipo: 'ruim', dataAiHint: 'sweets cakes' },
+  { id: 'legumes', nome: 'Legumes Cozidos', imagem: 'https://i.imgur.com/jrs41t7.jpeg', tipo: 'bom', dataAiHint: 'cooked vegetables' },
+  { id: 'refrigerante', nome: 'Refrigerantes', imagem: 'https://i.imgur.com/EhWfdsi.jpeg', tipo: 'ruim', dataAiHint: 'soda can' },
+  { id: 'graos', nome: 'Grãos Integrais', imagem: 'https://i.imgur.com/RIy2aQL.jpeg', tipo: 'bom', dataAiHint: 'whole grains' },
 ];
 
 const cardVariants = {
@@ -125,7 +125,7 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
                   className="w-full flex flex-col items-center"
               >
                   <h2 className="text-xl text-center font-semibold mb-4 text-foreground">
-                  🍽️ Como está sua alimentação hoje?
+                  Nos mostre como esta sua alimentação 
                   </h2>
                   <div className="relative h-[400px] w-[300px] flex items-center justify-center">
                     <AnimatePresence initial={false} custom={direction}>
