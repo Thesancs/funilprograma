@@ -20,7 +20,7 @@ interface AtividadeFisicaProps {
 const atividades = [
   { valor: 0, label: "Nenhuma vez", emoji: "😴", imagem: "https://i.imgur.com/W5NUJsd.png", dataAiHint: "woman resting" },
   { valor: 1, label: "1 a 2 vezes", emoji: "🚶‍♀️", imagem: "https://i.imgur.com/65EKzvH.png", dataAiHint: "woman walking" },
-  { valor: 3, label: "3 a 4 vezes", emoji: "🤸‍♀️", imagem: "https://i.imgur.com/QJ1Y1Yf.png", dataAiHint: "woman pilates" },
+  { valor: 3, label: "3 a 4 vezes", emoji: "🤸‍♀️", imagem: "https://i.imgur.com/DE7vElV.png", dataAiHint: "woman pilates" },
   { valor: 5, label: "5 a 6 vezes", emoji: "🏃‍♀️", imagem: "https://i.imgur.com/bX6XQ28.png", dataAiHint: "woman running" },
   { valor: 7, label: "Todos os dias", emoji: "🔥", imagem: "https://placehold.co/150x150.png", dataAiHint: "daily exercise" }
 ];
