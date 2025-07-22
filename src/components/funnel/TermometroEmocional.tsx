@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from 'react';
@@ -66,7 +67,9 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     if (!hasInteracted) {
       setHasInteracted(true);
     }
-    setNivelMedo(parseInt(event.target.value));
+    // O input vertical 'vertical-lr' inverte os valores (0 é em cima, 100 é embaixo).
+    // Invertemos aqui para que o estado `nivelMedo` reflita a lógica correta (0-100 de baixo para cima).
+    setNivelMedo(100 - parseInt(event.target.value));
   };
 
   const handleNext = () => {
@@ -86,6 +89,9 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
       router.push(`/plano?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
+
+  // O valor do input precisa ser invertido de volta para corresponder à sua orientação visual.
+  const sliderValue = 100 - nivelMedo;
 
   return (
      <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
@@ -123,7 +129,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                             min="0"
                             max="100"
                             step="1"
-                            value={nivelMedo}
+                            value={sliderValue}
                             onChange={handleSliderChange}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                             style={{ writingMode: 'vertical-lr' }}
