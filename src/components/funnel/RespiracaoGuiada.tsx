@@ -139,11 +139,11 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
             {status === 'initial' && (
                 <div className="animate-in fade-in duration-500 flex flex-col items-center gap-4">
                 <Image
-                    src="https://i.imgur.com/RqvBZIk.png"
+                    src="https://i.imgur.com/OWoDM7I.jpeg"
                     alt="Mulher meditando"
                     width={150}
                     height={150}
-                    className="mb-2"
+                    className="mb-2 rounded-full"
                     data-ai-hint="woman meditating"
                 />
                 <h2 className="text-xl sm:text-2xl font-bold text-foreground">
