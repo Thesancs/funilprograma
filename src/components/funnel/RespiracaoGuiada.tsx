@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -131,7 +132,15 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
     <Card className="w-full max-w-md mx-auto text-center">
         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
             {status === 'initial' && (
-                <div className="animate-in fade-in duration-500">
+                <div className="animate-in fade-in duration-500 flex flex-col items-center">
+                <Image
+                    src="https://i.imgur.com/RqvBZIk.png"
+                    alt="Mulher meditando"
+                    width={150}
+                    height={150}
+                    className="mb-4"
+                    data-ai-hint="woman meditating"
+                />
                 <h2 className="text-lg sm:text-xl font-medium text-[#344154]">
                     🌬️ Vamos respirar juntas? <br/> Inspire por 4s → Segure por 4s → Expire por 6s (5x)
                 </h2>
