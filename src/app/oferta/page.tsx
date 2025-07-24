@@ -35,7 +35,7 @@ export default function OfertaPage() {
     <main className="relative min-h-screen w-full flex items-center justify-center bg-white">
         <div className="absolute inset-0 z-0 h-screen md:h-screen">
              <Image
-                src="https://placehold.co/1200x800.png"
+                src="https://i.postimg.cc/RFbg7KVC/file-000000006d8c623095818c1747892548.png"
                 alt="Mulher gestante feliz em um campo florido"
                 fill
                 className="object-cover object-top"
