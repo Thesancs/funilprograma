@@ -39,7 +39,7 @@ const depoimentos = [
     trimestre: "1º Trimestre",
     avaliacao: 4,
     depoimento: "Estava perdida com a alimentação e os treinos. O app me deu um norte e mais tranquilidade.",
-    avatar: "https://placehold.co/100x100.png",
+    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
     dataAiHint: "happy woman"
   },
 ];
