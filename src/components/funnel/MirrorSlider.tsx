@@ -32,7 +32,7 @@ const estados = [
   },
   {
     nivel: 1,
-    imagem: "https://placehold.co/600x600.png",
+    imagem: "https://i.imgur.com/GvBVxCL.jpeg",
     dataAiHint: "guilty woman mirror",
     alt: "Mulher com expressão de culpa em frente ao espelho",
     frase: "A balança virou minha inimiga…",
