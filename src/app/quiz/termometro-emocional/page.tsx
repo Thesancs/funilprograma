@@ -1,14 +1,21 @@
 
 "use client";
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import TermometroEmocional, { getBackgroundColor } from '@/components/funnel/TermometroEmocional';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function TermometroEmocionalContent() {
     const searchParams = useSearchParams();
+    const { setStep } = useQuiz();
+
+    useEffect(() => {
+        setStep(8);
+    }, [setStep]);
+
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);

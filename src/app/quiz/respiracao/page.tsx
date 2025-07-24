@@ -1,14 +1,21 @@
 
 "use client";
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import RespiracaoGuiada from '@/components/funnel/RespiracaoGuiada';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function RespiracaoContent() {
     const searchParams = useSearchParams();
+    const { setStep } = useQuiz();
+
+    useEffect(() => {
+        setStep(3);
+    }, [setStep]);
+
     const initialPontos = parseInt(searchParams.get('pontos') || '300', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);

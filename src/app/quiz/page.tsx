@@ -8,11 +8,17 @@ import QuizGravidez from '@/components/funnel/QuizGravidez';
 import { Heart, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { Card } from '@/components/ui/card';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
+  const { setStep } = useQuiz();
+
+  useEffect(() => {
+    setStep(0);
+  }, [setStep]);
 
   const [pontos, setPontos] = useState(150);
   const [isLoading, setIsLoading] = useState(false);

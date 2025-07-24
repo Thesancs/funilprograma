@@ -1,15 +1,22 @@
 
 "use client";
 
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import QuizAnsiedade from '@/components/funnel/QuizAnsiedade';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useQuiz } from '@/contexts/QuizContext';
 
 
 function QuizAnsiedadeContent() {
   const searchParams = useSearchParams();
+  const { setStep } = useQuiz();
+
+  useEffect(() => {
+    setStep(2);
+  }, [setStep]);
+
   const initialPontos = parseInt(searchParams.get('pontos') || '250', 10);
   const nome = searchParams.get('nome') || 'Mamãe';
   const [pontos, setPontos] = useState(initialPontos);

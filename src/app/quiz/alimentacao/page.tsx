@@ -1,15 +1,22 @@
 
 "use client";
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AnaliseAlimentacao from '@/components/funnel/AnaliseAlimentacao';
 import { motion } from 'framer-motion';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function AlimentacaoContent() {
     const searchParams = useSearchParams();
+    const { setStep } = useQuiz();
+
+    useEffect(() => {
+        setStep(4);
+    }, [setStep]);
+
     const initialPontos = parseInt(searchParams.get('pontos') || '450', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);

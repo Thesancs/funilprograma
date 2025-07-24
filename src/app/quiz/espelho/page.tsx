@@ -1,14 +1,21 @@
 
 "use client";
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MirrorSlider from '@/components/funnel/MirrorSlider';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function EspelhoContent() {
     const searchParams = useSearchParams();
+    const { setStep } = useQuiz();
+
+    useEffect(() => {
+        setStep(7);
+    }, [setStep]);
+
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);

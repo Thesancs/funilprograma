@@ -1,14 +1,21 @@
 
 "use client";
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import AtividadeFisica from '@/components/funnel/AtividadeFisica';
+import { useQuiz } from '@/contexts/QuizContext';
 
 function AtividadeFisicaContent() {
     const searchParams = useSearchParams();
+    const { setStep } = useQuiz();
+
+    useEffect(() => {
+        setStep(6);
+    }, [setStep]);
+
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const [pontos, setPontos] = useState(initialPontos);
