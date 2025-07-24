@@ -83,7 +83,7 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
     }
 
     setTimeout(() => {
-      router.push(`/quiz/termometro-emocional?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      router.push(`/quiz/espelho?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
 
