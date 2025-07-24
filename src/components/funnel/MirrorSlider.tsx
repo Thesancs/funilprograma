@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from 'lucide-react';
@@ -108,7 +108,10 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
 
   return (
     <Card className="w-full max-w-lg mx-auto bg-card/80 backdrop-blur-sm text-card-foreground shadow-xl">
-      <CardContent className="p-6 flex flex-col items-center justify-center min-h-[36rem]">
+       <CardHeader className="text-center">
+        <CardTitle className="text-2xl font-bold">Como você está se sentindo com seu corpo hoje?</CardTitle>
+      </CardHeader>
+      <CardContent className="p-6 pt-0 flex flex-col items-center justify-center min-h-[36rem]">
         <AnimatePresence mode="wait">
             <motion.p
                 key={`frase-${estadoAtual.nivel}`}
@@ -116,9 +119,9 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.3 }}
-                className="text-center text-xl font-semibold mb-4 h-12"
+                className="text-center text-lg text-muted-foreground mb-4 h-12"
             >
-                {estadoAtual.frase}
+                {`"${estadoAtual.frase}"`}
             </motion.p>
         </AnimatePresence>
 
