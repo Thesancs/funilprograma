@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,7 +33,6 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
   const [currentPhase, setCurrentPhase] = useState('Expire');
   const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[2].duration);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -46,7 +46,6 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
       }, 1000);
     } else if (countdown === 0 && status === 'countdown') {
        setStatus('running');
-       setIsAnimating(true);
     }
 
     if (status === 'running' && timeLeft > 0) {
@@ -113,31 +112,43 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
     router.push(`/quiz/alimentacao?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
   };
 
-  const getCircleClass = () => {
-    if (!isAnimating) return 'scale-100';
-    switch (currentPhase) {
-      case 'Inspire':
-        return 'scale-150';
-      case 'Segure':
-        return 'scale-150';
-      case 'Expire':
-        return 'scale-100';
-      default:
-        return 'scale-100';
-    }
-  };
-
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
     const remainingSeconds = (seconds % 60).toString().padStart(2, '0');
     return `${minutes}:${remainingSeconds}`;
   };
 
+  const animationVariants = {
+    initial: { scale: 1 },
+    inspire: {
+      scale: 1.5,
+      transition: { duration: CYCLE_PHASES[0].duration, ease: 'easeInOut' },
+    },
+    segure: {
+      scale: 1.5,
+      transition: { duration: CYCLE_PHASES[1].duration, ease: 'easeInOut' },
+    },
+    expire: {
+      scale: 1,
+      transition: { duration: CYCLE_PHASES[2].duration, ease: 'easeInOut' },
+    },
+  };
+  
+  const getAnimationState = () => {
+    if (status !== 'running') return 'initial';
+    switch (currentPhase) {
+      case 'Inspire': return 'inspire';
+      case 'Segure': return 'segure';
+      case 'Expire': return 'expire';
+      default: return 'initial';
+    }
+  }
+
   return (
     <Card className="w-full max-w-md mx-auto text-center">
         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
             {status === 'initial' && (
-                <div className="animate-in fade-in duration-500 flex flex-col items-center gap-4">
+                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center gap-4">
                 <Image
                     src="https://i.imgur.com/RqvBZIk.png"
                     alt="Mulher meditando"
@@ -178,48 +189,51 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                 >
                     Pular
                 </Button>
-                </div>
+                </motion.div>
             )}
             
             {status === 'countdown' && (
-              <div className="flex flex-col items-center justify-center gap-4 animate-in fade-in duration-500">
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center justify-center gap-4">
                 <p className="text-lg font-medium text-foreground">Prepare-se...</p>
                 <p className="text-6xl font-bold text-primary">{countdown}</p>
-              </div>
+              </motion.div>
             )}
 
             {status === 'running' && (
-                <div className="flex flex-col items-center justify-center gap-8 animate-in fade-in duration-500">
+                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center justify-center gap-8">
                     <p className="text-sm font-medium text-[#344154]">⏳ Tempo restante: {formatTime(timeLeft)}</p>
                     <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
-                        <div
-                            className={cn(
-                            'absolute rounded-full bg-primary/30 w-full h-full transition-transform ease-in-out',
-                            getCircleClass(),
-                            currentPhase === 'Inspire' && 'duration-[4000ms]',
-                            currentPhase === 'Segure' && 'duration-[4000ms]',
-                            currentPhase === 'Expire' && 'duration-[6000ms]'
-                            )}
+                        <motion.div
+                            className='absolute rounded-full bg-primary/30 w-full h-full'
+                            variants={animationVariants}
+                            animate={getAnimationState()}
                         />
-                        <div
-                            className={cn(
-                            'absolute rounded-full bg-primary/60 w-3/4 h-3/4 transition-transform ease-in-out',
-                            getCircleClass(),
-                            currentPhase === 'Inspire' && 'duration-[4000ms]',
-                            currentPhase === 'Segure' && 'duration-[4000ms]',
-                            currentPhase === 'Expire' && 'duration-[6000ms]'
-                            )}
+                        <motion.div
+                             className='absolute rounded-full bg-primary/60 w-3/4 h-3/4'
+                             variants={animationVariants}
+                             animate={getAnimationState()}
                         />
                         <div className="z-10 text-white drop-shadow-lg flex flex-col items-center">
-                            <span className="text-2xl font-bold">{currentPhase}</span>
-                            <span className="text-xl font-mono">{phaseTimeLeft}</span>
+                          <AnimatePresence mode="wait">
+                              <motion.span
+                                  key={currentPhase}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.5 }}
+                                  className="text-2xl font-bold"
+                              >
+                                {currentPhase}
+                              </motion.span>
+                          </AnimatePresence>
+                          <span className="text-xl font-mono">{phaseTimeLeft}</span>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             )}
 
             {status === 'finished' && (
-                <div className="animate-in fade-in duration-500 text-center">
+                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="text-center">
                 <h2 className="text-xl font-medium text-[#344154]">
                     🎉 Uau! Que relaxante!
                 </h2>
@@ -233,7 +247,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Continuar
                 </Button>
-                </div>
+                </motion.div>
             )}
         </CardContent>
     </Card>
