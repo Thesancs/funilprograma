@@ -17,7 +17,7 @@ function PlanoContent() {
         <main className="relative min-h-screen w-full">
              <div className="absolute inset-0 z-0 h-full">
                  <Image
-                    src="https://placehold.co/1200x1600.png"
+                    src="https://i.postimg.cc/RFbg7KVC/file-000000006d8c623095818c1747892548.png"
                     alt="Mulher gestante feliz em um campo florido"
                     fill
                     className="object-cover object-top"
