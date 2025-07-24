@@ -22,7 +22,7 @@ export default function QuizGravidez({ nome }: QuizGravidezProps) {
       case 1:
         return (
            <Image
-            src="https://i.postimg.cc/d0t41hkw/file-00000000b23861f7ab100f65b9e19870.png"
+            src="https://i.postimg.cc/6QbJ5JQb/file-00000000c4ac623090d92775e88385ea.png"
             alt="Ilustração do primeiro trimestre"
             width={200}
             height={256}
