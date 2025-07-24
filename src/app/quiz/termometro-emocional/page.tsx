@@ -13,7 +13,7 @@ function TermometroEmocionalContent() {
     const { setStep } = useQuiz();
 
     useEffect(() => {
-        setStep(8);
+        setStep(9);
     }, [setStep]);
 
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);

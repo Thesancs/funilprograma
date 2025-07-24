@@ -14,7 +14,7 @@ function AlimentacaoContent() {
     const { setStep } = useQuiz();
 
     useEffect(() => {
-        setStep(4);
+        setStep(5);
     }, [setStep]);
 
     const initialPontos = parseInt(searchParams.get('pontos') || '450', 10);

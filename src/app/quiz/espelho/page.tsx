@@ -13,7 +13,7 @@ function EspelhoContent() {
     const { setStep } = useQuiz();
 
     useEffect(() => {
-        setStep(7);
+        setStep(8);
     }, [setStep]);
 
     const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);

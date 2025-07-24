@@ -7,14 +7,29 @@ interface QuizContextType {
   setStep: (index: number) => void;
   totalSteps: number;
   bonusStep: number;
+  stepLabels: string[];
 }
 
 const QuizContext = createContext<QuizContextType | null>(null);
 
+const stepLabels = [
+  'Trimestre', 
+  'Sono', 
+  'Ansiedade', 
+  'Respiração', 
+  'Bônus 🎁',
+  'Alimentação', 
+  'Água', 
+  'Exercício', 
+  'Autoestima',
+  'Emoções'
+];
+
+
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [stepIndex, setStepIndex] = useState(0);
-  const totalSteps = 9; 
-  const bonusStep = 4; // A respiração guiada é a 4ª etapa (índice 3)
+  const totalSteps = stepLabels.length; 
+  const bonusStep = 4;
 
   const setStep = (index: number) => {
     console.log(`[QuizContext] Setting step to: ${index}`);
@@ -22,7 +37,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <QuizContext.Provider value={{ stepIndex, setStep, totalSteps, bonusStep }}>
+    <QuizContext.Provider value={{ stepIndex, setStep, totalSteps, bonusStep, stepLabels }}>
       {children}
     </QuizContext.Provider>
   );
