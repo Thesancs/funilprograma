@@ -72,7 +72,7 @@ export default function LandingHero() {
                 <Link href="/cadastro" passHref>
                     <Button
                     size="lg"
-                    className="px-8 py-6 text-base md:text-lg font-semibold rounded-full shadow-lg transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1"
+                    className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 animate-pulse hover:animate-none"
                     onClick={handleCtaClick}
                     >
                     Criar minha conta agora
