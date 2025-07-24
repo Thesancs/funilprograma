@@ -107,7 +107,7 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto bg-white shadow-xl rounded-3xl">
+    <Card className="w-full max-w-lg mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
        <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Como você está se sentindo com seu corpo hoje?</CardTitle>
       </CardHeader>
@@ -166,7 +166,7 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
                 onClick={handleNext} 
                 size="lg" 
                 disabled={isLoading}
-                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400"
             >
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : estadoAtual.cta}
             </Button>

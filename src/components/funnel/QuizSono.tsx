@@ -78,10 +78,10 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
     <main className={cn("flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500", bgColor)}>
         <div className="w-full max-w-lg mx-auto">
             <div className={cn("w-full flex justify-end items-center mb-4", textColor)}>
-                <div className="flex items-center gap-2 font-semibold bg-black/10 backdrop-blur-sm p-2 rounded-full shadow-lg">
+                 <Card className="flex items-center gap-2 font-semibold bg-black/10 backdrop-blur-sm p-2 rounded-full shadow-lg text-inherit">
                     <Heart className="h-5 w-5" />
                     <span>Pontos de cuidado: {pontos}</span>
-                </div>
+                </Card>
             </div>
 
             <div className="text-center">

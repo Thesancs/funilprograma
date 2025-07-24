@@ -124,7 +124,12 @@ export default function CadastroPage() {
               <p className="px-1 text-center text-sm text-muted-foreground">
                 Ao criar sua conta, você desbloqueia acesso completo ao seu plano personalizado, com evolução ao longo da gestação.
               </p>
-              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+               <Button 
+                type="submit" 
+                className="w-full bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400" 
+                size="lg" 
+                disabled={isLoading}
+              >
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Criar minha conta
               </Button>

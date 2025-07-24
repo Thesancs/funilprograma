@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
 import { Heart, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { Card } from '@/components/ui/card';
 
 function QuizContent() {
   const router = useRouter();
@@ -45,14 +46,19 @@ function QuizContent() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#D9A8B6] to-background p-4 gap-8">
       <div className="w-full max-w-md mx-auto">
         <div className="w-full flex justify-end items-center mb-4">
-            <div className="flex items-center gap-2 text-foreground font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg">
+             <Card className="flex items-center gap-2 text-foreground font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg">
                 <Heart className="h-5 w-5 text-primary" />
                 <span>Pontos de cuidado: {pontos}</span>
-            </div>
+            </Card>
         </div>
         <QuizGravidez nome={nome} />
         <div className="mt-8 text-center">
-            <Button size="lg" onClick={handleNext} disabled={isLoading} className="rounded-full">
+            <Button 
+              size="lg" 
+              onClick={handleNext} 
+              disabled={isLoading} 
+              className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400"
+            >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Avançar
             </Button>

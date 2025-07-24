@@ -104,7 +104,12 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Button onClick={handleNext} size="lg" disabled={isLoading} className="rounded-full">
+               <Button 
+                onClick={handleNext} 
+                size="lg" 
+                disabled={isLoading}
+                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400"
+                >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Avançar
               </Button>

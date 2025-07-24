@@ -194,7 +194,7 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
                   <Button 
                       onClick={handleNext}
                       size="lg"
-                      className="rounded-full"
+                      className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
                   >
                   Continuar
                   </Button>
