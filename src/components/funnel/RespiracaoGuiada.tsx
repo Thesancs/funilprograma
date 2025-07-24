@@ -151,7 +151,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
             {status === 'initial' && (
                 <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center gap-4">
                 <Image
-                    src="https://i.imgur.com/RqvBZIk.png"
+                    src="https://i.postimg.cc/CKnpvMYC/file-00000000cb4461f9915920b0f307dcdf.png"
                     alt="Mulher meditando"
                     width={150}
                     height={150}
