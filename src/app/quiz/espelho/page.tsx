@@ -22,7 +22,7 @@ function EspelhoContent() {
            <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
                 <div className="w-full flex justify-end items-center sticky top-4 z-20 pr-4">
                     <div className={cn(
-                        "flex items-center gap-2 font-semibold bg-card/50 backdrop-blur-sm p-2 rounded-full shadow",
+                        "flex items-center gap-2 font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg",
                          "text-foreground"
                     )}>
                         <Heart className="h-5 w-5 text-primary" />

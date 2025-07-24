@@ -24,8 +24,8 @@ function TermometroEmocionalContent() {
             bgColor
         )}>
            <div className="w-full max-w-md mx-auto flex flex-col gap-4">
-                <div className={cn("w-full flex justify-end items-center mb-0", textColor)}>
-                    <div className="flex items-center gap-2 font-semibold">
+                <div className={cn("w-full flex justify-end items-center mb-0")}>
+                    <div className={cn("flex items-center gap-2 font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg", textColor)}>
                         <Heart className="h-5 w-5" />
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
