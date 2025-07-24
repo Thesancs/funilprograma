@@ -44,7 +44,7 @@ export default function QuizGravidez({ nome }: QuizGravidezProps) {
       case 3:
         return (
           <Image
-            src="https://i.imgur.com/ogSgUmF.png"
+            src="https://i.postimg.cc/W1td1jNx/file-00000000e25461f592b3fb030b806998.png"
             alt="Ilustração do terceiro trimestre"
             width={200}
             height={256}
