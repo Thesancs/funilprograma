@@ -103,6 +103,16 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
       <div className="w-full flex flex-col items-center justify-center gap-8 lg:gap-12 mt-12 md:mt-0">
         <div className="w-full max-w-4xl bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 md:p-8 text-center text-[#344154]">
             
+             <div className="flex justify-center mb-4" data-ai-hint="happy mother">
+                <Image 
+                    src="https://i.imgur.com/w8kf5xT.jpeg" 
+                    alt="Mãe feliz" 
+                    width={100} 
+                    height={100} 
+                    className="rounded-full border-4 border-white shadow-lg"
+                />
+            </div>
+            
             <h1 className="text-2xl md:text-3xl font-bold">
                 Parabéns, {nome}!
             </h1>
