@@ -17,14 +17,15 @@ interface RespiracaoGuiadaProps {
   setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const TOTAL_DURATION = 30; // 30 segundos de exercício
-const PRE_START_COUNTDOWN = 5; // 5 segundos antes de começar
 const CYCLE_PHASES = [
   { name: 'Inspire', duration: 4 },
   { name: 'Segure', duration: 4 },
   { name: 'Expire', duration: 6 },
 ];
 const CYCLE_DURATION = CYCLE_PHASES.reduce((acc, phase) => acc + phase.duration, 0);
+const TOTAL_CYCLES = 3;
+const TOTAL_DURATION = CYCLE_DURATION * TOTAL_CYCLES; // 42 segundos de exercício
+const PRE_START_COUNTDOWN = 5; // 5 segundos antes de começar
 
 
 export default function RespiracaoGuiada({ nome, pontos, setPontos }: RespiracaoGuiadaProps) {
