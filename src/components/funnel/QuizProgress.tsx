@@ -23,10 +23,7 @@ export default function QuizProgress() {
     >
       <div className="h-2 rounded-full bg-rose-100 overflow-hidden relative">
         <motion.div
-          className={cn(
-            "h-full transition-colors duration-500",
-            bonusReached ? "bg-gradient-to-r from-emerald-500 to-green-400" : "bg-gradient-to-r from-pink-500 to-purple-500"
-          )}
+          className="h-full bg-gradient-to-r from-pink-500 to-purple-500"
           initial={{ width: '0%' }}
           animate={{ width: `${percent}%` }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -34,7 +31,7 @@ export default function QuizProgress() {
         <span
           className={cn(
             "absolute -top-3 text-xl transition-all duration-500",
-            bonusReached && "text-emerald-600 scale-110"
+            bonusReached && "scale-110"
           )}
           style={{ left: `calc(${bonusPercent}% - 12px)` }}
           title="Bônus desbloqueado aqui!"
