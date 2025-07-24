@@ -109,7 +109,6 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     alt="Mãe feliz" 
                     width={100} 
                     height={100} 
-                    className="shadow-lg"
                 />
             </div>
             
