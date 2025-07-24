@@ -139,7 +139,7 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
                 src={estadoAtual.imagem} 
                 alt={estadoAtual.alt} 
                 fill
-                className="object-contain rounded-lg" 
+                className="object-contain" 
                 data-ai-hint={estadoAtual.dataAiHint}
                 priority
               />
