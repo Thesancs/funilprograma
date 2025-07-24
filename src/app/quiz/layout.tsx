@@ -1,29 +1,6 @@
 "use client";
 
-import { QuizProvider, useQuiz } from '@/contexts/QuizContext';
-import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
-
-function QuizLayoutContent({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const { stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
-  return (
-    <>
-      <QuizProgressRibbon 
-        stepIndex={stepIndex}
-        totalSteps={totalSteps}
-        bonusStep={bonusStep}
-        stepLabels={stepLabels}
-      />
-      <div className="pt-20"> 
-        {children}
-      </div>
-    </>
-  )
-}
-
+import { QuizProvider } from '@/contexts/QuizContext';
 
 export default function QuizLayout({
   children,
@@ -32,9 +9,7 @@ export default function QuizLayout({
 }) {
   return (
     <QuizProvider>
-      <QuizLayoutContent>
-        {children}
-      </QuizLayoutContent>
+      {children}
     </QuizProvider>
   )
 }

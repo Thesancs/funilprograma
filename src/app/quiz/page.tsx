@@ -9,12 +9,13 @@ import { Heart, Loader2 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { Card } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
+import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
-  const { setStep } = useQuiz();
+  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
 
   useEffect(() => {
     setStep(0);
@@ -50,6 +51,12 @@ function QuizContent() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#D9A8B6] to-background p-4 gap-8">
+      <QuizProgressRibbon
+        stepIndex={stepIndex}
+        totalSteps={totalSteps}
+        bonusStep={bonusStep}
+        stepLabels={stepLabels}
+      />
       <div className="w-full max-w-md mx-auto">
         <div className="w-full flex justify-end items-center mb-4">
              <Card className="flex items-center gap-2 text-foreground font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg">

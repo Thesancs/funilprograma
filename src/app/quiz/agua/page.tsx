@@ -7,10 +7,11 @@ import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConsumoAgua from '@/components/funnel/ConsumoAgua';
 import { useQuiz } from '@/contexts/QuizContext';
+import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function AguaContent() {
     const searchParams = useSearchParams();
-    const { setStep } = useQuiz();
+    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
 
     useEffect(() => {
         setStep(5);
@@ -21,7 +22,13 @@ function AguaContent() {
     const [pontos, setPontos] = useState(initialPontos);
 
     return (
-        <main className={cn("flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500 overflow-hidden")}>
+        <main className={cn("flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500 overflow-hidden gap-8")}>
+           <QuizProgressRibbon
+              stepIndex={stepIndex}
+              totalSteps={totalSteps}
+              bonusStep={bonusStep}
+              stepLabels={stepLabels}
+            />
            <div className="w-full max-w-md mx-auto flex flex-col gap-4">
                 <div className="w-full flex justify-end items-center">
                     <div className="flex items-center gap-2 text-foreground font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg">

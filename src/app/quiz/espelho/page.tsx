@@ -7,10 +7,11 @@ import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MirrorSlider from '@/components/funnel/MirrorSlider';
 import { useQuiz } from '@/contexts/QuizContext';
+import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function EspelhoContent() {
     const searchParams = useSearchParams();
-    const { setStep } = useQuiz();
+    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
 
     useEffect(() => {
         setStep(8);
@@ -23,9 +24,15 @@ function EspelhoContent() {
 
     return (
         <main className={cn(
-            "flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500 overflow-hidden",
+            "flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500 overflow-hidden gap-8",
             bgColor
         )}>
+            <QuizProgressRibbon
+              stepIndex={stepIndex}
+              totalSteps={totalSteps}
+              bonusStep={bonusStep}
+              stepLabels={stepLabels}
+            />
            <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
                 <div className="w-full flex justify-end items-center sticky top-4 z-20 pr-4">
                     <div className={cn(

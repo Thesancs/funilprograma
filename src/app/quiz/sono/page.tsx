@@ -4,10 +4,11 @@ import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import QuizSono from '@/components/funnel/QuizSono';
 import { useQuiz } from '@/contexts/QuizContext';
+import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function QuizSonoContent() {
   const searchParams = useSearchParams();
-  const { setStep } = useQuiz();
+  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
 
   useEffect(() => {
     setStep(1);
@@ -18,7 +19,15 @@ function QuizSonoContent() {
   const [pontos, setPontos] = useState(initialPontos);
 
   return (
-    <QuizSono nome={nome} pontos={pontos} setPontos={setPontos} />
+    <>
+      <QuizProgressRibbon
+        stepIndex={stepIndex}
+        totalSteps={totalSteps}
+        bonusStep={bonusStep}
+        stepLabels={stepLabels}
+      />
+      <QuizSono nome={nome} pontos={pontos} setPontos={setPontos} />
+    </>
   );
 }
 
