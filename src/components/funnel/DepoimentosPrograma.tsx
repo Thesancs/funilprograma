@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -22,7 +21,7 @@ const depoimentos = [
     trimestre: "2º Trimestre",
     avaliacao: 5,
     depoimento: "O programa mudou minha relação com a comida! Me sinto mais disposta e segura.",
-    avatar: "https://placehold.co/100x100.png",
+    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
     dataAiHint: "woman portrait"
   },
   {
