@@ -126,7 +126,7 @@ export default function CadastroPage() {
               </p>
                <Button 
                 type="submit" 
-                className="w-full bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400" 
+                className="w-full bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed" 
                 size="lg" 
                 disabled={isLoading}
               >

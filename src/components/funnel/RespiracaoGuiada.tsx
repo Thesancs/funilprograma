@@ -179,7 +179,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                 <Button
                     onClick={handleStart}
                     size="lg"
-                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-4"
+                    className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-4"
                 >
                     Iniciar Respiração Guiada
                 </Button>
@@ -243,7 +243,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     onClick={handleNext}
                     disabled={isLoading}
                     size="lg"
-                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-6"
+                    className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 mt-6"
                 >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Continuar

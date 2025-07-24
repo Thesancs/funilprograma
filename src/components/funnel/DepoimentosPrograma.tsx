@@ -94,7 +94,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
              <Button 
                 size="lg"
                 onClick={handleCtaClick}
-                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
             >
                 Quero saber mais
             </Button>
