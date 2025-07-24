@@ -105,7 +105,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             
              <div className="flex justify-center mb-4" data-ai-hint="happy mother">
                 <Image 
-                    src="https://i.imgur.com/w8kf5xT.jpeg" 
+                    src="https://i.postimg.cc/sXrxmz3H/file-000000002d8c61fab07c5beac8aa5994.png"
                     alt="Mãe feliz" 
                     width={100} 
                     height={100} 
