@@ -87,12 +87,26 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     router.push(`/checkout?plan=${selectedPlan}&bonus=${bonus}`);
   };
 
-  const ctaText = selectedPlan === 'essencial' 
-    ? 'Garantir Essencial por R$ 19,90' 
-    : 'Garantir Completo por R$ 39,90';
-
   const PONTOS_MAXIMO_DESCONTO = 1000;
   const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 50), 50);
+
+  const precos = {
+    essencial: { original: 39.80, final: 19.90 },
+    completo: { original: 79.80, final: 39.90 },
+  };
+
+  const calcularPrecoComDesconto = (precoOriginal: number) => {
+    const valorDesconto = (precoOriginal * descontoPercentual) / 100;
+    return (precoOriginal - valorDesconto).toFixed(2).replace('.', ',');
+  };
+
+  const precoFinalEssencial = calcularPrecoComDesconto(precos.essencial.original);
+  const precoFinalCompleto = calcularPrecoComDesconto(precos.completo.original);
+
+  const ctaText = selectedPlan === 'essencial' 
+    ? `Garantir Essencial por R$ ${precoFinalEssencial}` 
+    : `Garantir Completo por R$ ${precoFinalCompleto}`;
+
 
   return (
     <>
@@ -190,7 +204,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         ))}
                     </ul>
                     <div className="mt-auto">
-                        <p className="text-3xl font-bold text-pink-600">R$ 19,90</p>
+                         <div className="flex items-end gap-2">
+                           <p className="text-3xl font-bold text-pink-600">R$ {precoFinalEssencial}</p>
+                           <p className="text-muted-foreground line-through">R$ {precos.essencial.original.toFixed(2).replace('.',',')}</p>
+                        </div>
                     </div>
                 </div>
 
@@ -215,7 +232,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         ))}
                     </ul>
                      <div className="mt-auto">
-                        <p className="text-3xl font-bold text-pink-600">R$ 39,90</p>
+                         <div className="flex items-end gap-2">
+                           <p className="text-3xl font-bold text-pink-600">R$ {precoFinalCompleto}</p>
+                           <p className="text-muted-foreground line-through">R$ {precos.completo.original.toFixed(2).replace('.',',')}</p>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -292,5 +312,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
