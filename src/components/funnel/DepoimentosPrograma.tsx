@@ -30,8 +30,8 @@ const depoimentos = [
     trimestre: "3º Trimestre",
     avaliacao: 5,
     depoimento: "Os exercícios de respiração me ajudaram muito com a ansiedade. Recomendo demais!",
-    avatar: "https://placehold.co/100x100.png",
-    dataAiHint: "woman smiling"
+    avatar: "https://i.imgur.com/11ScJIc.jpeg",
+    dataAiHint: "woman portrait"
   },
   {
     nome: "Fernanda L.",
