@@ -32,7 +32,7 @@ const estados = [
   },
   {
     nivel: 1,
-    imagem: "https://i.imgur.com/50nslO2.jpeg",
+    imagem: "https://placehold.co/600x600.png",
     dataAiHint: "guilty woman mirror",
     alt: "Mulher com expressão de culpa em frente ao espelho",
     frase: "A balança virou minha inimiga…",
@@ -43,7 +43,7 @@ const estados = [
   },
   {
     nivel: 2,
-    imagem: "https://placehold.co/600x600.png",
+    imagem: "https://i.imgur.com/50nslO2.jpeg",
     dataAiHint: "accepting woman mirror",
     alt: "Mulher em processo de aceitação em frente ao espelho",
     frase: "Não está fácil, mas estou tentando.",
