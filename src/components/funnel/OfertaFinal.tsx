@@ -28,9 +28,9 @@ const beneficios = [
 ];
 
 const calcDesconto = (pontos: number) => {
-  if (pontos <= 100) return 10;
-  if (pontos <= 200) return 30;
-  if (pontos <= 300) return 50;
+  if (pontos <= 600) return 10;
+  if (pontos <= 800) return 30;
+  if (pontos <= 1000) return 50;
   return 70;
 };
 
