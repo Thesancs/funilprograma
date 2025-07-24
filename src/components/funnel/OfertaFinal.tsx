@@ -75,8 +75,11 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
           <h1 className="text-2xl md:text-3xl font-bold">
             Parabéns, {nome}!
           </h1>
-          <p className="mt-2 mb-4">
+          <p className="mt-2">
             Sua jornada de cuidado te rendeu uma oferta incrível!
+          </p>
+          <p className="font-bold text-lg text-primary my-4">
+            Você acumulou {pontos} Pontos de Cuidado!
           </p>
 
           <div className="w-full my-4">
