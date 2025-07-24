@@ -138,6 +138,32 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
               Escolha seu plano:
             </p>
 
+            <div className="w-full max-w-md mx-auto">
+              <div
+                role="checkbox"
+                aria-checked={bonus}
+                tabIndex={0}
+                onClick={() => setBonus(!bonus)}
+                onKeyDown={(e)=> ['Enter',' '].includes(e.key) && setBonus(!bonus)}
+                className={cn(`w-full mt-6 p-4 rounded-2xl border-2
+                  ${bonus ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-300/40 scale-[1.02]' 
+                          : 'border-gray-300 bg-white hover:shadow-lg'}
+                  transition cursor-pointer`)}
+              >
+                <div className="flex items-center gap-3">
+                  <Gift color={bonus ? '#059669' : '#9CA3AF'} size={24}/>
+                  <div className="flex flex-col text-left">
+                    <span className="font-semibold">
+                      {bonus ? 'Bônus Selecionado!' : 'Resgatar Bônus Especial'}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      E-book “10 Receitas Detox” (PDF)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="mt-4 flex flex-col md:flex-row justify-center items-stretch gap-6">
                 
                 {/* Plano Essencial */}
@@ -188,32 +214,6 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         <p className="text-3xl font-bold text-pink-600">R$ 39,90</p>
                     </div>
                 </div>
-            </div>
-
-            <div className="w-full max-w-md mx-auto">
-              <div
-                role="checkbox"
-                aria-checked={bonus}
-                tabIndex={0}
-                onClick={() => setBonus(!bonus)}
-                onKeyDown={(e)=> ['Enter',' '].includes(e.key) && setBonus(!bonus)}
-                className={cn(`w-full mt-6 p-4 rounded-2xl border-2
-                  ${bonus ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-300/40 scale-[1.02]' 
-                          : 'border-gray-300 bg-white hover:shadow-lg'}
-                  transition cursor-pointer`)}
-              >
-                <div className="flex items-center gap-3">
-                  <Gift color={bonus ? '#059669' : '#9CA3AF'} size={24}/>
-                  <div className="flex flex-col text-left">
-                    <span className="font-semibold">
-                      {bonus ? 'Bônus Selecionado!' : 'Resgatar Bônus Especial'}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      E-book “10 Receitas Detox” (PDF)
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
 
 
