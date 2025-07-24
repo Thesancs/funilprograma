@@ -1,14 +1,12 @@
 
 "use client";
 
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Zap, Shield, CreditCard, PlayCircle, Star, Clock } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 
 interface OfertaFinalProps {
@@ -19,73 +17,47 @@ interface OfertaFinalProps {
   segundos: number;
 }
 
-const PRECO_ORIGINAL = 147.90;
-const PRECO_FINAL = 37.90;
-const PONTOS_MAXIMO = 1000;
+const beneficiosEssencial = [
+  { text: "Checklist nutricional em PDF", icon: CheckCircle },
+  { text: "Planner semanal digital", icon: CheckCircle },
+];
 
-const beneficios = [
+const beneficiosCompleto = [
   { text: "Dietas personalizadas por trimestre", icon: CheckCircle },
-  { text: "Treinos adaptados para gestantes", icon: PlayCircle },
+  { text: "Treinos adaptados para gestantes", icon: CheckCircle },
   { text: "Acompanhamento da saúde mental", icon: CheckCircle },
   { text: "Checklists e orientações semanais", icon: CheckCircle },
   { text: "Grupo VIP exclusivo", icon: Star },
+  { text: "⭐ Preferência a novas atualizações", icon: Sparkles },
 ];
 
-const depoimentos = [
-  {
-    nome: "Mariana P.",
-    cidade: "Belo Horizonte, MG",
-    trimestre: "1º Trimestre",
-    avaliacao: 5,
-    depoimento: "Comecei o programa logo que descobri a gravidez e foi a melhor decisão! As dicas de alimentação me ajudaram a controlar os enjoos.",
-    avatar: "https://i.imgur.com/11ScJIc.jpeg",
-    dataAiHint: "woman portrait"
-  },
-  {
-    nome: "Sofia R.",
-    cidade: "Salvador, BA",
-    trimestre: "3º Trimestre",
-    avaliacao: 5,
-    depoimento: "Estou na reta final e o programa tem sido meu porto seguro. Os exercícios de respiração são fantásticos para a ansiedade antes do parto.",
-    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
-    dataAiHint: "happy woman"
-  },
-  {
-    nome: "Laura F.",
-    cidade: "Porto Alegre, RS",
-    trimestre: "2º Trimestre",
-    avaliacao: 5,
-    depoimento: "Nunca imaginei que pilates para gestantes pudesse ser tão bom! Me sinto mais forte e preparada. Recomendo de olhos fechados!",
-    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
-    dataAiHint: "woman portrait"
-  },
-];
-
-
-const calcDesconto = (pontos: number) => {
-  if (pontos <= 600) return 10;
-  if (pontos <= 800) return 30;
-  if (pontos <= 1000) return 50;
-  return 70;
-};
-
-export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
+export default function OfertaFinal({ nome, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
   const router = useRouter();
+  const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
+  
+  const handleSelectPlan = (plan: 'essencial' | 'completo') => {
+    setSelectedPlan(plan);
+  }
 
-  const descontoPercentual = useMemo(() => calcDesconto(pontos), [pontos]);
-  const progressPercent = useMemo(() => Math.min((pontos / PONTOS_MAXIMO) * 100, 100), [pontos]);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>, plan: 'essencial' | 'completo') => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleSelectPlan(plan);
+    }
+  }
 
   const handleCtaClick = () => {
     if (ofertaExpirada) return;
-    console.log('[OfertaFinal]', pontos, descontoPercentual);
-    // TODO: A rota /checkout não existe
-    alert("Redirecionando para o checkout...");
+    router.push(`/checkout?plan=${selectedPlan}`);
   };
+
+  const ctaText = selectedPlan === 'essencial' 
+    ? 'Garantir Essencial por R$ 19,90' 
+    : 'Garantir Completo por R$ 39,90';
 
   return (
     <>
-      {/* Micro-timer Sticky para Mobile */}
-      <div className="fixed md:hidden top-0 left-0 right-0 bg-[#9D4C63] text-white text-center py-2 z-20 shadow-lg">
+      <div className="fixed md:hidden top-0 left-0 right-0 bg-[#9D4C63] text-white text-center py-2 z-50 shadow-lg">
           <div className="flex items-center justify-center gap-2">
             <Clock className="h-5 w-5" />
             <p className="font-semibold text-sm">
@@ -94,120 +66,97 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
           </div>
       </div>
     
-      <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12">
-        <div className="w-full max-w-md bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 text-center text-[#344154]">
+      <div className="w-full flex flex-col items-center justify-center gap-8 lg:gap-12 mt-12 md:mt-0">
+        <div className="w-full max-w-4xl bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 md:p-8 text-center text-[#344154]">
             
-          <Image 
-            src="https://i.postimg.cc/sXrxmz3H/file-000000002d8c61fab07c5beac8aa5994.png"
-            alt="Mockup do programa Bem-Vinda, Mamãe!"
-            width={192}
-            height={192}
-            className="w-40 sm:w-48 mx-auto drop-shadow-lg mb-6"
-            loading="lazy"
-            data-ai-hint="product mockup"
-          />
-
-          <h1 className="text-2xl md:text-3xl font-bold">
-            Parabéns, {nome}!
-          </h1>
-           <p className="mt-2 text-muted-foreground">
-            Sua jornada de cuidado te rendeu uma oferta incrível!
-          </p>
-          <p className="font-bold text-lg text-primary my-4">
-            Você acumulou {pontos} Pontos de Cuidado!
-          </p>
-
-          <div className="w-full my-4">
-            <div className="h-2 w-full bg-rose-100 rounded-full overflow-hidden">
-                <div 
-                    className="h-full bg-emerald-500 transition-all duration-500"
-                    style={{ width: `${progressPercent}%`}}
-                />
-            </div>
-            <p className="text-xs text-center mt-2 font-medium">Você desbloqueou <span className="font-bold">{descontoPercentual}% OFF!</span></p>
-          </div>
-
-          <div className="text-center my-4">
-            <p className="text-gray-600 line-through">De R$ {PRECO_ORIGINAL.toFixed(2)}</p>
-            <p className="text-4xl font-bold">
-              Por apenas <span className="text-pink-600">R$ {PRECO_FINAL.toFixed(2)}</span>
+            <h1 className="text-2xl md:text-3xl font-bold">
+                Parabéns, {nome}!
+            </h1>
+            <p className="mt-2 text-muted-foreground">
+                Sua jornada de cuidado te rendeu uma oferta incrível! Escolha seu plano:
             </p>
-          </div>
-
-          <ul className="space-y-3 my-6 text-left">
-              {beneficios.map((beneficio, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm font-medium">
-                      <beneficio.icon className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
-                      <span>{beneficio.text}</span>
-                  </li>
-              ))}
-          </ul>
-          
-          <Button 
-            size="lg"
-            onClick={handleCtaClick}
-            disabled={ofertaExpirada}
-            className="w-full h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
-          >
-            {ofertaExpirada ? "Oferta Expirada" : `Garantir por R$ ${PRECO_FINAL.toFixed(2)}`}
-          </Button>
-
-           <div className="flex items-center justify-center gap-4 text-xs text-gray-600 mt-4">
-              <div className="flex items-center gap-1">
-                <Shield className="h-4 w-4"/>
-                <span>7 Dias de Garantia</span>
-              </div>
-               <div className="flex items-center gap-1">
-                 <Zap className="h-4 w-4" />
-                <span>Acesso Imediato</span>
-              </div>
-              <div className="flex items-center gap-1">
-                 <CreditCard className="h-4 w-4" />
-                <span>Compra Segura</span>
-              </div>
-          </div>
-        </div>
-
-        <div className="w-full max-w-sm sm:max-w-md">
-            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80 text-center">
-                🗣️ O que outras mamães estão dizendo
-            </h2>
-            <Carousel
-            opts={{
-                align: "start",
-                loop: true,
-            }}
-            className="w-full"
-            >
-            <CarouselContent>
-                {depoimentos.map((depoimento, index) => (
-                <CarouselItem key={index}>
-                    <div className="p-1">
-                    <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4 text-foreground">
-                        <Avatar className="w-20 h-20 border-4 border-pink-100">
-                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
-                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="text-center">
-                        <p className="font-bold text-lg">{depoimento.nome}</p>
-                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
-                        </div>
-                        <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+            
+            <div className="mt-6 flex flex-col md:flex-row justify-center items-stretch gap-6">
+                
+                {/* Plano Essencial */}
+                <div
+                    role="radio"
+                    aria-checked={selectedPlan === 'essencial'}
+                    tabIndex={0}
+                    onClick={() => handleSelectPlan('essencial')}
+                    onKeyDown={(e) => handleKeyDown(e, 'essencial')}
+                    className={cn(
+                        "flex-1 border border-emerald-400/50 rounded-2xl p-6 cursor-pointer hover:shadow-lg transition text-left flex flex-col",
+                        selectedPlan === 'essencial' && "ring-4 ring-pink-500/60 scale-105"
+                    )}
+                >
+                    <h2 className="text-xl font-bold text-foreground mb-1">🌱 Plano Essencial</h2>
+                    <p className="text-sm text-muted-foreground mb-4">Ideal para começar.</p>
+                    <ul className="space-y-2 mb-4 text-sm">
+                        {beneficiosEssencial.map((b, i) => (
+                            <li key={i} className="flex items-start gap-2"><b.icon className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />{b.text}</li>
                         ))}
-                        </div>
-                        <p className="text-center italic">"{depoimento.depoimento}"</p>
-                    </Card>
+                    </ul>
+                    <div className="mt-auto">
+                        <p className="text-3xl font-bold text-pink-600">R$ 19,90</p>
                     </div>
-                </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex -left-4 text-foreground bg-white/50 hover:bg-white/80" />
-            <CarouselNext className="hidden sm:flex -right-4 text-foreground bg-white/50 hover:bg-white/80" />
-            </Carousel>
+                </div>
+
+                {/* Plano Completo */}
+                 <div
+                    role="radio"
+                    aria-checked={selectedPlan === 'completo'}
+                    tabIndex={0}
+                    onClick={() => handleSelectPlan('completo')}
+                    onKeyDown={(e) => handleKeyDown(e, 'completo')}
+                    className={cn(
+                        "flex-1 bg-gradient-to-br from-pink-50 to-white rounded-2xl p-6 border-2 border-pink-400 shadow-xl cursor-pointer transition text-left flex flex-col relative",
+                        selectedPlan === 'completo' && "ring-4 ring-pink-500/60 scale-105"
+                    )}
+                >
+                    <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full">Mais Popular</div>
+                    <h2 className="text-xl font-bold text-foreground mb-1">🌸 Plano Completo</h2>
+                    <p className="text-sm text-muted-foreground mb-4">A experiência completa.</p>
+                     <ul className="space-y-2 mb-4 text-sm">
+                        {beneficiosCompleto.map((b, i) => (
+                            <li key={i} className="flex items-start gap-2"><b.icon className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />{b.text}</li>
+                        ))}
+                    </ul>
+                     <div className="mt-auto">
+                        <p className="text-3xl font-bold text-pink-600">R$ 39,90</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-8">
+                <Button 
+                    size="lg"
+                    onClick={handleCtaClick}
+                    disabled={ofertaExpirada}
+                    className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
+                >
+                   {ofertaExpirada ? "Oferta Expirada" : ctaText}
+                </Button>
+            </div>
+            
+            <div className="flex items-center justify-center flex-wrap gap-4 text-xs text-gray-600 mt-4">
+                <div className="flex items-center gap-1">
+                    <Shield className="h-4 w-4"/>
+                    <span>7 Dias de Garantia</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    <Zap className="h-4 w-4" />
+                    <span>Acesso Imediato</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    <CreditCard className="h-4 w-4" />
+                    <span>Compra Segura</span>
+                </div>
+            </div>
         </div>
       </div>
     </>
   );
 }
+
+    
