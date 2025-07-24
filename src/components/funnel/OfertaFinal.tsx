@@ -133,11 +133,11 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     <span>50%</span>
                 </div>
             </div>
-            
-            <p className="mt-6 text-muted-foreground">
-              Escolha seu plano:
-            </p>
 
+            <p className="mt-6 text-muted-foreground">
+              Clique abaixo para resgatar seu bônus especial:
+            </p>
+            
             <div className="w-full max-w-md mx-auto">
               <div
                 role="checkbox"
@@ -145,7 +145,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 tabIndex={0}
                 onClick={() => setBonus(!bonus)}
                 onKeyDown={(e)=> ['Enter',' '].includes(e.key) && setBonus(!bonus)}
-                className={cn(`w-full mt-6 p-4 rounded-2xl border-2
+                className={cn(`w-full mt-2 p-4 rounded-2xl border-2
                   ${bonus ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-300/40 scale-[1.02]' 
                           : 'border-gray-300 bg-white hover:shadow-lg'}
                   transition cursor-pointer`)}
@@ -163,6 +163,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </div>
               </div>
             </div>
+            
+            <p className="mt-6 text-muted-foreground">
+              Agora, escolha seu plano:
+            </p>
 
             <div className="mt-4 flex flex-col md:flex-row justify-center items-stretch gap-6">
                 
@@ -288,3 +292,5 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
+    
