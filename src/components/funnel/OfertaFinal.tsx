@@ -63,7 +63,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
         <div className="w-full max-w-md bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 text-center text-[#344154]">
             
           <Image 
-            src="https://placehold.co/200x200.png"
+            src="https://i.postimg.cc/sXrxmz3H/file-000000002d8c61fab07c5beac8aa5994.png"
             alt="Mockup do programa Bem-Vinda, Mamãe!"
             width={192}
             height={192}
