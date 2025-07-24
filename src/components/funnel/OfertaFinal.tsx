@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles } from 'lucide-react';
+import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
@@ -69,6 +69,7 @@ const depoimentos = [
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
+  const [bonus, setBonus] = useState(false);
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
     setSelectedPlan(plan);
@@ -83,7 +84,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
   const handleCtaClick = () => {
     if (ofertaExpirada) return;
-    router.push(`/checkout?plan=${selectedPlan}`);
+    router.push(`/checkout?plan=${selectedPlan}&bonus=${bonus}`);
   };
 
   const ctaText = selectedPlan === 'essencial' 
@@ -189,6 +190,33 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </div>
             </div>
 
+            <div className="w-full max-w-md mx-auto">
+              <div
+                role="checkbox"
+                aria-checked={bonus}
+                tabIndex={0}
+                onClick={() => setBonus(!bonus)}
+                onKeyDown={(e)=> ['Enter',' '].includes(e.key) && setBonus(!bonus)}
+                className={cn(`w-full mt-6 p-4 rounded-2xl border-2
+                  ${bonus ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-300/40 scale-[1.02]' 
+                          : 'border-gray-300 bg-white hover:shadow-lg'}
+                  transition cursor-pointer`)}
+              >
+                <div className="flex items-center gap-3">
+                  <Gift color={bonus ? '#059669' : '#9CA3AF'} size={24}/>
+                  <div className="flex flex-col text-left">
+                    <span className="font-semibold">
+                      {bonus ? 'Bônus Selecionado!' : 'Resgatar Bônus Especial'}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      E-book “10 Receitas Detox” (PDF)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
             <div className="mt-8">
                 <Button 
                     size="lg"
@@ -260,5 +288,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
