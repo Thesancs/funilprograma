@@ -37,7 +37,7 @@ export default function LandingHero() {
                 />
             </div>
 
-            <Card className="w-full max-w-2xl text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <Card className="w-full max-w-2xl text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl md:text-3xl font-bold text-foreground">
                   Crie sua conta e desbloqueie uma jornada personalizada para você e seu bebê!

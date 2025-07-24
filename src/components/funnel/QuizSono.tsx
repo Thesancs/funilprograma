@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -18,9 +19,9 @@ interface QuizSonoProps {
 
 const bgColors: Record<OpcaoSono, string> = {
   nenhuma: "bg-gradient-to-b from-[#D9A8B6] to-background",
-  facil: "bg-[#344154]",
-  mal: "bg-[#B3A4D4]",
-  pessimo: "bg-[#B16262]",
+  facil: "bg-gradient-to-b from-[#344154] to-[#6E7C8E]",
+  mal: "bg-gradient-to-b from-[#B3A4D4] to-[#8374A4]",
+  pessimo: "bg-gradient-to-b from-[#B16262] to-[#813232]",
 };
 
 const textColors: Record<OpcaoSono, string> = {
@@ -77,14 +78,14 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
     <main className={cn("flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500", bgColor)}>
         <div className="w-full max-w-lg mx-auto">
             <div className={cn("w-full flex justify-end items-center mb-4", textColor)}>
-                <div className="flex items-center gap-2 font-semibold">
+                <div className="flex items-center gap-2 font-semibold bg-black/10 backdrop-blur-sm p-2 rounded-full shadow-lg">
                     <Heart className="h-5 w-5" />
                     <span>Pontos de cuidado: {pontos}</span>
                 </div>
             </div>
 
             <div className="text-center">
-                <Card className="bg-card/90 text-card-foreground shadow-xl backdrop-blur-sm">
+                <Card className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/20 text-white">
                 <CardHeader>
                     <CardTitle className="text-2xl sm:text-3xl font-bold">
                     Como está seu sono?
@@ -97,10 +98,10 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
                         key={opcao.id}
                         onClick={() => handleSelect(opcao.id)}
                         className={cn(
-                            "p-6 bg-background/50 border-2 rounded-xl cursor-pointer transition-all duration-300 hover:bg-accent/80",
+                            "p-6 bg-white/20 border-2 border-transparent rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/30",
                             {
-                            "border-primary scale-105 bg-accent": selecionado === opcao.id,
-                            "border-transparent opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
+                            "border-white scale-105 bg-white/40": selecionado === opcao.id,
+                            "opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
                             }
                         )}
                         >
@@ -117,7 +118,7 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
                     onClick={handleNext}
                     disabled={selecionado === "nenhuma" || isLoading}
                     size="lg"
-                    className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-white text-primary rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Continuar

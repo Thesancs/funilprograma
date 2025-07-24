@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -57,7 +58,7 @@ export default function QuizGravidez({ nome }: QuizGravidezProps) {
   };
 
   return (
-    <Card className="w-full max-w-md text-center">
+    <Card className="w-full max-w-md text-center bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
       <CardHeader>
         <CardTitle className="font-headline text-xl md:text-2xl font-bold text-foreground">
           {nome}, qual trimestre você está?

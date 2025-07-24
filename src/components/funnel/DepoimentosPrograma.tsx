@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from 'next/navigation';
@@ -75,7 +76,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
 
       {/* Seção do Programa */}
       <section className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
-          <div className="lg:w-1/2 flex flex-col items-center lg:items-start">
+          <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
              <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-foreground">
                 👶 Conheça o Programa Bem-Estar Gestacional
             </h2>
@@ -97,7 +98,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             >
                 Quero saber mais
             </Button>
-          </div>
+          </Card>
           <div className="hidden lg:block lg:w-1/2">
             <Image 
                 src="https://placehold.co/600x400.png"
@@ -112,7 +113,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
 
       {/* Seção de Depoimentos */}
       <section className="w-full flex flex-col items-center text-center">
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground">
+        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
           🗣️ O que outras mamães estão dizendo
         </h2>
         <Carousel
@@ -126,7 +127,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             {depoimentos.map((depoimento, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
-                  <Card className="bg-white rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4">
+                  <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4">
                     <Avatar className="w-20 h-20 border-4 border-pink-100">
                       <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
                       <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>

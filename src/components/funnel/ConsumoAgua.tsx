@@ -58,7 +58,7 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-card text-card-foreground">
+    <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
         <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-4">
           💧 Quanto de água você bebe por dia?
@@ -66,7 +66,7 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
 
         <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 
-                className="relative w-28 sm:w-32 h-72 rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden"
+                className="relative w-28 sm:w-32 h-72 rounded-t-2xl border-2 border-b-0 border-[#344154]/40 overflow-hidden bg-white/50"
                 style={{ pointerEvents: 'none' }}
             >
                 <motion.div
@@ -104,7 +104,7 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <Button onClick={handleNext} size="lg" disabled={isLoading}>
+              <Button onClick={handleNext} size="lg" disabled={isLoading} className="rounded-full">
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Avançar
               </Button>

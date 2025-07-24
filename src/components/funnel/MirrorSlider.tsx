@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo, useEffect } from 'react';
@@ -106,7 +107,7 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
   };
 
   return (
-    <Card className="w-full max-w-lg mx-auto bg-card text-card-foreground shadow-xl">
+    <Card className="w-full max-w-lg mx-auto bg-white shadow-xl rounded-3xl">
        <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Como você está se sentindo com seu corpo hoje?</CardTitle>
       </CardHeader>

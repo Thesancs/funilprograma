@@ -95,7 +95,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
 
   return (
      <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
-        <Card className="w-full bg-card/80 backdrop-blur-sm shadow-xl">
+        <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
             <CardContent className="p-4 flex flex-col items-center justify-center">
                 <h2 className={cn("text-lg font-semibold mb-2 text-card-foreground")}>
                     😨 Como está o seu medo hoje?
@@ -138,7 +138,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                     </div>
                     
                     <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
-                        {faixaAtual.feedback}
+                        {hasInteracted ? faixaAtual.feedback : 'Arraste para ajustar'}
                     </p>
                 </div>
 
@@ -147,7 +147,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         onClick={handleNext} 
                         size="lg" 
                         disabled={!hasInteracted || isLoading}
-                        className="bg-[#9D4C63] text-white rounded-full px-6 py-3 text-sm font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-[#9D4C63] text-white rounded-full px-8 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Avançar

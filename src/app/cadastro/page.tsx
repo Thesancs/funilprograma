@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -53,7 +54,6 @@ export default function CadastroPage() {
     setSubmittedName(values.name);
     setIsLoading(true);
     setTimeout(() => {
-      // Redirect to the quiz page
       router.push(`/quiz?nome=${encodeURIComponent(values.name)}`);
     }, 4000);
   }
@@ -74,7 +74,7 @@ export default function CadastroPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold font-headline">Crie sua conta</CardTitle>
           <CardDescription>Insira seus dados para começar.</CardDescription>

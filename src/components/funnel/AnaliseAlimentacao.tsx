@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -56,7 +57,7 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
   const input = [-150, 0, 150];
   const backgroundColor = useTransform(x, input, [
     "rgba(220, 38, 38, 0.3)",
-    "rgba(0, 0, 0, 0)",
+    "rgba(255, 255, 255, 0.1)",
     "rgba(34, 197, 94, 0.3)"
   ]);
 
@@ -112,7 +113,7 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-card text-card-foreground">
+    <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[36rem]">
           <div className="w-full text-center flex flex-col justify-center items-center h-full">
           <AnimatePresence>
@@ -187,12 +188,13 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
                   key="feedback"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center gap-8 bg-card p-6 rounded-lg"
+                  className="flex flex-col items-center gap-8 bg-transparent p-6 rounded-lg"
               >
                   <p className="text-center text-foreground text-lg sm:text-xl font-medium">{feedback}</p>
                   <Button 
                       onClick={handleNext}
                       size="lg"
+                      className="rounded-full"
                   >
                   Continuar
                   </Button>

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -53,7 +54,7 @@ export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedade
   };
 
   return (
-    <div className="w-full max-w-md mx-auto text-center">
+    <Card className="w-full max-w-md mx-auto text-center bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6">
       <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground">
          Como está sua ansiedade?
       </h2>
@@ -63,7 +64,7 @@ export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedade
             key={opcao.id}
             onClick={() => handleSelect(opcao.id)}
             className={cn(
-              "w-full p-4 rounded-xl shadow-md cursor-pointer transition-all duration-300 transform",
+              "w-full p-4 rounded-xl shadow-md cursor-pointer transition-all duration-300 transform bg-white/50",
               "hover:scale-105 hover:ring-2 hover:ring-primary",
               {
                 "ring-2 ring-primary scale-105": selecionado === opcao.id,
@@ -84,6 +85,6 @@ export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedade
             <p className="text-lg italic text-foreground/80">{frase}</p>
          </div>
       )}
-    </div>
+    </Card>
   );
 }

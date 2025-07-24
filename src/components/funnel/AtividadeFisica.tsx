@@ -88,7 +88,7 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-card text-card-foreground shadow-lg">
+    <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
         <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-6">
           Com que frequência você pratica atividade física por semana?
@@ -136,7 +136,7 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
                 onClick={handleNext} 
                 size="lg" 
                 disabled={!hasInteracted || isLoading}
-                className="bg-[#9D4C63] text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="rounded-full px-8"
             >
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Avançar

@@ -24,8 +24,8 @@ const CYCLE_PHASES = [
 ];
 const CYCLE_DURATION = CYCLE_PHASES.reduce((acc, phase) => acc + phase.duration, 0);
 const TOTAL_CYCLES = 3;
-const TOTAL_DURATION = CYCLE_DURATION * TOTAL_CYCLES; // 42 segundos de exercício
-const PRE_START_COUNTDOWN = 5; // 5 segundos antes de começar
+const TOTAL_DURATION = CYCLE_DURATION * TOTAL_CYCLES;
+const PRE_START_COUNTDOWN = 5;
 
 
 export default function RespiracaoGuiada({ nome, pontos, setPontos }: RespiracaoGuiadaProps) {
@@ -146,7 +146,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto text-center">
+    <Card className="w-full max-w-md mx-auto text-center bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
         <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
             {status === 'initial' && (
                 <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center gap-4">
@@ -163,15 +163,15 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                 </h2>
 
                 <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2 my-2">
-                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                    <div className="flex-1 bg-background/50 p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Inspire por 4 segundos</p>
                     </div>
                     <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0 hidden sm:block" />
-                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                    <div className="flex-1 bg-background/50 p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Segure por 4 segundos</p>
                     </div>
                     <ArrowRight className="h-5 w-5 text-muted-foreground shrink-0 hidden sm:block" />
-                    <div className="flex-1 bg-background p-2 rounded-lg shadow-md text-center">
+                    <div className="flex-1 bg-background/50 p-2 rounded-lg shadow-md text-center">
                         <p className="font-semibold text-sm">Expire por 6 segundos</p>
                     </div>
                 </div>
@@ -202,7 +202,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
 
             {status === 'running' && (
                 <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="flex flex-col items-center justify-center gap-8">
-                    <p className="text-sm font-medium text-[#344154]">⏳ Tempo restante: {formatTime(timeLeft)}</p>
+                    <p className="text-sm font-medium text-foreground">⏳ Tempo restante: {formatTime(timeLeft)}</p>
                     <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex items-center justify-center">
                         <motion.div
                             className='absolute rounded-full bg-primary/30 w-full h-full'
@@ -235,7 +235,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
 
             {status === 'finished' && (
                 <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="text-center">
-                <h2 className="text-xl font-medium text-[#344154]">
+                <h2 className="text-xl font-medium text-foreground">
                     🎉 Uau! Que relaxante!
                 </h2>
                 <p className="text-muted-foreground mt-2">Você se sente mais calma agora.</p>
@@ -243,7 +243,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
                     onClick={handleNext}
                     disabled={isLoading}
                     size="lg"
-                    className="rounded-full bg-[#344154] text-white px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
+                    className="rounded-full bg-primary text-primary-foreground px-8 py-6 text-base mt-6 transition-transform hover:scale-105"
                 >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Continuar
