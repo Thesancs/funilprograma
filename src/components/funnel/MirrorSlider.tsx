@@ -54,7 +54,7 @@ const estados = [
   },
   {
     nivel: 3,
-    imagem: "https://placehold.co/600x600.png",
+    imagem: "https://i.imgur.com/AQ7yAVR.jpeg",
     dataAiHint: "confident woman mirror",
     alt: "Mulher confiante com seu corpo em frente ao espelho",
     frase: "Meu corpo está criando uma vida!",
