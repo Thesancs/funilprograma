@@ -21,7 +21,7 @@ interface MirrorSliderProps {
 const estados = [
   {
     nivel: 0,
-    imagem: "https://placehold.co/600x600.png",
+    imagem: "https://i.imgur.com/AwXVYAi.png",
     dataAiHint: "insecure woman mirror",
     alt: "Mulher com postura insegura em frente ao espelho",
     frase: "Tem dias que nem me reconheço no espelho…",
