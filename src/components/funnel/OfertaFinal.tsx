@@ -33,31 +33,31 @@ const beneficios = [
 
 const depoimentos = [
   {
-    nome: "Juliana S.",
-    cidade: "São Paulo, SP",
-    trimestre: "2º Trimestre",
+    nome: "Mariana P.",
+    cidade: "Belo Horizonte, MG",
+    trimestre: "1º Trimestre",
     avaliacao: 5,
-    depoimento: "O programa mudou minha relação com a comida! Me sinto mais disposta e segura.",
-    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
-    dataAiHint: "woman portrait"
-  },
-  {
-    nome: "Carla M.",
-    cidade: "Recife, PE",
-    trimestre: "3º Trimestre",
-    avaliacao: 5,
-    depoimento: "Os exercícios de respiração me ajudaram muito com a ansiedade. Recomendo demais!",
+    depoimento: "Comecei o programa logo que descobri a gravidez e foi a melhor decisão! As dicas de alimentação me ajudaram a controlar os enjoos.",
     avatar: "https://i.imgur.com/11ScJIc.jpeg",
     dataAiHint: "woman portrait"
   },
   {
-    nome: "Fernanda L.",
-    cidade: "Curitiba, PR",
-    trimestre: "1º Trimestre",
-    avaliacao: 4,
-    depoimento: "Estava perdida com a alimentação e os treinos. O app me deu um norte e mais tranquilidade.",
+    nome: "Sofia R.",
+    cidade: "Salvador, BA",
+    trimestre: "3º Trimestre",
+    avaliacao: 5,
+    depoimento: "Estou na reta final e o programa tem sido meu porto seguro. Os exercícios de respiração são fantásticos para a ansiedade antes do parto.",
     avatar: "https://i.imgur.com/qjuaY0w.jpeg",
     dataAiHint: "happy woman"
+  },
+  {
+    nome: "Laura F.",
+    cidade: "Porto Alegre, RS",
+    trimestre: "2º Trimestre",
+    avaliacao: 5,
+    depoimento: "Nunca imaginei que pilates para gestantes pudesse ser tão bom! Me sinto mais forte e preparada. Recomendo de olhos fechados!",
+    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
+    dataAiHint: "woman portrait"
   },
 ];
 
