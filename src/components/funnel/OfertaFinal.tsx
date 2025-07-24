@@ -7,6 +7,9 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Card as UICard, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 interface OfertaFinalProps {
@@ -31,7 +34,38 @@ const beneficiosCompleto = [
   { text: "⭐ Preferência a novas atualizações", icon: Sparkles },
 ];
 
-export default function OfertaFinal({ nome, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
+const depoimentos = [
+  {
+    nome: "Mariana P.",
+    cidade: "Belo Horizonte, MG",
+    trimestre: "Mãe de primeira viagem",
+    avaliacao: 5,
+    depoimento: "O plano completo foi a melhor decisão! Tive todo o suporte que precisava, desde a dieta até os exercícios de relaxamento. Me senti muito mais segura e preparada.",
+    avatar: "https://i.imgur.com/w8kf5xT.jpeg",
+    dataAiHint: "happy mother"
+  },
+  {
+    nome: "Luiza F.",
+    cidade: "Porto Alegre, RS",
+    trimestre: "2ª Gestação",
+    avaliacao: 5,
+    depoimento: "Mesmo já tendo um filho, cada gestação é única. O programa me ajudou a organizar minha rotina e a cuidar de mim. O grupo VIP é fantástico!",
+    avatar: "https://i.imgur.com/gplExUE.jpeg",
+    dataAiHint: "smiling woman"
+  },
+  {
+    nome: "Ana Clara R.",
+    cidade: "Salvador, BA",
+    trimestre: "3º Trimestre",
+    avaliacao: 5,
+    depoimento: "Na reta final, a ansiedade estava a mil. As técnicas de respiração e o acompanhamento fizeram toda a diferença. Cheguei no parto muito mais tranquila.",
+    avatar: "https://i.imgur.com/N1aE24Z.jpeg",
+    dataAiHint: "serene woman"
+  },
+];
+
+
+export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
   
@@ -73,7 +107,7 @@ export default function OfertaFinal({ nome, ofertaExpirada, minutos, segundos }:
                 Parabéns, {nome}!
             </h1>
             <p className="mt-2 text-muted-foreground">
-                Sua jornada de cuidado te rendeu uma oferta incrível! Escolha seu plano:
+                Seus <span className="font-bold text-primary">{pontos} pontos de cuidado</span> te renderam uma oferta incrível! Escolha seu plano:
             </p>
             
             <div className="mt-6 flex flex-col md:flex-row justify-center items-stretch gap-6">
@@ -154,9 +188,48 @@ export default function OfertaFinal({ nome, ofertaExpirada, minutos, segundos }:
                 </div>
             </div>
         </div>
+
+        {/* Seção de Depoimentos */}
+        <section className="w-full flex flex-col items-center text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
+            O que as mamães do programa dizem
+            </h2>
+            <Carousel
+            opts={{
+                align: "start",
+                loop: true,
+            }}
+            className="w-full max-w-sm sm:max-w-md md:max-w-xl"
+            >
+            <CarouselContent>
+                {depoimentos.map((depoimento, index) => (
+                <CarouselItem key={index}>
+                    <div className="p-1">
+                    <UICard className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4 text-foreground">
+                        <Avatar className="w-20 h-20 border-4 border-pink-100">
+                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
+                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="text-center">
+                        <p className="font-bold text-lg">{depoimento.nome}</p>
+                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
+                        </div>
+                        <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        ))}
+                        </div>
+                        <p className="text-center text-foreground italic">"{depoimento.depoimento}"</p>
+                    </UICard>
+                    </div>
+                </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+        </section>
       </div>
     </>
   );
 }
-
-    
