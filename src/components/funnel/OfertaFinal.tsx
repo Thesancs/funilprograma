@@ -6,6 +6,10 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Zap, Shield, CreditCard, PlayCircle, Star, Clock } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 
 interface OfertaFinalProps {
   nome: string;
@@ -17,7 +21,7 @@ interface OfertaFinalProps {
 
 const PRECO_ORIGINAL = 147.90;
 const PRECO_FINAL = 37.90;
-const PONTOS_MAXIMO = 1200;
+const PONTOS_MAXIMO = 1000;
 
 const beneficios = [
   { text: "Dietas personalizadas por trimestre", icon: CheckCircle },
@@ -26,6 +30,37 @@ const beneficios = [
   { text: "Checklists e orientações semanais", icon: CheckCircle },
   { text: "Grupo VIP exclusivo", icon: Star },
 ];
+
+const depoimentos = [
+  {
+    nome: "Juliana S.",
+    cidade: "São Paulo, SP",
+    trimestre: "2º Trimestre",
+    avaliacao: 5,
+    depoimento: "O programa mudou minha relação com a comida! Me sinto mais disposta e segura.",
+    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
+    dataAiHint: "woman portrait"
+  },
+  {
+    nome: "Carla M.",
+    cidade: "Recife, PE",
+    trimestre: "3º Trimestre",
+    avaliacao: 5,
+    depoimento: "Os exercícios de respiração me ajudaram muito com a ansiedade. Recomendo demais!",
+    avatar: "https://i.imgur.com/11ScJIc.jpeg",
+    dataAiHint: "woman portrait"
+  },
+  {
+    nome: "Fernanda L.",
+    cidade: "Curitiba, PR",
+    trimestre: "1º Trimestre",
+    avaliacao: 4,
+    depoimento: "Estava perdida com a alimentação e os treinos. O app me deu um norte e mais tranquilidade.",
+    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
+    dataAiHint: "happy woman"
+  },
+];
+
 
 const calcDesconto = (pontos: number) => {
   if (pontos <= 600) return 10;
@@ -75,7 +110,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
           <h1 className="text-2xl md:text-3xl font-bold">
             Parabéns, {nome}!
           </h1>
-          <p className="mt-2">
+           <p className="mt-2 text-muted-foreground">
             Sua jornada de cuidado te rendeu uma oferta incrível!
           </p>
           <p className="font-bold text-lg text-primary my-4">
@@ -89,9 +124,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     style={{ width: `${progressPercent}%`}}
                 />
             </div>
-            {descontoPercentual >= 70 && (
-                <p className="text-xs text-center mt-2 font-medium">🔥 Desconto máximo desbloqueado: <span className="font-bold">{descontoPercentual}% OFF!</span></p>
-            )}
+            <p className="text-xs text-center mt-2 font-medium">Você desbloqueou <span className="font-bold">{descontoPercentual}% OFF!</span></p>
           </div>
 
           <div className="text-center my-4">
@@ -135,16 +168,44 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
           </div>
         </div>
 
-        <div className="hidden lg:flex w-full max-w-lg">
-            <Image 
-                src="https://placehold.co/600x800.png" 
-                alt="Mockup do Programa em um tablet"
-                width={600}
-                height={800}
-                className="rounded-2xl shadow-xl"
-                loading="lazy"
-                data-ai-hint="app mockup"
-            />
+        <div className="w-full max-w-sm sm:max-w-md">
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80 text-center">
+                🗣️ O que outras mamães estão dizendo
+            </h2>
+            <Carousel
+            opts={{
+                align: "start",
+                loop: true,
+            }}
+            className="w-full"
+            >
+            <CarouselContent>
+                {depoimentos.map((depoimento, index) => (
+                <CarouselItem key={index}>
+                    <div className="p-1">
+                    <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4 text-foreground">
+                        <Avatar className="w-20 h-20 border-4 border-pink-100">
+                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
+                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="text-center">
+                        <p className="font-bold text-lg">{depoimento.nome}</p>
+                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
+                        </div>
+                        <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        ))}
+                        </div>
+                        <p className="text-center italic">"{depoimento.depoimento}"</p>
+                    </Card>
+                    </div>
+                </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex -left-4 text-foreground bg-white/50 hover:bg-white/80" />
+            <CarouselNext className="hidden sm:flex -right-4 text-foreground bg-white/50 hover:bg-white/80" />
+            </Carousel>
         </div>
       </div>
     </>
