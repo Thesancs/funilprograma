@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress } from "@/components/ui/progress";
 
 
 interface OfertaFinalProps {
@@ -89,6 +90,9 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     ? 'Garantir Essencial por R$ 19,90' 
     : 'Garantir Completo por R$ 39,90';
 
+  const PONTOS_MAXIMO_DESCONTO = 1000;
+  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 50), 50);
+
   return (
     <>
       <div className="fixed md:hidden top-0 left-0 right-0 bg-[#9D4C63] text-white text-center py-2 z-50 shadow-lg">
@@ -103,12 +107,13 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
       <div className="w-full flex flex-col items-center justify-center gap-8 lg:gap-12 mt-12 md:mt-0">
         <div className="w-full max-w-4xl bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 md:p-8 text-center text-[#344154]">
             
-             <div className="flex justify-center mb-4" data-ai-hint="happy mother">
+             <div className="flex justify-center mb-2" data-ai-hint="happy mother">
                 <Image 
                     src="https://i.postimg.cc/sXrxmz3H/file-000000002d8c61fab07c5beac8aa5994.png"
                     alt="Mãe feliz" 
-                    width={100} 
-                    height={100} 
+                    width={100}
+                    height={100}
+                    className="w-24 h-auto"
                 />
             </div>
             
@@ -116,10 +121,23 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 Parabéns, {nome}!
             </h1>
             <p className="mt-2 text-muted-foreground">
-                Seus <span className="font-bold text-primary">{pontos} pontos de cuidado</span> te renderam uma oferta incrível! Escolha seu plano:
+                Seus <span className="font-bold text-primary">{pontos} pontos de cuidado</span> te renderam uma oferta incrível!
             </p>
+
+            <div className="mt-4 w-full max-w-sm mx-auto">
+                <p className="text-sm font-semibold text-foreground mb-1">Seu desconto: <span className="text-primary">{descontoPercentual}% OFF</span></p>
+                <Progress value={descontoPercentual * 2} className="h-2" />
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>0%</span>
+                    <span>50%</span>
+                </div>
+            </div>
             
-            <div className="mt-6 flex flex-col md:flex-row justify-center items-stretch gap-6">
+            <p className="mt-6 text-muted-foreground">
+              Escolha seu plano:
+            </p>
+
+            <div className="mt-4 flex flex-col md:flex-row justify-center items-stretch gap-6">
                 
                 {/* Plano Essencial */}
                 <div
@@ -242,3 +260,5 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
+    
