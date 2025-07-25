@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -57,18 +57,45 @@ export const getBackgroundColor = (nivel: number, returnAll = false) => {
 export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const termometroRef = useRef<HTMLDivElement>(null);
+
   const router = useRouter();
   const { toast } = useToast();
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
 
-  const handleSliderChange = (value: number) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (e.buttons !== 1) return; // Só move se o botão estiver pressionado
+
     if (!hasInteracted) {
       setHasInteracted(true);
     }
-    setNivelMedo(value);
+    
+    const rect = termometroRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const y = e.clientY;
+    const height = rect.height;
+    const top = rect.top;
+    
+    // Calcula o percentual de baixo para cima
+    const pct = 100 - ((y - top) / height) * 100;
+    const newNivel = Math.max(0, Math.min(100, Math.round(pct)));
+    
+    setNivelMedo(newNivel);
   };
+  
+  const handlePointerDown = (e: React.PointerEvent) => {
+    document.body.classList.add('lock-scroll');
+    termometroRef.current?.setPointerCapture(e.pointerId);
+    handlePointerMove(e); // Atualiza no primeiro clique
+  };
+  
+  const handlePointerUp = (e: React.PointerEvent) => {
+    document.body.classList.remove('lock-scroll');
+    termometroRef.current?.releasePointerCapture(e.pointerId);
+  };
+
 
   const handleNext = () => {
     setIsLoading(true);
@@ -88,8 +115,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     }, 1500);
   };
   
-  const pct = Math.min(nivelMedo, 100);
-  const hColuna = pct * 0.82; 
+  const hColuna = nivelMedo * 0.82; 
   const corGradiente = faixaAtual.mercúrioColor;
 
 
@@ -115,34 +141,32 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         </motion.div>
                     </AnimatePresence>
                     
-                    <div className="relative flex flex-col items-center select-none mt-2">
+                    <div 
+                      ref={termometroRef}
+                      className="relative flex flex-col items-center select-none touch-none cursor-pointer"
+                      onPointerDown={handlePointerDown}
+                      onPointerMove={handlePointerMove}
+                      onPointerUp={handlePointerUp}
+                      onPointerCancel={handlePointerUp} // Usa a mesma lógica para cancelar
+                    >
                         {/* === TUBO de VIDRO === */}
                         <div className="relative w-12 h-64 rounded-full overflow-hidden border-[5px] border-white/70 shadow-xl bg-white/10 backdrop-blur-lg">
                             {/* Reflexo lateral */}
-                            <div className="absolute inset-y-0 left-0 w-[35%] bg-white/30 opacity-30" />
+                            <div className="absolute inset-y-0 left-0 w-[35%] bg-white/30 opacity-30 pointer-events-none" />
                             {/* Coluna de mercúrio */}
-                            <div
-                                className={`absolute bottom-0 left-0 w-full transition-[height] duration-300 bg-gradient-to-t ${corGradiente}`}
+                            <motion.div
+                                className={cn("absolute bottom-0 left-0 w-full bg-gradient-to-t pointer-events-none", corGradiente)}
                                 style={{ height: `${hColuna}%` }}
+                                transition={{ duration: 0.2, ease: "easeOut" }}
                             />
                         </div>
 
                         {/* === BULBO === */}
-                        <div className={`w-20 h-20 -mt-6 rounded-full border-[6px] border-white/70 shadow-inner bg-gradient-to-br ${corGradiente} ${nivelMedo >= 67 ? 'animate-pulse' : ''}`} />
-
-                        {/* === SLIDER invisível cobre tudo === */}
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={nivelMedo}
-                            onChange={(e)=> handleSliderChange(+e.target.value)}
-                            className="absolute inset-0 opacity-0 naked cursor-pointer"
-                            aria-label="Nível de medo"
-                            onPointerDown={()=>document.body.classList.add('lock-scroll')}
-                            onPointerUp  ={()=>document.body.classList.remove('lock-scroll')}
-                            onPointerCancel={()=>document.body.classList.remove('lock-scroll')}
-                        />
+                        <div className={cn(
+                          "w-20 h-20 -mt-6 rounded-full border-[6px] border-white/70 shadow-inner pointer-events-none bg-gradient-to-br",
+                           corGradiente,
+                           nivelMedo >= 67 ? 'animate-pulse' : ''
+                        )} />
                     </div>
                     
                     <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
