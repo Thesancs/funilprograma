@@ -29,6 +29,9 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
     }
     setLitros(parseFloat(event.target.value));
   };
+
+  const lockScroll = () => document.body.classList.add('lock-scroll');
+  const unlockScroll = () => document.body.classList.remove('lock-scroll');
   
   const nivelPercent = ((litros - 0.5) / (5.0 - 0.5)) * 100;
 
@@ -78,17 +81,22 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
                 />
             </div>
             
-            <input
-              type="range"
-              min={0.5}
-              max={5.0}
-              step={0.1}
-              value={litros}
-              onChange={handleSliderChange}
-              className="h-72 w-4 cursor-pointer appearance-none bg-transparent accent-primary [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-primary/20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
-              style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
-              aria-label="Quantidade de água em litros"
-            />
+            <div className="h-72 w-4 touch-none overscroll-contain">
+              <input
+                type="range"
+                min={0.5}
+                max={5.0}
+                step={0.1}
+                value={litros}
+                onChange={handleSliderChange}
+                onPointerDown={lockScroll}
+                onPointerUp={unlockScroll}
+                onPointerCancel={unlockScroll}
+                className="h-full w-full cursor-pointer appearance-none bg-transparent accent-primary [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-primary/20 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+                style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)' }}
+                aria-label="Quantidade de água em litros"
+              />
+            </div>
              
             <div className="relative h-72 w-12 text-xs text-muted-foreground">
                 <span className="absolute -top-6 text-foreground font-bold text-lg">{litros.toFixed(1)} L</span>

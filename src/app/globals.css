@@ -86,3 +86,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.lock-scroll, .lock-scroll * {
+  touch-action: none !important;
+}
+html.lock-scroll,
+body.lock-scroll {
+  overflow: hidden;
+}
