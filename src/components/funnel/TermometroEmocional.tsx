@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -58,51 +58,52 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const termometroRef = useRef<HTMLDivElement>(null);
-
+  const bulboRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { toast } = useToast();
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    if (e.buttons !== 1) return; // Só move se o botão estiver pressionado
-
-    if (!hasInteracted) {
-      setHasInteracted(true);
-    }
+  const updateNivelFromY = useCallback((y: number) => {
+    if (!termometroRef.current || !bulboRef.current) return;
     
-    const rect = termometroRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    const rect = termometroRef.current.getBoundingClientRect();
+    const bulboHeight = bulboRef.current.offsetHeight;
+    const trackHeight = rect.height - bulboHeight;
     
-    const y = e.clientY;
-    const height = rect.height;
-    const top = rect.top;
+    // Posição Y relativa ao topo do "trilho" (tubo)
+    let relativeY = y - rect.top;
     
-    // Calcula o percentual de baixo para cima
-    const pct = 100 - ((y - top) / height) * 100;
-    const newNivel = Math.max(0, Math.min(100, Math.round(pct)));
+    // Invertemos o cálculo: 0 no topo, trackHeight na base
+    let newNivel = 100 - (relativeY / trackHeight) * 100;
     
-    setNivelMedo(newNivel);
-  };
+    // Clamping para garantir que o valor fique entre 0 e 100
+    setNivelMedo(Math.max(0, Math.min(100, Math.round(newNivel))));
+  }, [setNivelMedo]);
   
-  const handlePointerDown = (e: React.PointerEvent) => {
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    if (!hasInteracted) setHasInteracted(true);
     document.body.classList.add('lock-scroll');
-    termometroRef.current?.setPointerCapture(e.pointerId);
-    handlePointerMove(e); // Atualiza no primeiro clique
-  };
-  
-  const handlePointerUp = (e: React.PointerEvent) => {
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    updateNivelFromY(e.clientY);
+  }, [hasInteracted, updateNivelFromY]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if ((e.target as HTMLElement).hasPointerCapture(e.pointerId)) {
+      updateNivelFromY(e.clientY);
+    }
+  }, [updateNivelFromY]);
+
+  const handlePointerUp = useCallback((e: React.PointerEvent) => {
     document.body.classList.remove('lock-scroll');
-    termometroRef.current?.releasePointerCapture(e.pointerId);
-  };
-
-
+    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+  }, []);
+  
   const handleNext = () => {
     setIsLoading(true);
     const pontosGanhos = 100;
     const newPoints = pontos + pontosGanhos;
     setPontos(newPoints);
-    console.log('[TermometroEmocional]', nivelMedo);
 
     toast({
         title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
@@ -115,8 +116,8 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     }, 1500);
   };
   
-  const hColuna = nivelMedo * 0.82; 
   const corGradiente = faixaAtual.mercúrioColor;
+  const bulboBottom = `calc(${nivelMedo}% - 2.5rem)`; // nivelMedo% - (alturaDoBulbo / 2)
 
 
   return (
@@ -141,36 +142,37 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         </motion.div>
                     </AnimatePresence>
                     
-                    <div 
-                      ref={termometroRef}
-                      className="relative flex flex-col items-center select-none touch-none cursor-pointer"
-                      onPointerDown={handlePointerDown}
-                      onPointerMove={handlePointerMove}
-                      onPointerUp={handlePointerUp}
-                      onPointerCancel={handlePointerUp} // Usa a mesma lógica para cancelar
-                    >
+                    <div ref={termometroRef} className="relative w-12 h-64 cursor-pointer select-none touch-none">
                         {/* === TUBO de VIDRO === */}
-                        <div className="relative w-12 h-64 rounded-full overflow-hidden border-[5px] border-white/70 shadow-xl bg-white/10 backdrop-blur-lg">
+                        <div className="relative w-full h-full rounded-full overflow-hidden border-[5px] border-white/70 shadow-xl bg-white/10 backdrop-blur-lg">
                             {/* Reflexo lateral */}
                             <div className="absolute inset-y-0 left-0 w-[35%] bg-white/30 opacity-30 pointer-events-none" />
                             {/* Coluna de mercúrio */}
                             <motion.div
                                 className={cn("absolute bottom-0 left-0 w-full bg-gradient-to-t pointer-events-none", corGradiente)}
-                                style={{ height: `${hColuna}%` }}
-                                transition={{ duration: 0.2, ease: "easeOut" }}
+                                style={{ height: `${nivelMedo}%` }}
+                                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                             />
                         </div>
 
-                        {/* === BULBO === */}
-                        <div className={cn(
-                          "w-20 h-20 -mt-6 rounded-full border-[6px] border-white/70 shadow-inner pointer-events-none bg-gradient-to-br",
-                           corGradiente,
-                           nivelMedo >= 67 ? 'animate-pulse' : ''
-                        )} />
+                         {/* === BULBO ARRASTÁVEL === */}
+                        <div
+                            ref={bulboRef}
+                            className={cn(
+                              "absolute left-1/2 -translate-x-1/2 w-20 h-20 rounded-full border-[6px] border-white/70 shadow-inner bg-gradient-to-br z-10",
+                              corGradiente,
+                              nivelMedo >= 67 ? 'animate-pulse' : ''
+                            )}
+                            style={{ bottom: bulboBottom }}
+                            onPointerDown={handlePointerDown}
+                            onPointerMove={handlePointerMove}
+                            onPointerUp={handlePointerUp}
+                            onPointerCancel={handlePointerUp}
+                         />
                     </div>
                     
                     <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
-                        {hasInteracted ? faixaAtual.feedback : 'Arraste para ajustar'}
+                        {hasInteracted ? faixaAtual.feedback : 'Arraste o círculo para ajustar'}
                     </p>
                 </div>
 
@@ -190,3 +192,4 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     </div>
   );
 }
+
