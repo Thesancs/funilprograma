@@ -88,7 +88,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     }, 1500);
   };
   
-  const coluna = Math.min(nivelMedo, 100) * 0.85;
+  const coluna = Math.min(nivelMedo, 100);
 
   return (
      <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
@@ -113,10 +113,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                     </AnimatePresence>
                     
                      <div
-                        className="relative flex items-center h-80"
-                        onPointerDown={() => document.body.classList.add('lock-scroll')}
-                        onPointerUp={() => document.body.classList.remove('lock-scroll')}
-                        onPointerCancel={() => document.body.classList.remove('lock-scroll')}
+                        className="relative flex flex-col items-center"
                     >
                         {/* === Tubo === */}
                         <div className="relative w-8 h-64 bg-gray-200 rounded-full border-[4px] border-gray-400 overflow-hidden">
@@ -129,8 +126,8 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                             />
                         </div>
 
-                        {/* === Bulbo === */}
-                        <div className={cn('w-14 h-14 -ml-3 rounded-full border-[6px] border-gray-400 shadow-inner', faixaAtual.mercúrioColor, nivelMedo >= 67 && "animate-pulse")} />
+                        {/* === Bulbo Fixo === */}
+                        <div className={cn('w-14 h-14 -mt-4 rounded-full border-[6px] border-gray-400 shadow-inner', faixaAtual.mercúrioColor, nivelMedo >= 67 && "animate-pulse")} />
                         
                         {/* Slider invisível sobreposto */}
                         <input
@@ -140,7 +137,10 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                             step={1}
                             value={nivelMedo}
                             onChange={handleSliderChange}
-                            className="absolute inset-0 opacity-0 w-14 h-80 cursor-pointer"
+                            onPointerDown={() => document.body.classList.add('lock-scroll')}
+                            onPointerUp={() => document.body.classList.remove('lock-scroll')}
+                            onPointerCancel={() => document.body.classList.remove('lock-scroll')}
+                            className="absolute inset-0 opacity-0 naked cursor-pointer"
                             aria-label="Nível de medo"
                         />
                     </div>

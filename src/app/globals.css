@@ -94,3 +94,15 @@ html.lock-scroll,
 body.lock-scroll {
   overflow: hidden;
 }
+
+input[type='range'].naked {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+input[type='range'].naked::-webkit-slider-thumb,
+input[type='range'].naked::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+}
