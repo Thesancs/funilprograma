@@ -23,21 +23,21 @@ const faixas = {
     emoji: "😌",
     feedback: "Está tudo bem, continue respirando.",
     bgColor: "bg-emerald-100",
-    mercúrioColor: "bg-emerald-400",
+    mercúrioColor: "from-emerald-300 to-emerald-500",
     textColor: "text-emerald-900",
   },
   medio: {
     emoji: "😬",
     feedback: "Entendemos; vamos equilibrar juntas.",
     bgColor: "bg-amber-100",
-    mercúrioColor: "bg-amber-400",
+    mercúrioColor: "from-amber-300 to-amber-500",
     textColor: "text-amber-900",
   },
   alto: {
     emoji: "😱",
     feedback: "Você não está sozinha. Vamos te apoiar.",
     bgColor: "bg-rose-100",
-    mercúrioColor: "bg-rose-500",
+    mercúrioColor: "from-rose-400 to-rose-600",
     textColor: "text-rose-900",
   }
 };
@@ -63,11 +63,11 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
 
-  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (value: number) => {
     if (!hasInteracted) {
       setHasInteracted(true);
     }
-    setNivelMedo(parseInt(event.target.value));
+    setNivelMedo(value);
   };
 
   const handleNext = () => {
@@ -88,12 +88,15 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     }, 1500);
   };
   
-  const coluna = Math.min(nivelMedo, 100);
+  const pct = Math.min(nivelMedo, 100);
+  const hColuna = pct * 0.82; 
+  const corGradiente = faixaAtual.mercúrioColor;
+
 
   return (
      <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
         <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
-            <CardContent className="p-4 flex flex-col items-center justify-center">
+            <CardContent className="p-4 pt-6 flex flex-col items-center justify-center">
                 <h2 className={cn("text-lg font-semibold mb-2 text-card-foreground")}>
                     😨 Como está o seu medo hoje?
                 </h2>
@@ -112,36 +115,33 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         </motion.div>
                     </AnimatePresence>
                     
-                     <div
-                        className="relative flex flex-col items-center"
-                    >
-                        {/* === Tubo === */}
-                        <div className="relative w-8 h-64 bg-gray-200 rounded-full border-[4px] border-gray-400 overflow-hidden">
-                            {/* Mercúrio */}
-                            <motion.div
-                                className={cn('absolute bottom-0 left-0 w-full', faixaAtual.mercúrioColor)}
-                                initial={{ height: 0 }}
-                                animate={{ height: `${coluna}%` }}
-                                transition={{ duration: 0.5, ease: "easeOut" }}
+                    <div className="relative flex flex-col items-center select-none mt-2">
+                        {/* === TUBO de VIDRO === */}
+                        <div className="relative w-12 h-64 rounded-full overflow-hidden border-[5px] border-white/70 shadow-xl bg-white/10 backdrop-blur-lg">
+                            {/* Reflexo lateral */}
+                            <div className="absolute inset-y-0 left-0 w-[35%] bg-white/30 opacity-30" />
+                            {/* Coluna de mercúrio */}
+                            <div
+                                className={`absolute bottom-0 left-0 w-full transition-[height] duration-300 bg-gradient-to-t ${corGradiente}`}
+                                style={{ height: `${hColuna}%` }}
                             />
                         </div>
 
-                        {/* === Bulbo Fixo === */}
-                        <div className={cn('w-14 h-14 -mt-4 rounded-full border-[6px] border-gray-400 shadow-inner', faixaAtual.mercúrioColor, nivelMedo >= 67 && "animate-pulse")} />
-                        
-                        {/* Slider invisível sobreposto */}
+                        {/* === BULBO === */}
+                        <div className={`w-20 h-20 -mt-6 rounded-full border-[6px] border-white/70 shadow-inner bg-gradient-to-br ${corGradiente} ${nivelMedo >= 67 ? 'animate-pulse' : ''}`} />
+
+                        {/* === SLIDER invisível cobre tudo === */}
                         <input
                             type="range"
-                            min={0}
-                            max={100}
-                            step={1}
+                            min="0"
+                            max="100"
                             value={nivelMedo}
-                            onChange={handleSliderChange}
-                            onPointerDown={() => document.body.classList.add('lock-scroll')}
-                            onPointerUp={() => document.body.classList.remove('lock-scroll')}
-                            onPointerCancel={() => document.body.classList.remove('lock-scroll')}
+                            onChange={(e)=> handleSliderChange(+e.target.value)}
                             className="absolute inset-0 opacity-0 naked cursor-pointer"
                             aria-label="Nível de medo"
+                            onPointerDown={()=>document.body.classList.add('lock-scroll')}
+                            onPointerUp  ={()=>document.body.classList.remove('lock-scroll')}
+                            onPointerCancel={()=>document.body.classList.remove('lock-scroll')}
                         />
                     </div>
                     
