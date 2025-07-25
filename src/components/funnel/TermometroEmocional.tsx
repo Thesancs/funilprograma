@@ -22,23 +22,23 @@ const faixas = {
   baixo: {
     emoji: "😌",
     feedback: "Está tudo bem, continue respirando.",
-    bgColor: "bg-[#344154]",
-    mercúrioColor: "bg-blue-300",
-    textColor: "text-white",
+    bgColor: "bg-emerald-100",
+    mercúrioColor: "bg-emerald-400",
+    textColor: "text-emerald-900",
   },
   medio: {
     emoji: "😬",
     feedback: "Entendemos; vamos equilibrar juntas.",
-    bgColor: "bg-[#F4D35E]",
-    mercúrioColor: "bg-yellow-300",
-    textColor: "text-gray-800",
+    bgColor: "bg-amber-100",
+    mercúrioColor: "bg-amber-400",
+    textColor: "text-amber-900",
   },
   alto: {
     emoji: "😱",
     feedback: "Você não está sozinha. Vamos te apoiar.",
-    bgColor: "bg-[#B16262]",
-    mercúrioColor: "bg-red-300",
-    textColor: "text-white",
+    bgColor: "bg-rose-100",
+    mercúrioColor: "bg-rose-500",
+    textColor: "text-rose-900",
   }
 };
 
@@ -67,9 +67,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     if (!hasInteracted) {
       setHasInteracted(true);
     }
-    // O input vertical 'vertical-lr' inverte os valores (0 é em cima, 100 é embaixo).
-    // Invertemos aqui para que o estado `nivelMedo` reflita a lógica correta (0-100 de baixo para cima).
-    setNivelMedo(100 - parseInt(event.target.value));
+    setNivelMedo(parseInt(event.target.value));
   };
 
   const handleNext = () => {
@@ -89,9 +87,8 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
       router.push(`/plano?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
-
-  // O valor do input precisa ser invertido de volta para corresponder à sua orientação visual.
-  const sliderValue = 100 - nivelMedo;
+  
+  const coluna = Math.min(nivelMedo, 100) * 0.85;
 
   return (
      <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
@@ -101,7 +98,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                     😨 Como está o seu medo hoje?
                 </h2>
 
-                <div className="flex flex-col items-center justify-center gap-2 w-full">
+                <div className="flex flex-col items-center justify-center gap-2 w-full my-4">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={faixaAtual.emoji}
@@ -115,24 +112,35 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         </motion.div>
                     </AnimatePresence>
                     
-                    <div className="relative w-8 h-48">
-                        <div className="absolute inset-0 w-full h-full rounded-full bg-gray-200 border border-[#344154]/40 overflow-hidden">
-                            <motion.div 
-                                className={cn("absolute bottom-0 left-0 w-full", faixaAtual.mercúrioColor)}
-                                initial={{ height: "0%" }}
-                                animate={{ height: `${nivelMedo}%` }}
+                     <div
+                        className="relative flex items-center h-80"
+                        onPointerDown={() => document.body.classList.add('lock-scroll')}
+                        onPointerUp={() => document.body.classList.remove('lock-scroll')}
+                        onPointerCancel={() => document.body.classList.remove('lock-scroll')}
+                    >
+                        {/* === Tubo === */}
+                        <div className="relative w-8 h-64 bg-gray-200 rounded-full border-[4px] border-gray-400 overflow-hidden">
+                            {/* Mercúrio */}
+                            <motion.div
+                                className={cn('absolute bottom-0 left-0 w-full', faixaAtual.mercúrioColor)}
+                                initial={{ height: 0 }}
+                                animate={{ height: `${coluna}%` }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
                             />
                         </div>
+
+                        {/* === Bulbo === */}
+                        <div className={cn('w-14 h-14 -ml-3 rounded-full border-[6px] border-gray-400 shadow-inner', faixaAtual.mercúrioColor, nivelMedo >= 67 && "animate-pulse")} />
+                        
+                        {/* Slider invisível sobreposto */}
                         <input
                             type="range"
-                            min="0"
-                            max="100"
-                            step="1"
-                            value={sliderValue}
+                            min={0}
+                            max={100}
+                            step={1}
+                            value={nivelMedo}
                             onChange={handleSliderChange}
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            style={{ writingMode: 'vertical-lr' }}
+                            className="absolute inset-0 opacity-0 w-14 h-80 cursor-pointer"
                             aria-label="Nível de medo"
                         />
                     </div>
