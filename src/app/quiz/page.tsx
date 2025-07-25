@@ -50,13 +50,14 @@ function QuizContent() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#D9A8B6] to-background p-4 gap-8">
+    <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#D9A8B6] to-background p-4">
       <QuizProgressRibbon
         stepIndex={stepIndex}
         totalSteps={totalSteps}
         bonusStep={bonusStep}
         stepLabels={stepLabels}
       />
+      <div className="h-[60px] md:h-[70px] w-full" />
       <div className="w-full max-w-md mx-auto">
         <div className="w-full flex justify-end items-center mb-4">
              <Card className="flex items-center gap-2 text-foreground font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg">

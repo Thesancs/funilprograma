@@ -26,6 +26,7 @@ function QuizSonoContent() {
         bonusStep={bonusStep}
         stepLabels={stepLabels}
       />
+       <div className="h-[60px] md:h-[70px] w-full" />
       <QuizSono nome={nome} pontos={pontos} setPontos={setPontos} />
     </>
   );

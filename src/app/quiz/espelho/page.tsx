@@ -24,7 +24,7 @@ function EspelhoContent() {
 
     return (
         <main className={cn(
-            "flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-500 overflow-hidden gap-8",
+            "flex min-h-screen flex-col items-center p-4 transition-colors duration-500 overflow-hidden",
             bgColor
         )}>
             <QuizProgressRibbon
@@ -33,8 +33,9 @@ function EspelhoContent() {
               bonusStep={bonusStep}
               stepLabels={stepLabels}
             />
+             <div className="h-[60px] md:h-[70px] w-full" />
            <div className="w-full max-w-lg mx-auto flex flex-col gap-4">
-                <div className="w-full flex justify-end items-center sticky top-4 z-20 pr-4">
+                <div className="w-full flex justify-end items-center sticky top-[70px] md:top-[80px] z-20 pr-4">
                     <div className={cn(
                         "flex items-center gap-2 font-semibold bg-white/60 backdrop-blur-sm p-2 rounded-full shadow-lg",
                          "text-foreground"
