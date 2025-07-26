@@ -91,21 +91,13 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
   const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 50), 50);
 
   const precos = {
-    essencial: { original: 39.80, final: 19.90 },
-    completo: { original: 79.80, final: 39.90 },
+    essencial: { original: "39,80", final: "19,90" },
+    completo: { original: "79,80", final: "39,90" },
   };
-
-  const calcularPrecoComDesconto = (precoOriginal: number) => {
-    const valorDesconto = (precoOriginal * descontoPercentual) / 100;
-    return (precoOriginal - valorDesconto).toFixed(2).replace('.', ',');
-  };
-
-  const precoFinalEssencial = calcularPrecoComDesconto(precos.essencial.original);
-  const precoFinalCompleto = calcularPrecoComDesconto(precos.completo.original);
 
   const ctaText = selectedPlan === 'essencial' 
-    ? `Garantir Essencial por R$ ${precoFinalEssencial}` 
-    : `Garantir Completo por R$ ${precoFinalCompleto}`;
+    ? `Garantir Essencial por R$ ${precos.essencial.final}` 
+    : `Garantir Completo por R$ ${precos.completo.final}`;
 
 
   return (
@@ -205,8 +197,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     </ul>
                     <div className="mt-auto">
                          <div className="flex items-end gap-2">
-                           <p className="text-3xl font-bold text-pink-600">R$ {precoFinalEssencial}</p>
-                           <p className="text-muted-foreground line-through">R$ {precos.essencial.original.toFixed(2).replace('.',',')}</p>
+                           <p className="text-3xl font-bold text-pink-600">R$ {precos.essencial.final}</p>
+                           <p className="text-muted-foreground line-through">R$ {precos.essencial.original}</p>
                         </div>
                     </div>
                 </div>
@@ -233,8 +225,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     </ul>
                      <div className="mt-auto">
                          <div className="flex items-end gap-2">
-                           <p className="text-3xl font-bold text-pink-600">R$ {precoFinalCompleto}</p>
-                           <p className="text-muted-foreground line-through">R$ {precos.completo.original.toFixed(2).replace('.',',')}</p>
+                           <p className="text-3xl font-bold text-pink-600">R$ {precos.completo.final}</p>
+                           <p className="text-muted-foreground line-through">R$ {precos.completo.original}</p>
                          </div>
                     </div>
                 </div>
