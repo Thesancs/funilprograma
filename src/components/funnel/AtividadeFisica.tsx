@@ -7,14 +7,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
 interface AtividadeFisicaProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const atividades = [
@@ -49,13 +47,13 @@ const getPontosParaValor = (valor: number) => {
   return 200;
 };
 
-export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFisicaProps) {
+export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
   const [frequencia, setFrequencia] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   const atividadeAtual = useMemo(() => getAtividadeParaValor(frequencia), [frequencia]);
   const feedbackAtual = useMemo(() => getFeedbackParaValor(frequencia), [frequencia]);
@@ -70,17 +68,8 @@ export default function AtividadeFisica({ nome, pontos, setPontos }: AtividadeFi
   const handleNext = () => {
     setIsLoading(true);
     const pontosGanhos = getPontosParaValor(frequencia);
-    const newPoints = pontos + pontosGanhos;
-    setPontos(newPoints);
+    const newPoints = addPoints(pontosGanhos);
     console.log('[AtividadeFisica]', frequencia);
-
-    if (pontosGanhos > 0) {
-        toast({
-            title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
-            description: "Seu corpo agradece o movimento.",
-            duration: 3000,
-        });
-    }
 
     setTimeout(() => {
       router.push(`/quiz/espelho?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

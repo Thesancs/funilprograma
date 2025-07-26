@@ -5,13 +5,11 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 
 type OpcaoAnsiedade = "alta" | "media" | "baixa";
 interface QuizAnsiedadeProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const frasesEmpaticas = {
@@ -26,11 +24,11 @@ const opcoes = [
   { id: 'baixa', emoji: '😌', label: 'Baixa, estou tranquila' },
 ] as const;
 
-export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedadeProps) {
+export default function QuizAnsiedade({ nome }: QuizAnsiedadeProps) {
   const [selecionado, setSelecionado] = useState<OpcaoAnsiedade | null>(null);
   const [frase, setFrase] = useState("");
   const router = useRouter();
-  const { toast } = useToast();
+  const { addPoints } = useQuiz();
 
   const handleSelect = (opcao: OpcaoAnsiedade) => {
     if (selecionado) return; // Previne múltiplas seleções
@@ -39,13 +37,7 @@ export default function QuizAnsiedade({ nome, pontos, setPontos }: QuizAnsiedade
     setSelecionado(opcao);
     setFrase(frasesEmpaticas[opcao]);
     
-    const newPoints = pontos + 50;
-    setPontos(newPoints);
-    toast({
-        title: "✨ +50 Pontos de Cuidado!",
-        description: "Cuidar das suas emoções é fundamental.",
-        duration: 2000,
-    });
+    const newPoints = addPoints(50);
 
     setTimeout(() => {
       console.log('Navegando para a proxima etapa...');

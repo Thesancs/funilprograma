@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,15 +11,15 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function AtividadeFisicaContent() {
     const searchParams = useSearchParams();
-    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, setInitialPontos } = useQuiz();
 
     useEffect(() => {
         setStep(7);
-    }, [setStep]);
+        const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+        setInitialPontos(initialPontos);
+    }, [setStep, searchParams, setInitialPontos]);
 
-    const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
-    const [pontos, setPontos] = useState(initialPontos);
 
     return (
         <main className={cn("flex min-h-screen flex-col items-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500 overflow-hidden")}>
@@ -37,7 +37,7 @@ function AtividadeFisicaContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <AtividadeFisica nome={nome} pontos={pontos} setPontos={setPontos} />
+                <AtividadeFisica nome={nome} />
             </div>
         </main>
     );

@@ -11,15 +11,15 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function TermometroEmocionalContent() {
     const searchParams = useSearchParams();
-    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, setInitialPontos } = useQuiz();
 
     useEffect(() => {
         setStep(9);
-    }, [setStep]);
+        const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+        setInitialPontos(initialPontos);
+    }, [setStep, searchParams, setInitialPontos]);
 
-    const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
-    const [pontos, setPontos] = useState(initialPontos);
     const [nivelMedo, setNivelMedo] = useState(0);
 
     const faixa = getBackgroundColor(nivelMedo, true);
@@ -47,8 +47,6 @@ function TermometroEmocionalContent() {
                 </div>
                 <TermometroEmocional
                     nome={nome}
-                    pontos={pontos} 
-                    setPontos={setPontos}
                     nivelMedo={nivelMedo}
                     setNivelMedo={setNivelMedo} 
                 />

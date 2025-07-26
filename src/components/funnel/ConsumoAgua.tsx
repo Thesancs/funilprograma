@@ -6,22 +6,20 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 
 interface ConsumoAguaProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProps) {
+export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
   const [litros, setLitros] = useState(2.5);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!hasInteracted) {
@@ -41,16 +39,8 @@ export default function ConsumoAgua({ nome, pontos, setPontos }: ConsumoAguaProp
 
   const handleNext = () => {
     setIsLoading(true);
-    const pontosGanhos = 100;
-    const newPoints = pontos + pontosGanhos;
-    setPontos(newPoints);
+    const newPoints = addPoints(100);
     console.log('[ConsumoAgua]', litros);
-
-    toast({
-      title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
-      description: "Manter-se hidratada é fundamental.",
-      duration: 3000,
-    });
 
     setTimeout(() => {
       router.push(`/quiz/atividade-fisica?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

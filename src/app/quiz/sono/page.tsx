@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import QuizSono from '@/components/funnel/QuizSono';
 import { useQuiz } from '@/contexts/QuizContext';
@@ -8,15 +9,15 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function QuizSonoContent() {
   const searchParams = useSearchParams();
-  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, setInitialPontos } = useQuiz();
 
   useEffect(() => {
     setStep(1);
-  }, [setStep]);
+    const initialPontos = parseInt(searchParams.get('pontos') || '150', 10);
+    setInitialPontos(initialPontos);
+  }, [setStep, searchParams, setInitialPontos]);
 
-  const initialPontos = parseInt(searchParams.get('pontos') || '150', 10);
   const nome = searchParams.get('nome') || 'Mamãe';
-  const [pontos, setPontos] = useState(initialPontos);
 
   return (
     <>
@@ -27,7 +28,7 @@ function QuizSonoContent() {
         stepLabels={stepLabels}
       />
        <div className="h-[60px] md:h-[70px] w-full" />
-      <QuizSono nome={nome} pontos={pontos} setPontos={setPontos} />
+      <QuizSono nome={nome} />
     </>
   );
 }

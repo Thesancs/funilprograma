@@ -1,19 +1,17 @@
 
 "use client";
 
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface TermometroEmocionalProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
   nivelMedo: number;
   setNivelMedo: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -54,30 +52,23 @@ export const getBackgroundColor = (nivel: number, returnAll = false) => {
     return faixa.bgColor;
 }
 
-export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
+export default function TermometroEmocional({ nome, nivelMedo, setNivelMedo }: TermometroEmocionalProps) {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const termometroRef = useRef<HTMLDivElement>(null);
-  const bulboRef = useRef<HTMLDivElement>(null);
+  
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
 
   const updateNivelFromY = useCallback((y: number) => {
-    if (!termometroRef.current || !bulboRef.current) return;
+    if (!termometroRef.current) return;
     
     const rect = termometroRef.current.getBoundingClientRect();
-    const bulboHeight = bulboRef.current.offsetHeight;
-    const trackHeight = rect.height - bulboHeight;
-    
-    // Posição Y relativa ao topo do "trilho" (tubo)
     let relativeY = y - rect.top;
+    let newNivel = 100 - (relativeY / rect.height) * 100;
     
-    // Invertemos o cálculo: 0 no topo, trackHeight na base
-    let newNivel = 100 - (relativeY / trackHeight) * 100;
-    
-    // Clamping para garantir que o valor fique entre 0 e 100
     setNivelMedo(Math.max(0, Math.min(100, Math.round(newNivel))));
   }, [setNivelMedo]);
   
@@ -101,15 +92,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
   
   const handleNext = () => {
     setIsLoading(true);
-    const pontosGanhos = 100;
-    const newPoints = pontos + pontosGanhos;
-    setPontos(newPoints);
-
-    toast({
-        title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
-        description: "Suas emoções são importantes.",
-        duration: 3000,
-    });
+    const newPoints = addPoints(100);
 
     setTimeout(() => {
       router.push(`/plano?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
@@ -117,11 +100,18 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
   };
   
   const corGradiente = faixaAtual.mercúrioColor;
-  const bulboBottom = `calc(${nivelMedo}% - 2.5rem)`; // nivelMedo% - (alturaDoBulbo / 2)
+  const hColuna = nivelMedo * 0.82;
 
 
   return (
-     <div className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center">
+     <div 
+        ref={termometroRef}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        className="w-full max-w-sm mx-auto flex flex-col items-center justify-center text-center touch-none select-none"
+      >
         <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
             <CardContent className="p-4 pt-6 flex flex-col items-center justify-center">
                 <h2 className={cn("text-lg font-semibold mb-2 text-card-foreground")}>
@@ -142,7 +132,7 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                         </motion.div>
                     </AnimatePresence>
                     
-                    <div ref={termometroRef} className="relative w-12 h-64 cursor-pointer select-none touch-none">
+                     <div className="relative w-12 h-64">
                         {/* === TUBO de VIDRO === */}
                         <div className="relative w-full h-full rounded-full overflow-hidden border-[5px] border-white/70 shadow-xl bg-white/10 backdrop-blur-lg">
                             {/* Reflexo lateral */}
@@ -150,29 +140,23 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
                             {/* Coluna de mercúrio */}
                             <motion.div
                                 className={cn("absolute bottom-0 left-0 w-full bg-gradient-to-t pointer-events-none", corGradiente)}
-                                style={{ height: `${nivelMedo}%` }}
+                                style={{ height: `${hColuna}%` }}
                                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                             />
                         </div>
 
-                         {/* === BULBO ARRASTÁVEL === */}
-                        <div
-                            ref={bulboRef}
+                         {/* === BULBO === */}
+                         <div
                             className={cn(
-                              "absolute left-1/2 -translate-x-1/2 w-20 h-20 rounded-full border-[6px] border-white/70 shadow-inner bg-gradient-to-br z-10",
+                              "absolute left-1/2 -translate-x-1/2 -bottom-2.5 w-20 h-20 rounded-full border-[6px] border-white/70 shadow-inner bg-gradient-to-br z-10",
                               corGradiente,
                               nivelMedo >= 67 ? 'animate-pulse' : ''
                             )}
-                            style={{ bottom: bulboBottom }}
-                            onPointerDown={handlePointerDown}
-                            onPointerMove={handlePointerMove}
-                            onPointerUp={handlePointerUp}
-                            onPointerCancel={handlePointerUp}
                          />
                     </div>
                     
                     <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
-                        {hasInteracted ? faixaAtual.feedback : 'Arraste o círculo para ajustar'}
+                        {hasInteracted ? faixaAtual.feedback : 'Arraste o termômetro para ajustar'}
                     </p>
                 </div>
 
@@ -192,4 +176,3 @@ export default function TermometroEmocional({ nome, pontos, setPontos, nivelMedo
     </div>
   );
 }
-

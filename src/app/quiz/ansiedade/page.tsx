@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import QuizAnsiedade from '@/components/funnel/QuizAnsiedade';
 import { Heart } from 'lucide-react';
@@ -12,15 +12,15 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function QuizAnsiedadeContent() {
   const searchParams = useSearchParams();
-  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, setInitialPontos } = useQuiz();
 
   useEffect(() => {
     setStep(2);
-  }, [setStep]);
+    const initialPontos = parseInt(searchParams.get('pontos') || '250', 10);
+    setInitialPontos(initialPontos);
+  }, [setStep, searchParams, setInitialPontos]);
 
-  const initialPontos = parseInt(searchParams.get('pontos') || '250', 10);
   const nome = searchParams.get('nome') || 'Mamãe';
-  const [pontos, setPontos] = useState(initialPontos);
 
   return (
     <main className={cn("flex min-h-screen flex-col items-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500")}>
@@ -36,7 +36,7 @@ function QuizAnsiedadeContent() {
         <span>Pontos de cuidado: {pontos}</span>
       </div>
       <div className="flex-1 flex items-center justify-center w-full">
-        <QuizAnsiedade nome={nome} pontos={pontos} setPontos={setPontos} />
+        <QuizAnsiedade nome={nome} />
       </div>
     </main>
   );

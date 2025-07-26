@@ -11,15 +11,15 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 
 function EspelhoContent() {
     const searchParams = useSearchParams();
-    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+    const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, setInitialPontos } = useQuiz();
 
     useEffect(() => {
         setStep(8);
-    }, [setStep]);
+        const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
+        setInitialPontos(initialPontos);
+    }, [setStep, searchParams, setInitialPontos]);
 
-    const initialPontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
-    const [pontos, setPontos] = useState(initialPontos);
     const [bgColor, setBgColor] = useState('bg-gray-100'); 
 
     return (
@@ -46,8 +46,6 @@ function EspelhoContent() {
                 </div>
                 <MirrorSlider
                     nome={nome}
-                    pontos={pontos} 
-                    setPontos={setPontos}
                     setBgColor={setBgColor}
                 />
             </div>

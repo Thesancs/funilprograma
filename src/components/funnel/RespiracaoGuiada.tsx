@@ -8,13 +8,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2, ArrowRight } from 'lucide-react';
 
 interface RespiracaoGuiadaProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const CYCLE_PHASES = [
@@ -28,7 +26,7 @@ const TOTAL_DURATION = CYCLE_DURATION * TOTAL_CYCLES;
 const PRE_START_COUNTDOWN = 5;
 
 
-export default function RespiracaoGuiada({ nome, pontos, setPontos }: RespiracaoGuiadaProps) {
+export default function RespiracaoGuiada({ nome }: RespiracaoGuiadaProps) {
   const [status, setStatus] = useState<'initial' | 'countdown' | 'running' | 'finished'>('initial');
   const [countdown, setCountdown] = useState(PRE_START_COUNTDOWN);
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
@@ -36,7 +34,7 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
   const [phaseTimeLeft, setPhaseTimeLeft] = useState(CYCLE_PHASES[2].duration);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -55,16 +53,13 @@ export default function RespiracaoGuiada({ nome, pontos, setPontos }: Respiracao
       }, 1000);
     } else if (timeLeft <= 0 && status === 'running') {
       setStatus('finished');
-      const newPoints = pontos + 150;
-      setPontos(newPoints);
-      toast({
-          title: "🎁 +150 Pontos de Cuidado!",
-          description: "Você desbloqueou uma recompensa bônus!",
-          duration: 4000,
+      addPoints(150, {
+          title: "🎁 Bônus Desbloqueado!",
+          description: "Você se sente mais calma agora.",
       });
     }
     return () => clearInterval(timer);
-  }, [status, timeLeft, pontos, setPontos, toast, router, countdown]);
+  }, [status, timeLeft, addPoints, countdown]);
 
   useEffect(() => {
     if (status !== 'running') {

@@ -7,14 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Heart, Loader2 } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 
 type OpcaoSono = "nenhuma" | "facil" | "mal" | "pessimo";
 
 interface QuizSonoProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const bgColors: Record<OpcaoSono, string> = {
@@ -37,13 +35,13 @@ const opcoes = [
   { id: 'pessimo', emoji: '😩', label: 'Não durmo nada bem' },
 ] as const;
 
-export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
+export default function QuizSono({ nome }: QuizSonoProps) {
   const [selecionado, setSelecionado] = useState<OpcaoSono>("nenhuma");
   const [bgColor, setBgColor] = useState(bgColors.nenhuma);
   const [textColor, setTextColor] = useState(textColors.nenhuma);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   useEffect(() => {
     console.log('[QuizSono] Component mounted');
@@ -58,16 +56,9 @@ export default function QuizSono({ nome, pontos, setPontos }: QuizSonoProps) {
 
   const handleNext = () => {
     setIsLoading(true);
-    const newPoints = pontos + 100;
-    setPontos(newPoints);
+    const newPoints = addPoints(100);
     
-    toast({
-        title: "✨ +100 Pontos de Cuidado!",
-        description: "Seu bem-estar é nossa prioridade.",
-        duration: 3000,
-    });
     console.log('[QuizSono] +100 pontos adicionados');
-
     console.log('[QuizSono] Avançando para a próxima etapa...');
     setTimeout(() => {
       router.push(`/quiz/ansiedade?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

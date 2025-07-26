@@ -7,13 +7,11 @@ import Image from 'next/image';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 interface AnaliseAlimentacaoProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const pratos = [
@@ -44,14 +42,14 @@ const cardVariants = {
   }),
 };
 
-export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseAlimentacaoProps) {
+export default function AnaliseAlimentacao({ nome }: AnaliseAlimentacaoProps) {
   const [index, setIndex] = useState(0);
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [direction, setDirection] = useState(0);
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   const x = useMotionValue(0);
   const input = [-150, 0, 150];
@@ -96,14 +94,7 @@ export default function AnaliseAlimentacao({ nome, pontos, setPontos }: AnaliseA
     }
     
     setFeedback(feedbackFinal);
-    const newPoints = pontos + pontosGanhos;
-    setPontos(newPoints);
-
-    toast({
-      title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
-      description: "Cuidar da alimentação é um ato de amor.",
-      duration: 4000
-    });
+    addPoints(pontosGanhos);
     
     setShowFeedback(true);
   };

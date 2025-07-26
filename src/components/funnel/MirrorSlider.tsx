@@ -8,13 +8,11 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
-import { useToast } from "@/hooks/use-toast";
+import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 
 interface MirrorSliderProps {
   nome: string;
-  pontos: number;
-  setPontos: React.Dispatch<React.SetStateAction<number>>;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -65,12 +63,12 @@ const estados = [
   }
 ];
 
-export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: MirrorSliderProps) {
+export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
   const [nivel, setNivel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { toast } = useToast();
+  const { pontos, addPoints } = useQuiz();
 
   const estadoAtual = useMemo(() => estados[nivel], [nivel]);
 
@@ -90,16 +88,8 @@ export default function MirrorSlider({ nome, pontos, setPontos, setBgColor }: Mi
 
   const handleNext = () => {
     setIsLoading(true);
-    const pontosGanhos = 50; 
-    const newPoints = pontos + pontosGanhos;
-    setPontos(newPoints);
-    console.log(`[MirrorSlider] User chose state ${nivel}. Awarding ${pontosGanhos} points.`);
-
-    toast({
-        title: `✨ +${pontosGanhos} Pontos de Cuidado!`,
-        description: "Reconhecer seus sentimentos é o primeiro passo.",
-        duration: 3000,
-    });
+    const newPoints = addPoints(50);
+    console.log(`[MirrorSlider] User chose state ${nivel}. Awarding 50 points.`);
 
     setTimeout(() => {
       router.push(`/quiz/termometro-emocional?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

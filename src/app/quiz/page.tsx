@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
 import { Heart, Loader2 } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
 import { Card } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
 import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
@@ -14,35 +13,27 @@ import QuizProgressRibbon from '@/components/funnel/QuizProgressRibbon';
 function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { toast } = useToast();
-  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels } = useQuiz();
+  const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, addPoints, setInitialPontos } = useQuiz();
 
   useEffect(() => {
     setStep(0);
-  }, [setStep]);
-
-  const [pontos, setPontos] = useState(150);
+    setInitialPontos(150);
+  }, [setStep, setInitialPontos]);
+  
   const [isLoading, setIsLoading] = useState(false);
   const nome = searchParams.get('nome') || 'Mamãe';
   
   useEffect(() => {
-    toast({
+    addPoints(0, {
         title: `🎉 Bem-vinda, ${nome}! Você ganhou 150 Pontos de Cuidado!`,
         description: "Responda o quiz para ganhar mais pontos.",
         duration: 4000,
     });
-  }, [toast, nome]);
+  }, [addPoints, nome]);
 
   const handleNext = () => {
     setIsLoading(true);
-    const newPoints = pontos + 100;
-    setPontos(newPoints);
-    
-    toast({
-        title: "✨ +100 Pontos de Cuidado!",
-        description: "Você está no caminho certo para uma gestação saudável.",
-        duration: 3000,
-    });
+    const newPoints = addPoints(100);
     
     setTimeout(() => {
       router.push(`/quiz/sono?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
