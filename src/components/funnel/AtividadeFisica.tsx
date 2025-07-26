@@ -53,7 +53,7 @@ export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { pontos, addPoints } = useQuiz();
+  const { addPoints } = useQuiz();
 
   const atividadeAtual = useMemo(() => getAtividadeParaValor(frequencia), [frequencia]);
   const feedbackAtual = useMemo(() => getFeedbackParaValor(frequencia), [frequencia]);
@@ -69,7 +69,7 @@ export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
     setIsLoading(true);
     const pontosGanhos = getPontosParaValor(frequencia);
     const newPoints = addPoints(pontosGanhos);
-    console.log('[AtividadeFisica]', frequencia);
+    console.log('[AtividadeFisica]', {frequencia, pontosGanhos, newPoints});
 
     setTimeout(() => {
       router.push(`/quiz/espelho?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

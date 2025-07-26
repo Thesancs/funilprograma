@@ -19,7 +19,7 @@ export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { pontos, addPoints } = useQuiz();
+  const { addPoints } = useQuiz();
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!hasInteracted) {
@@ -40,7 +40,7 @@ export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
   const handleNext = () => {
     setIsLoading(true);
     const newPoints = addPoints(100);
-    console.log('[ConsumoAgua]', litros);
+    console.log('[ConsumoAgua]', {litros, newPoints});
 
     setTimeout(() => {
       router.push(`/quiz/atividade-fisica?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

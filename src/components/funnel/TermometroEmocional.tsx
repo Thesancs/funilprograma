@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useRef, useCallback } from 'react';
+import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -58,9 +58,11 @@ export default function TermometroEmocional({ nome, nivelMedo, setNivelMedo }: T
   const termometroRef = useRef<HTMLDivElement>(null);
   
   const router = useRouter();
-  const { pontos, addPoints } = useQuiz();
+  const { addPoints } = useQuiz();
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
+  const corGradiente = faixaAtual.mercúrioColor;
+  const hColuna = nivelMedo * 0.82;
 
   const updateNivelFromY = useCallback((y: number) => {
     if (!termometroRef.current) return;
@@ -93,16 +95,13 @@ export default function TermometroEmocional({ nome, nivelMedo, setNivelMedo }: T
   const handleNext = () => {
     setIsLoading(true);
     const newPoints = addPoints(100);
+    console.log(`[TermometroEmocional] New points: ${newPoints}`);
 
     setTimeout(() => {
       router.push(`/plano?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
     }, 1500);
   };
   
-  const corGradiente = faixaAtual.mercúrioColor;
-  const hColuna = nivelMedo * 0.82;
-
-
   return (
      <div 
         ref={termometroRef}

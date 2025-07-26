@@ -68,7 +68,7 @@ export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
-  const { pontos, addPoints } = useQuiz();
+  const { addPoints } = useQuiz();
 
   const estadoAtual = useMemo(() => estados[nivel], [nivel]);
 
@@ -89,7 +89,7 @@ export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
   const handleNext = () => {
     setIsLoading(true);
     const newPoints = addPoints(50);
-    console.log(`[MirrorSlider] User chose state ${nivel}. Awarding 50 points.`);
+    console.log(`[MirrorSlider] User chose state ${nivel}. Awarding 50 points. New total: ${newPoints}`);
 
     setTimeout(() => {
       router.push(`/quiz/termometro-emocional?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
