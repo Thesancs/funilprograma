@@ -88,7 +88,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
   };
 
   const PONTOS_MAXIMO_DESCONTO = 1000;
-  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 100), 50);
+  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 100), 70);
 
   const precos = {
     essencial: { original: "39,80", final: "19,90" },
@@ -133,10 +133,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
             <div className="mt-4 w-full max-w-sm mx-auto">
                 <p className="text-sm font-semibold text-foreground mb-1">Seu desconto: <span className="text-primary">{descontoPercentual}% OFF</span></p>
-                <Progress value={descontoPercentual * 2} className="h-2" />
+                <Progress value={(descontoPercentual / 70) * 100} className="h-2" />
                 <div className="flex justify-between text-xs text-muted-foreground mt-1">
                     <span>0%</span>
-                    <span>50%</span>
+                    <span>70%</span>
                 </div>
             </div>
 
