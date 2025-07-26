@@ -88,7 +88,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
   };
 
   const PONTOS_MAXIMO_DESCONTO = 1000;
-  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 50), 50);
+  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 100), 50);
 
   const precos = {
     essencial: { original: "39,80", final: "19,90" },
