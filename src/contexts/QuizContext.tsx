@@ -55,7 +55,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
         >
              <div className="relative flex items-center justify-center">
                  {/* Halo */}
-                <div className="absolute w-40 h-40 rounded-full bg-rose-400/30 blur-2xl" />
+                <div className="absolute w-40 h-40 rounded-full bg-pink-500/40 blur-2xl" />
 
                 {/* Partículas */}
                 {Array.from({ length: 8 }).map((_, i) => {
@@ -64,7 +64,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                     return (
                         <motion.div
                             key={i}
-                            className="absolute text-rose-300"
+                            className="absolute text-pink-400"
                             style={{ top: '50%', left: '50%' }}
                             initial={{ x: '-50%', y: '-50%', scale: 0.4, opacity: 1, rotate: 0 }}
                             animate={{
@@ -87,7 +87,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                     animate={{ scale: [0, 1.25, 1], rotate: [0, -10, 0] }}
                     transition={{ duration: 0.6, times: [0, 0.5, 1], type: "spring", stiffness: 260, damping: 15 }}
                 >
-                    <Heart size={64} className="text-[#D976B6]" fill="currentColor" />
+                    <Heart size={64} className="text-pink-500" fill="currentColor" />
                 </motion.div>
             </div>
             
@@ -97,7 +97,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.4, delay: 0.15 }}
-                className="text-4xl sm:text-5xl font-bold tracking-wide text-rose-50 drop-shadow-lg mt-4"
+                className="text-4xl sm:text-5xl font-bold tracking-wide text-white drop-shadow-lg mt-4"
             >
                 +{points}
             </motion.span>
