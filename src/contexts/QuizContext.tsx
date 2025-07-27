@@ -55,7 +55,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
         >
              <div className="relative flex items-center justify-center">
                  {/* Halo */}
-                <div className="absolute w-40 h-40 rounded-full bg-pink-500/40 blur-2xl" />
+                <div className="absolute w-40 h-40 rounded-full bg-primary/30 blur-2xl" />
 
                 {/* Partículas */}
                 {Array.from({ length: 8 }).map((_, i) => {
@@ -64,7 +64,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                     return (
                         <motion.div
                             key={i}
-                            className="absolute text-pink-400"
+                            className="absolute text-primary/70"
                             style={{ top: '50%', left: '50%' }}
                             initial={{ x: '-50%', y: '-50%', scale: 0.4, opacity: 1, rotate: 0 }}
                             animate={{
@@ -86,8 +86,9 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                     initial={{ scale: 0 }}
                     animate={{ scale: [0, 1.25, 1], rotate: [0, -10, 0] }}
                     transition={{ duration: 0.6, times: [0, 0.5, 1], type: "spring", stiffness: 260, damping: 15 }}
+                    className="text-primary"
                 >
-                    <Heart size={64} className="text-pink-500" fill="currentColor" />
+                    <Heart size={64} fill="currentColor" />
                 </motion.div>
             </div>
             
@@ -132,13 +133,14 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         setFlashInfo({ points: value });
       }
 
-      const defaultToastTitle = `✨ +${value} Pontos de Cuidado!`;
-      toast({
-          title: toastOptions?.title || (value > 0 ? defaultToastTitle : undefined),
-          description: toastOptions?.description,
-          duration: toastOptions?.duration || (value > 0 ? 3000 : 5000),
-      });
-
+      if (toastOptions) {
+          toast({
+              title: toastOptions.title,
+              description: toastOptions.description,
+              duration: toastOptions.duration || 3000,
+          });
+      }
+      
       return newTotal;
   }, [pontos, toast]);
 
