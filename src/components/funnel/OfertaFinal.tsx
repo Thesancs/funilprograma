@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift } from 'lucide-react';
+import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
@@ -82,6 +82,35 @@ const getMensagemPorPontos = (pontos: number, nome: string) => {
     }
     return `Notamos que sua gestação pode ter desafios, ${nome}. Queremos que saiba que não está sozinha. Para te apoiar, preparamos uma condição especial para começarmos a melhorar isso juntas!`;
 };
+
+function Guarantee() {
+  return (
+    <section id="guarantee" aria-labelledby="guarantee-heading" className="w-full mx-auto max-w-4xl py-12 sm:py-16 px-4">
+      <div className="relative rounded-3xl bg-white/60 backdrop-blur-xl p-8 sm:p-12 shadow-2xl ring-1 ring-white/50 flex flex-col md:flex-row items-center gap-10">
+        
+        <div className="flex-shrink-0 flex items-center justify-center md:flex-1">
+          <div className="relative hover:scale-105 transition-transform duration-200">
+            <div aria-hidden="true" className="w-44 h-44 rounded-full bg-gradient-to-br from-pink-400/80 to-purple-500/70 border-4 border-white/50 flex items-center justify-center">
+              <Heart size={72} className="text-white drop-shadow-lg" strokeWidth={1.5} />
+            </div>
+            <div aria-hidden="true" className="absolute inset-0 rounded-full bg-pink-300/40 blur-2xl -z-10" />
+          </div>
+        </div>
+
+        <div className="flex-[2] flex flex-col justify-center gap-6 text-center md:text-left">
+          <h2 id="guarantee-heading" className="text-3xl sm:text-4xl font-headline font-semibold text-foreground/90">
+            Satisfação garantida e <span className="text-primary">risco zero</span>!
+          </h2>
+
+          <p className="text-muted-foreground leading-relaxed">
+            Se, em até <strong>7 dias</strong> após a compra, você sentir que nosso programa não é para você, basta um e-mail e devolveremos <em>100%</em> do seu investimento. Simples assim — cuidamos de você até nisso! 💕
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ctaText: string, ofertaExpirada: boolean; }) {
   return (
@@ -353,6 +382,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </Carousel>
         </section>
 
+        <Guarantee />
         <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
       </div>
     </>
