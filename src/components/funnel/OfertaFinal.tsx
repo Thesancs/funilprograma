@@ -382,8 +382,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </Carousel>
         </section>
 
-        <Guarantee />
         <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
+        <Guarantee />
       </div>
     </>
   );
