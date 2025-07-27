@@ -86,25 +86,39 @@ const getMensagemPorPontos = (pontos: number, nome: string) => {
 function Guarantee() {
   return (
     <section id="guarantee" aria-labelledby="guarantee-heading" className="w-full mx-auto max-w-4xl py-12 sm:py-16 px-4">
-      <div className="relative rounded-3xl bg-white/60 backdrop-blur-xl p-8 sm:p-12 shadow-2xl ring-1 ring-white/50 flex flex-col md:flex-row items-center gap-10">
+      <div className="relative rounded-3xl bg-white/60 backdrop-blur-xl p-8 sm:p-12 shadow-2xl ring-1 ring-white/50 flex flex-col sm:flex-row items-center gap-10">
         
-        <div className="flex-shrink-0 flex items-center justify-center md:flex-1">
-          <div className="relative hover:scale-105 transition-transform duration-200">
-            <div aria-hidden="true" className="w-44 h-44 rounded-full bg-gradient-to-br from-pink-400/80 to-purple-500/70 border-4 border-white/50 flex items-center justify-center">
-              <Heart size={72} className="text-white drop-shadow-lg" strokeWidth={1.5} />
+        <div className="flex-shrink-0 flex items-center justify-center">
+           <div className="relative transition-transform duration-200 hover:scale-105">
+            <div aria-hidden="true" className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-br from-pink-300/80 to-purple-500/70 border border-white/30 flex items-center justify-center">
+              <Heart size={64} className="text-white drop-shadow" strokeWidth={1.5} />
             </div>
-            <div aria-hidden="true" className="absolute inset-0 rounded-full bg-pink-300/40 blur-2xl -z-10" />
+            <div aria-hidden="true" className="absolute inset-0 rounded-full bg-pink-300/30 blur-2xl -z-10" />
           </div>
         </div>
 
-        <div className="flex-[2] flex flex-col justify-center gap-6 text-center md:text-left">
-          <h2 id="guarantee-heading" className="text-3xl sm:text-4xl font-headline font-semibold text-foreground/90">
-            Satisfação garantida e <span className="text-primary">risco zero</span>!
+        <div className="flex-1 flex flex-col justify-center gap-6 text-center sm:text-left">
+          <h2 id="guarantee-heading" className="text-2xl sm:text-3xl font-semibold text-foreground/90">
+             Satisfação garantida e <span className="text-pink-600 font-bold">risco zero!</span>
           </h2>
 
           <p className="text-muted-foreground leading-relaxed">
             Se, em até <strong>7 dias</strong> após a compra, você sentir que nosso programa não é para você, basta um e-mail e devolveremos <em>100%</em> do seu investimento. Simples assim — cuidamos de você até nisso! 💕
           </p>
+           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { icon: ShoppingBag, label: "Compra 100% segura" },
+              { icon: ShieldCheck, label: "7 dias de garantia" },
+              { icon: RefreshCcw,  label: "Reembolso garantido" },
+              { icon: Star,        label: "Qualidade certificada" }
+            ].map(({ icon: Icon, label }) => (
+              <li key={label}
+                  className="flex items-center gap-3 rounded-xl bg-white/40 ring-1 ring-white/20 backdrop-blur px-4 py-3 transition-colors duration-200 hover:bg-white/60">
+                <Icon size={22} className="text-primary" />
+                <span className="text-foreground text-sm">{label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -115,7 +129,7 @@ function Guarantee() {
 function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ctaText: string, ofertaExpirada: boolean; }) {
   return (
     <section id="faq" className="w-full mx-auto max-w-3xl py-12 sm:py-16 px-4">
-      <h2 id="faq-heading" className="text-center text-3xl font-headline font-semibold text-foreground/80 mb-2">
+      <h2 id="faq-heading" className="text-center text-3xl font-semibold text-foreground/80 mb-2">
         Perguntas Frequentes
       </h2>
        <p className="text-center text-muted-foreground mb-8">Tire suas últimas dúvidas antes de começar.</p>
@@ -388,3 +402,5 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
+    
