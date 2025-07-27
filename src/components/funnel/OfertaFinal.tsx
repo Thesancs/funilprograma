@@ -65,6 +65,16 @@ const depoimentos = [
   },
 ];
 
+const getMensagemPorPontos = (pontos: number, nome: string) => {
+    if (pontos > 800) {
+        return `Você é uma supermãe, ${nome}! Seu cuidado e dedicação são inspiradores. Por isso, preparamos um presente especial para você continuar brilhando.`;
+    }
+    if (pontos > 500) {
+        return `Vimos que você é uma mãe esforçada, ${nome}! Adoramos seu empenho e, por isso, queremos te dar um presente para essa jornada.`;
+    }
+    return `Notamos que sua gestação pode ter desafios, ${nome}. Queremos que saiba que não está sozinha. Para te apoiar, preparamos uma condição especial para começarmos a melhorar isso juntas!`;
+};
+
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
   const router = useRouter();
@@ -87,12 +97,12 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     router.push(`/checkout?plan=${selectedPlan}&bonus=${bonus}`);
   };
 
-  const PONTOS_MAXIMO_DESCONTO = 1000;
-  const descontoPercentual = Math.min(Math.round((pontos / PONTOS_MAXIMO_DESCONTO) * 100), 70);
+  const descontoPercentual = 70;
+  const mensagemPersonalizada = getMensagemPorPontos(pontos, nome);
 
   const precos = {
-    essencial: { original: "39,80", final: "19,90" },
-    completo: { original: "79,80", final: "39,90" },
+    essencial: { original: "65,90", final: "19,90" },
+    completo: { original: "129,90", final: "39,90" },
   };
 
   const ctaText = selectedPlan === 'essencial' 
@@ -127,8 +137,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             <h1 className="text-2xl md:text-3xl font-bold">
                 Parabéns, {nome}!
             </h1>
-            <p className="mt-2 text-muted-foreground">
-                Seus <span className="font-bold text-primary">{pontos} pontos de cuidado</span> te renderam uma oferta incrível!
+            <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
+                {mensagemPersonalizada}
             </p>
 
             <div className="mt-4 w-full max-w-sm mx-auto">
@@ -304,3 +314,4 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
