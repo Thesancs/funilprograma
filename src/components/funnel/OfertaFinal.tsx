@@ -9,6 +9,7 @@ import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift } fro
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 
@@ -65,6 +66,13 @@ const depoimentos = [
   },
 ];
 
+const faqItems = [
+  { q: "O que acontece após a compra?", a: "Você recebe um e-mail de boas-vindas com o link para acessar a plataforma imediatamente. Todo o conteúdo, incluindo dietas, treinos e bônus, já estará liberado para você começar sua jornada." },
+  { q: "Posso cancelar quando quiser?", a: "Sim. A assinatura é mensal e você pode cancelar a qualquer momento, com apenas 2 cliques, diretamente na plataforma, sem burocracia. Além disso, você tem 7 dias de garantia incondicional." },
+  { q: "Preciso de equipamentos especiais?", a: "Não. Os treinos foram pensados para serem feitos em casa, utilizando o peso do corpo ou itens simples que você já tem. Para a alimentação, focamos em alimentos acessíveis e fáceis de encontrar." },
+  { q: "O programa serve para qualquer fase da gestação?", a: "Sim! O conteúdo é dividido por trimestre e se adapta às suas necessidades específicas em cada fase, desde o primeiro dia até o pós-parto, garantindo segurança e eficácia." }
+];
+
 const getMensagemPorPontos = (pontos: number, nome: string) => {
     if (pontos > 800) {
         return `Você é uma supermãe, ${nome}! Seu cuidado e dedicação são inspiradores. Por isso, preparamos um presente especial para você continuar brilhando.`;
@@ -74,6 +82,30 @@ const getMensagemPorPontos = (pontos: number, nome: string) => {
     }
     return `Notamos que sua gestação pode ter desafios, ${nome}. Queremos que saiba que não está sozinha. Para te apoiar, preparamos uma condição especial para começarmos a melhorar isso juntas!`;
 };
+
+function FAQ() {
+  return (
+    <section id="faq" className="w-full mx-auto max-w-3xl py-12 sm:py-16 px-4">
+      <h2 id="faq-heading" className="text-center text-3xl font-headline font-semibold text-foreground/80 mb-2">
+        Perguntas Frequentes
+      </h2>
+       <p className="text-center text-muted-foreground mb-8">Tire suas últimas dúvidas antes de começar.</p>
+
+      <Accordion type="multiple" className="w-full space-y-4">
+        {faqItems.map(({ q, a }, index) => (
+          <AccordionItem key={index} value={`item-${index}`} className="border-b-0">
+            <AccordionTrigger className="bg-white/60 backdrop-blur-md rounded-2xl px-6 py-4 text-left font-semibold text-foreground hover:bg-white/80 transition-all text-base text-start hover:no-underline shadow-md">
+              {q}
+            </AccordionTrigger>
+            <AccordionContent className="px-6 pt-4 pb-2 text-muted-foreground leading-relaxed bg-white/40 backdrop-blur-sm rounded-b-2xl -mt-2">
+              {a}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </section>
+  );
+}
 
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
@@ -143,10 +175,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
             <div className="mt-4 w-full max-w-sm mx-auto">
                 <p className="text-sm font-semibold text-foreground mb-1">Seu desconto: <span className="text-primary">{descontoPercentual}% OFF</span></p>
-                <Progress value={(descontoPercentual / 70) * 100} className="h-2" />
+                <Progress value={descontoPercentual} className="h-2" />
                 <div className="flex justify-between text-xs text-muted-foreground mt-1">
                     <span>0%</span>
-                    <span>70%</span>
+                    <span>{descontoPercentual}%</span>
                 </div>
             </div>
 
@@ -310,8 +342,11 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             <CarouselNext className="hidden sm:flex" />
             </Carousel>
         </section>
+
+        <FAQ />
       </div>
     </>
   );
 }
 
+    
