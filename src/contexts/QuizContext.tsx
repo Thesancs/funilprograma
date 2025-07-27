@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { Toast } from '@/hooks/use-toast';
 
 interface FlashToast extends Omit<Toast, 'id' | 'title'> {
-  title?: string;
+  title?: React.ReactNode;
   description?: string;
 }
 
@@ -64,7 +64,7 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
                     return (
                         <motion.div
                             key={i}
-                            className="absolute text-primary/70"
+                            className="absolute text-primary opacity-70"
                             style={{ top: '50%', left: '50%' }}
                             initial={{ x: '-50%', y: '-50%', scale: 0.4, opacity: 1, rotate: 0 }}
                             animate={{
