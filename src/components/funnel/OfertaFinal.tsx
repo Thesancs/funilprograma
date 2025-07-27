@@ -83,7 +83,7 @@ const getMensagemPorPontos = (pontos: number, nome: string) => {
     return `Notamos que sua gestação pode ter desafios, ${nome}. Queremos que saiba que não está sozinha. Para te apoiar, preparamos uma condição especial para começarmos a melhorar isso juntas!`;
 };
 
-function FAQ() {
+function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ctaText: string, ofertaExpirada: boolean; }) {
   return (
     <section id="faq" className="w-full mx-auto max-w-3xl py-12 sm:py-16 px-4">
       <h2 id="faq-heading" className="text-center text-3xl font-headline font-semibold text-foreground/80 mb-2">
@@ -103,6 +103,16 @@ function FAQ() {
           </AccordionItem>
         ))}
       </Accordion>
+      <div className="mt-12 text-center">
+          <Button 
+              size="lg"
+              onClick={ctaAction}
+              disabled={ofertaExpirada}
+              className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
+          >
+             {ofertaExpirada ? "Oferta Expirada" : ctaText}
+          </Button>
+      </div>
     </section>
   );
 }
@@ -343,10 +353,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </Carousel>
         </section>
 
-        <FAQ />
+        <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
       </div>
     </>
   );
 }
-
-    
