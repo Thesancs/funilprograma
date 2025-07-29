@@ -155,7 +155,7 @@ export default function TermometroEmocional({ nome, nivelMedo, setNivelMedo }: T
                     </div>
                     
                     <p className={cn("text-sm mt-2 h-10 text-card-foreground")}>
-                        {hasInteracted ? faixaAtual.feedback : 'Arraste o termômetro para ajustar'}
+                        {hasInteracted ? faixaAtual.feedback : 'Arraste o termômetro para cima ou para baixo para indicar seu nível de medo'}
                     </p>
                 </div>
 
