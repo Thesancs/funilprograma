@@ -14,7 +14,7 @@ function OfertaContent() {
     const pontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
     const DURATION_SECONDS = 15 * 60; // 15 minutos
-    const { minutos, segundos, acabou } = useCountdown(DURATION_SECONDS);
+    const { minutos, segundos, acabou, secondsLeft } = useCountdown(DURATION_SECONDS);
 
     return (
         <div className="relative z-10 flex flex-col items-center justify-center w-full min-h-full py-12 px-4">
@@ -24,6 +24,8 @@ function OfertaContent() {
                 ofertaExpirada={acabou} 
                 minutos={minutos}
                 segundos={segundos}
+                totalDuration={DURATION_SECONDS}
+                secondsLeft={secondsLeft}
              />
         </div>
     );

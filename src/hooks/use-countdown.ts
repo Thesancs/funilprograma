@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -37,5 +38,5 @@ export function useCountdown(initialSeconds: number) {
   const segundos = secondsLeft % 60;
   const acabou = secondsLeft === 0;
 
-  return { minutos, segundos, acabou };
+  return { minutos, segundos, acabou, secondsLeft };
 }

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X } from 'lucide-react';
+import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
@@ -20,6 +20,8 @@ interface OfertaFinalProps {
   ofertaExpirada: boolean;
   minutos: number;
   segundos: number;
+  totalDuration: number;
+  secondsLeft: number;
 }
 
 const depoimentos = [
@@ -178,7 +180,7 @@ function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ct
 }
 
 
-export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
+export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft }: OfertaFinalProps) {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
   
@@ -204,6 +206,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
   const ctaText = selectedPlan === 'essencial' 
     ? `Garantir Essencial por R$ ${planos.essencial.price}` 
     : `Garantir Completo por R$ ${planos.completo.price}`;
+
+  const vagas = Math.floor((secondsLeft / totalDuration) * 32);
 
 
   return (
@@ -244,6 +248,13 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     <span>0%</span>
                     <span>{descontoPercentual}%</span>
                 </div>
+            </div>
+
+            <div className="my-6 flex items-center justify-center gap-2 font-semibold text-rose-600 animate-pulse">
+                <Users className="h-5 w-5" />
+                <span>
+                    {ofertaExpirada ? 'As vagas com desconto acabaram!' : `Restam ${vagas} vagas com esse desconto`}
+                </span>
             </div>
             
             <p className="mt-6 text-muted-foreground">
