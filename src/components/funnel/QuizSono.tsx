@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Heart, Loader2 } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
@@ -58,7 +58,7 @@ export default function QuizSono({ nome, selecionado, setSelecionado }: QuizSono
   };
 
   return (
-    <div className="flex flex-col justify-center w-full max-w-lg mx-auto flex-1">
+    <div className="flex flex-col justify-center w-full max-w-lg mx-auto flex-1 p-4">
         <div className={cn("w-full flex justify-end items-center mb-4", textColor)}>
               <Card className="flex items-center gap-2 font-semibold bg-black/10 backdrop-blur-sm p-2 rounded-full shadow-lg text-inherit">
                 <Heart className="h-5 w-5" />
@@ -72,6 +72,9 @@ export default function QuizSono({ nome, selecionado, setSelecionado }: QuizSono
                 <CardTitle className="text-2xl sm:text-3xl font-bold">
                 Como está seu sono?
                 </CardTitle>
+                 <CardDescription className={cn("text-white/80", textColor)}>
+                    Selecione a opção que melhor descreve suas noites.
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
@@ -99,7 +99,8 @@ export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
   return (
     <Card className="w-full max-w-lg mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
        <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Como você está se sentindo com seu corpo hoje?</CardTitle>
+        <CardTitle className="text-2xl font-bold">Como você se sente com seu corpo?</CardTitle>
+         <CardDescription>Deslize para nos dizer como você se sente.</CardDescription>
       </CardHeader>
       <CardContent className="p-6 pt-0 flex flex-col items-center justify-center min-h-[36rem]">
         <AnimatePresence mode="wait">

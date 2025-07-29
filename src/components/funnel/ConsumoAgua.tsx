@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 
@@ -50,9 +50,12 @@ export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
   return (
     <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
-        <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-4">
+        <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-2">
           💧 Quanto de água você bebe por dia?
         </h2>
+         <CardDescription className="mb-4 text-center">
+            Use o controle deslizante para ajustar a quantidade.
+        </CardDescription>
 
         <div className="flex items-end justify-center w-full my-6 gap-4">
             <div 

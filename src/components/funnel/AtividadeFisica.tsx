@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
@@ -70,9 +70,10 @@ export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
   return (
     <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
-        <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-6">
+        <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-2">
           Com que frequência você pratica atividade física por semana?
         </h2>
+        <CardDescription className="mb-6 text-center">Use o controle deslizante para indicar a frequência.</CardDescription>
 
         <div className="w-full flex flex-col items-center gap-6">
             <div className="relative w-48 h-48">

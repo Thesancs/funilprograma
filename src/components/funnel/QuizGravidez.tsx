@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 
 interface QuizGravidezProps {
@@ -63,6 +63,7 @@ export default function QuizGravidez({ nome }: QuizGravidezProps) {
         <CardTitle className="font-headline text-xl md:text-2xl font-bold text-foreground">
           {nome}, qual trimestre você está?
         </CardTitle>
+        <CardDescription>Arraste a barra para selecionar.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center gap-8">
         <div className="w-48 h-64 flex items-center justify-center">

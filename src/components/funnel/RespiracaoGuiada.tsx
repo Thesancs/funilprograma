@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2, ArrowRight } from 'lucide-react';
 
@@ -156,6 +156,9 @@ export default function RespiracaoGuiada({ nome }: RespiracaoGuiadaProps) {
                 <h2 className="text-xl sm:text-2xl font-bold text-foreground">
                     Vamos respirar juntas?
                 </h2>
+                 <CardDescription>
+                    Um exercício rápido para acalmar a mente. Siga as instruções na tela.
+                </CardDescription>
 
                 <div className="w-full flex flex-col sm:flex-row items-center justify-center gap-2 my-2">
                     <div className="flex-1 bg-background/50 p-2 rounded-lg shadow-md text-center">

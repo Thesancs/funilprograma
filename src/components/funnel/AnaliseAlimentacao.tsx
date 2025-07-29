@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
@@ -112,9 +112,12 @@ export default function AnaliseAlimentacao({ nome }: AnaliseAlimentacaoProps) {
                   exit={{ opacity: 0, y: -20 }}
                   className="w-full flex flex-col items-center"
               >
-                  <h2 className="text-xl text-center font-semibold mb-4 text-foreground">
-                  Nos mostre como esta sua alimentação 
+                  <h2 className="text-xl text-center font-semibold mb-2 text-foreground">
+                    Como está sua alimentação?
                   </h2>
+                   <CardDescription className="mb-4 text-center">
+                    Arraste para a direita o que você come e para a esquerda o que não come.
+                  </CardDescription>
                   <div className="relative h-[400px] w-[300px] flex items-center justify-center">
                     <AnimatePresence initial={false} custom={direction}>
                         <motion.div

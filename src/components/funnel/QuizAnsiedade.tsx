@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription } from '@/components/ui/card';
 import { useQuiz } from '@/contexts/QuizContext';
 
 type OpcaoAnsiedade = "alta" | "media" | "baixa";
@@ -47,9 +47,12 @@ export default function QuizAnsiedade({ nome }: QuizAnsiedadeProps) {
 
   return (
     <Card className="w-full max-w-md mx-auto text-center bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6">
-      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-foreground">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground">
          Como está sua ansiedade?
       </h2>
+       <CardDescription className="mb-6">
+        Toque na opção que mais se aproxima de como você se sente agora.
+      </CardDescription>
       <div className="flex flex-col gap-4">
         {opcoes.map((opcao) => (
           <Card
