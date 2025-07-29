@@ -298,7 +298,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         selectedPlan === 'essencial' && "ring-4 ring-pink-500/60 scale-105"
                     )}
                 >
-                    <h2 className="text-xl font-bold text-foreground mb-1">{planos.essencial.emoji} {planos.essencial.title}</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-1" aria-hidden="true">{planos.essencial.emoji} {planos.essencial.title}</h2>
                     <p className="text-sm text-muted-foreground mb-4">{planos.essencial.subtitle}</p>
                     <ul className="space-y-2 mb-4 text-sm">
                         {planos.essencial.features.map((f, i) => (
@@ -330,7 +330,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     )}
                 >
                     <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full">{planos.completo.tag}</div>
-                    <h2 className="text-xl font-bold text-foreground mb-1">{planos.completo.emoji} {planos.completo.title}</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-1" aria-hidden="true">{planos.completo.emoji} {planos.completo.title}</h2>
                     <p className="text-sm text-muted-foreground mb-4">{planos.completo.subtitle}</p>
                      <ul className="space-y-2 mb-4 text-sm">
                         {planos.completo.features.map((f, i) => (
@@ -341,8 +341,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         ))}
                     </ul>
                      <div className="my-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-                        <p className="font-bold text-sm text-emerald-800">🌟 BÔNUS EXCLUSIVO</p>
-                        <p className="text-sm text-emerald-700">📘 {planos.completo.bonus}</p>
+                        <p className="font-bold text-sm text-emerald-800" aria-hidden="true">🌟 BÔNUS EXCLUSIVO</p>
+                        <p className="text-sm text-emerald-700" aria-hidden="true">📘 {planos.completo.bonus}</p>
                      </div>
                      <p className="text-sm text-muted-foreground italic mb-4">💬 {planos.completo.summary}</p>
                      <div className="mt-auto">
@@ -354,8 +354,9 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </div>
             </div>
 
-            <div className="my-6 p-3 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-md mx-auto text-center">
-              <p className="font-semibold text-foreground/90">🟡 Por só R$ 20 a mais, leve mais do que o dobro de benefícios e bônus exclusivos.</p>
+             <div className="my-6 p-4 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-lg mx-auto text-center">
+                <p className="font-semibold text-foreground/90 leading-tight">Com o valor de <span className="underline decoration-wavy decoration-pink-400">UM</span> hambúrguer, você garante:</p>
+                <p className="text-foreground/80 mt-2 text-sm">Alívio da ansiedade, apoio contínuo, e a certeza de estar fazendo o <span className="font-bold">MELHOR</span> pelo seu bebê.</p>
             </div>
             
             <div className="text-center">
@@ -438,5 +439,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
