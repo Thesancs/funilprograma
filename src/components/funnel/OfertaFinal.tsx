@@ -61,7 +61,7 @@ const faqItems = [
 
 const planos = {
   essencial: {
-    title: "PLANO ESSENCIAL DA MAMÃE",
+    title: "Nutrição Expressa™",
     emoji: "💚",
     price: "19,90",
     oldPrice: "65,90",
@@ -75,7 +75,7 @@ const planos = {
     summary: "Perfeito pra quem quer começar o cuidado agora com um plano leve, direto ao ponto e acessível.",
   },
   completo: {
-    title: "PLANO MAMÃE SEGURA™",
+    title: "Método Gestante Blindada™",
     subtitle: "A experiência completa para cuidar de você e do seu bebê do início ao parto",
     emoji: "🌸",
     price: "39,90",
@@ -235,7 +235,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
             
             <h1 className="text-2xl md:text-3xl font-bold">
-                Parabéns, {nome}!
+                Parabéns, ${nome}!
             </h1>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
                 {mensagemPersonalizada}
