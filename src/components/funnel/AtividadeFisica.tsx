@@ -39,14 +39,6 @@ const getFeedbackParaValor = (valor: number) => {
   return "Incrível! Você é uma inspiração!";
 };
 
-const getPontosParaValor = (valor: number) => {
-  if (valor === 0) return 0;
-  if (valor >= 1 && valor <= 2) return 50;
-  if (valor >= 3 && valor <= 4) return 100;
-  if (valor >= 5 && valor <= 6) return 150;
-  return 200;
-};
-
 export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
   const [frequencia, setFrequencia] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
@@ -67,9 +59,8 @@ export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
 
   const handleNext = () => {
     setIsLoading(true);
-    const pontosGanhos = getPontosParaValor(frequencia);
-    const newPoints = addPoints(pontosGanhos);
-    console.log('[AtividadeFisica]', {frequencia, pontosGanhos, newPoints});
+    const newPoints = addPoints(100);
+    console.log('[AtividadeFisica]', {frequencia, newPoints});
 
     setTimeout(() => {
       router.push(`/quiz/espelho?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);

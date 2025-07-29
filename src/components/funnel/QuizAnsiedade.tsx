@@ -37,7 +37,7 @@ export default function QuizAnsiedade({ nome }: QuizAnsiedadeProps) {
     setSelecionado(opcao);
     setFrase(frasesEmpaticas[opcao]);
     
-    const newPoints = addPoints(50);
+    const newPoints = addPoints(100);
 
     setTimeout(() => {
       console.log('Navegando para a proxima etapa...');

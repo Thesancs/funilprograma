@@ -80,21 +80,17 @@ export default function AnaliseAlimentacao({ nome }: AnaliseAlimentacaoProps) {
     const escolhasBoas = finalResultados.filter(r => r === 'bom').length;
     const total = finalResultados.length;
     const percentualBom = (escolhasBoas / total) * 100;
-
-    let pontosGanhos = escolhasBoas * 50;
-    let feedbackFinal = '';
-
-    if (percentualBom >= 70) {
-      feedbackFinal = "Sua alimentação parece balanceada, porém podemos melhorar. 💪";
-      pontosGanhos += 100; // bônus
-    } else if (percentualBom >= 40) {
+    
+    let feedbackFinal = "Sua alimentação parece balanceada, porém podemos melhorar. 💪";
+    if (percentualBom < 70) {
       feedbackFinal = "Sua alimentação está boa, mas pode melhorar. 🌿";
-    } else {
-      feedbackFinal = "Sua gravidez corre risco se continuar assim. 😟";
+    }
+    if (percentualBom < 40) {
+       feedbackFinal = "Sua gravidez corre risco se continuar assim. 😟";
     }
     
     setFeedback(feedbackFinal);
-    addPoints(pontosGanhos);
+    addPoints(100);
     
     setShowFeedback(true);
   };
