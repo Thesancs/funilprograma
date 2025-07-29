@@ -181,6 +181,15 @@ function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ct
   );
 }
 
+function Footer() {
+    return (
+        <footer className="w-full max-w-4xl mx-auto pt-8 pb-4 px-4 text-center">
+            <p className="text-xs text-muted-foreground">
+                © 2025 Bem-Estar Gestacional | Todos os direitos reservados
+            </p>
+        </footer>
+    );
+}
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft }: OfertaFinalProps) {
   const router = useRouter();
@@ -420,6 +429,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
         
         <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
         <Guarantee />
+        <Footer />
       </div>
     </>
   );
