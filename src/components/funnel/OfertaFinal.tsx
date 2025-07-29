@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw } from 'lucide-react';
+import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
@@ -21,20 +21,6 @@ interface OfertaFinalProps {
   minutos: number;
   segundos: number;
 }
-
-const beneficiosEssencial = [
-  { text: "Checklist nutricional em PDF", icon: CheckCircle },
-  { text: "Planner semanal digital", icon: CheckCircle },
-];
-
-const beneficiosCompleto = [
-  { text: "Dietas personalizadas por trimestre", icon: CheckCircle },
-  { text: "Treinos adaptados para gestantes", icon: CheckCircle },
-  { text: "Acompanhamento da saúde mental", icon: CheckCircle },
-  { text: "Checklists e orientações semanais", icon: CheckCircle },
-  { text: "Grupo VIP exclusivo", icon: Star },
-  { text: "⭐ Preferência a novas atualizações", icon: Sparkles },
-];
 
 const depoimentos = [
   {
@@ -72,6 +58,40 @@ const faqItems = [
   { q: "Preciso de equipamentos especiais?", a: "Não. Os treinos foram pensados para serem feitos em casa, utilizando o peso do corpo ou itens simples que você já tem. Para a alimentação, focamos em alimentos acessíveis e fáceis de encontrar." },
   { q: "O programa serve para qualquer fase da gestação?", a: "Sim! O conteúdo é dividido por trimestre e se adapta às suas necessidades específicas em cada fase, desde o primeiro dia até o pós-parto, garantindo segurança e eficácia." }
 ];
+
+const planos = {
+  essencial: {
+    title: "PLANO ESSENCIAL DA MAMÃE",
+    emoji: "💚",
+    price: "19,90",
+    oldPrice: "65,90",
+    subtitle: "Ideal pra começar com o básico da nutrição segura na gravidez",
+    features: [
+      { text: "Cardápio nutricional seguro e simples, aprovado por especialistas", included: true },
+      { text: "Organização semanal prática: evite enjoo, inchaço e fome fora de hora", included: true },
+      { text: "Não inclui treinos, apoio emocional ou grupo de suporte", included: false },
+      { text: "Sem bônus ou atualizações mensais", included: false },
+    ],
+    summary: "Perfeito pra quem quer começar o cuidado agora com um plano leve, direto ao ponto e acessível.",
+  },
+  completo: {
+    title: "PLANO MAMÃE SEGURA™",
+    subtitle: "A experiência completa para cuidar de você e do seu bebê do início ao parto",
+    emoji: "🌸",
+    price: "39,90",
+    oldPrice: "129,90",
+    tag: "Mais Completo",
+    features: [
+      { text: "Cardápios personalizados pra cada trimestre da gestação", included: true },
+      { text: "Exercícios leves que aliviam dores, melhoram o sono e te preparam pro parto", included: true },
+      { text: "Técnicas de apoio à saúde mental para reduzir estresse e ansiedade", included: true },
+      { text: "Grupo VIP com suporte direto + outras gestantes", included: true },
+      { text: "Acesso prioritário às novas atualizações de conteúdo", included: true },
+    ],
+    bonus: "Guia Anti-Enjoo + Calendário da Gestante Saudável",
+    summary: "Feito pra quem quer segurança total, apoio contínuo e mais conforto em cada fase da gravidez.",
+  }
+}
 
 const getMensagemPorPontos = (pontos: number, nome: string) => {
     if (pontos > 800) {
@@ -185,14 +205,9 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
   const descontoPercentual = 70;
   const mensagemPersonalizada = getMensagemPorPontos(pontos, nome);
 
-  const precos = {
-    essencial: { original: "65,90", final: "19,90" },
-    completo: { original: "129,90", final: "39,90" },
-  };
-
   const ctaText = selectedPlan === 'essencial' 
-    ? `Garantir Essencial por R$ ${precos.essencial.final}` 
-    : `Garantir Completo por R$ ${precos.completo.final}`;
+    ? `Garantir Essencial por R$ ${planos.essencial.price}` 
+    : `Garantir Completo por R$ ${planos.completo.price}`;
 
 
   return (
@@ -283,17 +298,21 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         selectedPlan === 'essencial' && "ring-4 ring-pink-500/60 scale-105"
                     )}
                 >
-                    <h2 className="text-xl font-bold text-foreground mb-1">🌱 Plano Essencial</h2>
-                    <p className="text-sm text-muted-foreground mb-4">Ideal para começar.</p>
+                    <h2 className="text-xl font-bold text-foreground mb-1">{planos.essencial.emoji} {planos.essencial.title}</h2>
+                    <p className="text-sm text-muted-foreground mb-4">{planos.essencial.subtitle}</p>
                     <ul className="space-y-2 mb-4 text-sm">
-                        {beneficiosEssencial.map((b, i) => (
-                            <li key={i} className="flex items-start gap-2"><b.icon className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />{b.text}</li>
+                        {planos.essencial.features.map((f, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span aria-hidden="true" className="mt-0.5">{f.included ? '✔️' : '❌'}</span>
+                              <span>{f.text}</span>
+                            </li>
                         ))}
                     </ul>
+                     <p className="text-sm text-muted-foreground italic my-4">💬 {planos.essencial.summary}</p>
                     <div className="mt-auto">
+                        <p className="text-sm text-muted-foreground">🔻 <s className="opacity-60">De R$ {planos.essencial.oldPrice}</s> por apenas</p>
                          <div className="flex items-end gap-2">
-                           <p className="text-3xl font-bold text-pink-600">R$ {precos.essencial.final}</p>
-                           <p className="text-muted-foreground line-through">R$ {precos.essencial.original}</p>
+                           <p className="text-3xl font-bold text-pink-600">R$ {planos.essencial.price}</p>
                         </div>
                     </div>
                 </div>
@@ -310,21 +329,38 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         selectedPlan === 'completo' && "ring-4 ring-pink-500/60 scale-105"
                     )}
                 >
-                    <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full">Mais Popular</div>
-                    <h2 className="text-xl font-bold text-foreground mb-1">🌸 Plano Completo</h2>
-                    <p className="text-sm text-muted-foreground mb-4">A experiência completa.</p>
+                    <div className="absolute top-3 right-3 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full">{planos.completo.tag}</div>
+                    <h2 className="text-xl font-bold text-foreground mb-1">{planos.completo.emoji} {planos.completo.title}</h2>
+                    <p className="text-sm text-muted-foreground mb-4">{planos.completo.subtitle}</p>
                      <ul className="space-y-2 mb-4 text-sm">
-                        {beneficiosCompleto.map((b, i) => (
-                            <li key={i} className="flex items-start gap-2"><b.icon className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />{b.text}</li>
+                        {planos.completo.features.map((f, i) => (
+                           <li key={i} className="flex items-start gap-2">
+                              <span aria-hidden="true" className="mt-0.5">{f.included ? '✔️' : '❌'}</span>
+                              <span>{f.text}</span>
+                            </li>
                         ))}
                     </ul>
+                     <div className="my-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
+                        <p className="font-bold text-sm text-emerald-800">🌟 BÔNUS EXCLUSIVO</p>
+                        <p className="text-sm text-emerald-700">📘 {planos.completo.bonus}</p>
+                     </div>
+                     <p className="text-sm text-muted-foreground italic mb-4">💬 {planos.completo.summary}</p>
                      <div className="mt-auto">
+                        <p className="text-sm text-muted-foreground">🔺 <s className="opacity-60">De R$ {planos.completo.oldPrice}</s> por apenas</p>
                          <div className="flex items-end gap-2">
-                           <p className="text-3xl font-bold text-pink-600">R$ {precos.completo.final}</p>
-                           <p className="text-muted-foreground line-through">R$ {precos.completo.original}</p>
+                           <p className="text-3xl font-bold text-pink-600">R$ {planos.completo.price}</p>
                          </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="my-6 p-3 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-md mx-auto text-center">
+              <p className="font-semibold text-foreground/90">🟡 Por só R$ 20 a mais, leve mais do que o dobro de benefícios e bônus exclusivos.</p>
+            </div>
+            
+            <div className="text-center">
+               <p className="text-lg font-semibold text-foreground/90">✨ Está pronta para se sentir mais segura, nutrida e cuidada durante sua gestação?</p>
+               <p className="text-muted-foreground mt-1">Escolha o plano ideal pra você e comece agora!</p>
             </div>
 
 
@@ -402,5 +438,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
