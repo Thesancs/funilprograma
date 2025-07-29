@@ -58,7 +58,7 @@ export default function QuizSono({ nome, selecionado, setSelecionado }: QuizSono
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto">
+    <div className="flex flex-col justify-center w-full max-w-lg mx-auto flex-1">
         <div className={cn("w-full flex justify-end items-center mb-4", textColor)}>
               <Card className="flex items-center gap-2 font-semibold bg-black/10 backdrop-blur-sm p-2 rounded-full shadow-lg text-inherit">
                 <Heart className="h-5 w-5" />
