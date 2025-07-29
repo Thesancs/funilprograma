@@ -69,8 +69,6 @@ const planos = {
     features: [
       { text: "Cardápio nutricional seguro e simples, aprovado por especialistas", included: true },
       { text: "Organização semanal prática: evite enjoo, inchaço e fome fora de hora", included: true },
-      { text: "Não inclui treinos, apoio emocional ou grupo de suporte", included: false },
-      { text: "Sem bônus ou atualizações mensais", included: false },
     ],
     summary: "Perfeito pra quem quer começar o cuidado agora com um plano leve, direto ao ponto e acessível.",
   },
