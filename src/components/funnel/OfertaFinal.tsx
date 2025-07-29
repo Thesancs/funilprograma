@@ -86,7 +86,6 @@ const planos = {
       { text: "Grupo VIP com suporte direto + outras gestantes", included: true },
       { text: "Acesso prioritário às novas atualizações de conteúdo", included: true },
     ],
-    bonus: "Guia Anti-Enjoo + Calendário da Gestante Saudável",
     summary: "Feito pra quem quer segurança total, apoio contínuo e mais conforto em cada fase da gravidez.",
   }
 }
@@ -182,7 +181,6 @@ function FAQ({ ctaAction, ctaText, ofertaExpirada }: { ctaAction: () => void; ct
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos }: OfertaFinalProps) {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
-  const [bonus, setBonus] = useState(false);
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
     setSelectedPlan(plan);
@@ -197,7 +195,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
   const handleCtaClick = () => {
     if (ofertaExpirada) return;
-    router.push(`/checkout?plan=${selectedPlan}&bonus=${bonus}`);
+    router.push(`/checkout?plan=${selectedPlan}`);
   };
 
   const descontoPercentual = 70;
@@ -246,36 +244,6 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     <span>0%</span>
                     <span>{descontoPercentual}%</span>
                 </div>
-            </div>
-
-            <p className="mt-6 text-muted-foreground">
-              Clique abaixo para resgatar seu bônus especial:
-            </p>
-            
-            <div className="w-full max-w-md mx-auto">
-              <div
-                role="checkbox"
-                aria-checked={bonus}
-                tabIndex={0}
-                onClick={() => setBonus(!bonus)}
-                onKeyDown={(e)=> ['Enter',' '].includes(e.key) && setBonus(!bonus)}
-                className={cn(`w-full mt-2 p-4 rounded-2xl border-2
-                  ${bonus ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-300/40 scale-[1.02]' 
-                          : 'border-gray-300 bg-white hover:shadow-lg'}
-                  transition cursor-pointer`)}
-              >
-                <div className="flex items-center gap-3">
-                  <Gift color={bonus ? '#059669' : '#9CA3AF'} size={24}/>
-                  <div className="flex flex-col text-left">
-                    <span className="font-semibold">
-                      {bonus ? 'Bônus Selecionado!' : 'Resgatar Bônus Especial'}
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {planos.completo.bonus}
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
             
             <p className="mt-6 text-muted-foreground">
@@ -338,11 +306,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                             </li>
                         ))}
                     </ul>
-                     <div className="my-4 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-                        <p className="font-bold text-sm text-emerald-800" aria-hidden="true">🌟 BÔNUS EXCLUSIVO</p>
-                        <p className="text-sm text-emerald-700" aria-hidden="true">📘 {planos.completo.bonus}</p>
-                     </div>
-                     <p className="text-sm text-muted-foreground italic mb-4">💬 {planos.completo.summary}</p>
+                     <p className="text-sm text-muted-foreground italic my-4">💬 {planos.completo.summary}</p>
                      <div className="mt-auto">
                         <p className="text-sm text-muted-foreground"><s className="opacity-60">De R$ {planos.completo.oldPrice}</s> por apenas</p>
                          <div className="flex items-end gap-2">
