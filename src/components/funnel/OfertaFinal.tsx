@@ -12,6 +12,8 @@ import { Card as UICard, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 
 interface OfertaFinalProps {
@@ -241,6 +243,16 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 {mensagemPersonalizada}
             </p>
 
+            <div className="mt-6 mb-6 p-4 rounded-xl bg-emerald-500/10 backdrop-blur ring-1 ring-emerald-300/20 max-w-lg mx-auto text-center">
+                <div className="flex items-center justify-center gap-3">
+                    <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500" />
+                    <Label htmlFor="bonus-checkbox" className="flex flex-col items-start text-left">
+                        <span className="font-semibold text-foreground/90 leading-tight">🌟 BÔNUS EXCLUSIVO RESGATADO!</span>
+                        <span className="text-foreground/80 mt-1 text-sm">📘 Guia Anti-Enjoo + Calendário da Gestante Saudável</span>
+                    </Label>
+                </div>
+            </div>
+
             <div className="mt-4 w-full max-w-sm mx-auto">
                 <p className="text-sm font-semibold text-foreground mb-1">Seu desconto: <span className="text-primary">{descontoPercentual}% OFF</span></p>
                 <Progress value={descontoPercentual} className="h-2" />
@@ -412,3 +424,5 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
+    
