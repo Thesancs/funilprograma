@@ -41,7 +41,7 @@ const estados = [
   },
   {
     nivel: 2,
-    imagem: "https://i.imgur.com/50nslO2.jpeg",
+    imagem: "https://i.postimg.cc/LXnzr3x0/n-o-esta-facil-mas-estou-tentando.png",
     dataAiHint: "accepting woman mirror",
     alt: "Mulher em processo de aceitação em frente ao espelho",
     frase: "Não está fácil, mas estou tentando.",
