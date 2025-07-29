@@ -30,7 +30,7 @@ const estados = [
   },
   {
     nivel: 1,
-    imagem: "https://i.imgur.com/GvBVxCL.jpeg",
+    imagem: "https://i.postimg.cc/QNvbZvGg/brava-com-a-balan-a.png",
     dataAiHint: "guilty woman mirror",
     alt: "Mulher com expressão de culpa em frente ao espelho",
     frase: "A balança virou minha inimiga…",
