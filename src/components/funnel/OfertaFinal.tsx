@@ -366,7 +366,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     disabled={ofertaExpirada}
                     className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
                 >
-                   {ofertaExpirada ? "Oferta Expirada" : ctaText}
+                   {ofertaExpirada ? "Oferta Expirada" : "Quero cuidar da saude do meu bebê agora"}
                 </Button>
             </div>
             
