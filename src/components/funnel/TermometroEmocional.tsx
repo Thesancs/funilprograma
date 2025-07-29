@@ -114,7 +114,7 @@ export default function TermometroEmocional({ nome, nivelMedo, setNivelMedo }: T
         <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
             <CardContent className="p-4 pt-6 flex flex-col items-center justify-center">
                 <h2 className={cn("text-lg font-semibold mb-2 text-card-foreground")}>
-                    😨 Como está o seu medo hoje?
+                    😨 Como esta seu medo da gestação hoje
                 </h2>
 
                 <div className="flex flex-col items-center justify-center gap-2 w-full my-4">
