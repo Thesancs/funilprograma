@@ -51,7 +51,7 @@ export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
     <Card className="w-full max-w-md mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 text-card-foreground">
       <CardContent className="p-6 flex flex-col items-center justify-center min-h-[30rem]">
         <h2 className="text-center text-2xl sm:text-3xl font-semibold mb-2">
-          💧 Quanto de água você bebe por dia?
+          Quantos litros de agua voce bebe por dia?
         </h2>
          <CardDescription className="mb-4 text-center">
             Use o controle deslizante para ajustar a quantidade.
