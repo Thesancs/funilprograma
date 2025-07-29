@@ -52,7 +52,7 @@ const estados = [
   },
   {
     nivel: 3,
-    imagem: "https://i.imgur.com/AQ7yAVR.jpeg",
+    imagem: "https://i.postimg.cc/W1w6r3DS/contente-que-esta-gerando.png",
     dataAiHint: "confident woman mirror",
     alt: "Mulher confiante com seu corpo em frente ao espelho",
     frase: "Meu corpo está criando uma vida!",
