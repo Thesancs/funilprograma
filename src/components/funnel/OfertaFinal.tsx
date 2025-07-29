@@ -273,7 +273,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                       {bonus ? 'Bônus Selecionado!' : 'Resgatar Bônus Especial'}
                     </span>
                     <span className="text-xs text-gray-500">
-                      E-book “10 Receitas Detox” (PDF)
+                      {planos.completo.bonus}
                     </span>
                   </div>
                 </div>
@@ -431,10 +431,12 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             <CarouselNext className="hidden sm:flex" />
             </Carousel>
         </section>
-
+        
         <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
         <Guarantee />
       </div>
     </>
   );
 }
+
+    
