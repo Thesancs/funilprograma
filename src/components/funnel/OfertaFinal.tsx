@@ -54,7 +54,7 @@ const depoimentos = [
 
 const faqItems = [
   { q: "O que acontece após a compra?", a: "Você recebe um e-mail de boas-vindas com o link para acessar a plataforma imediatamente. Todo o conteúdo, incluindo dietas, treinos e bônus, já estará liberado para você começar sua jornada." },
-  { q: "Posso cancelar quando quiser?", a: "Sim. A assinatura é mensal e você pode cancelar a qualquer momento, com apenas 2 cliques, diretamente na plataforma, sem burocracia. Além disso, você tem 7 dias de garantia incondicional." },
+  { q: "Posso pedir reembolso caso queira?", a: "Sim! Você tem uma garantia incondicional de 7 dias. Se por qualquer motivo você achar que o programa não é para você dentro desse período, basta nos enviar um e-mail e devolveremos 100% do seu investimento, sem burocracia." },
   { q: "Preciso de equipamentos especiais?", a: "Não. Os treinos foram pensados para serem feitos em casa, utilizando o peso do corpo ou itens simples que você já tem. Para a alimentação, focamos em alimentos acessíveis e fáceis de encontrar." },
   { q: "O programa serve para qualquer fase da gestação?", a: "Sim! O conteúdo é dividido por trimestre e se adapta às suas necessidades específicas em cada fase, desde o primeiro dia até o pós-parto, garantindo segurança e eficácia." }
 ];
@@ -308,7 +308,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     </ul>
                      <p className="text-sm text-muted-foreground italic my-4">💬 {planos.essencial.summary}</p>
                     <div className="mt-auto">
-                        <p className="text-sm text-muted-foreground">🔻 <s className="opacity-60">De R$ {planos.essencial.oldPrice}</s> por apenas</p>
+                        <p className="text-sm text-muted-foreground"><s className="opacity-60">De R$ {planos.essencial.oldPrice}</s> por apenas</p>
                          <div className="flex items-end gap-2">
                            <p className="text-3xl font-bold text-pink-600">R$ {planos.essencial.price}</p>
                         </div>
@@ -344,7 +344,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                      </div>
                      <p className="text-sm text-muted-foreground italic mb-4">💬 {planos.completo.summary}</p>
                      <div className="mt-auto">
-                        <p className="text-sm text-muted-foreground">🔺 <s className="opacity-60">De R$ {planos.completo.oldPrice}</s> por apenas</p>
+                        <p className="text-sm text-muted-foreground"><s className="opacity-60">De R$ {planos.completo.oldPrice}</s> por apenas</p>
                          <div className="flex items-end gap-2">
                            <p className="text-3xl font-bold text-pink-600">R$ {planos.completo.price}</p>
                          </div>
