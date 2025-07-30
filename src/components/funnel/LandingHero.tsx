@@ -33,7 +33,7 @@ export default function LandingHero() {
                   <strong> bônus incrível</strong> que só quem conclui o quiz recebe.
                 </CardDescription>
                 
-                <ul className="flex flex-col gap-3 text-foreground/90 items-start sm:items-center text-left sm:text-center">
+                <ul className="flex flex-col gap-3 text-foreground/90 items-start text-left sm:items-center sm:text-center">
                     <li className="flex items-center gap-2">
                         <Sparkles size={18} className="text-primary" aria-hidden="true" />
                         Diagnóstico gestacional gratuito em <strong>&lt; 3&nbsp;min</strong>
