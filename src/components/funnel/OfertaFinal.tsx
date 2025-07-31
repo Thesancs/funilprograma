@@ -124,7 +124,7 @@ function Guarantee() {
           </h2>
 
           <p className="text-muted-foreground leading-relaxed">
-            Se, em até <strong>7 dias</strong> após a compra, você sentir que nosso programa não é para você, basta um e-mail e devolveremos <em>100%</em> do seu investimento. Simples assim — cuidamos de você até nisso! 💕
+            “⚠️ Você tem 7 dias inteiros pra usar, aplicar e ver resultado. Se não sentir melhora no seu bem-estar, NEM PRECISA DAR MOTIVO: é só pedir que devolvemos 100%. Sem letras miúdas. Sem blá blá blá. Só respeito por você e seu bebê.”
           </p>
            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
