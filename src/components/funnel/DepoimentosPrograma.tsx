@@ -1,14 +1,14 @@
 
 "use client";
 
+import { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, CheckCircle } from "lucide-react";
-import { Separator } from '../ui/separator';
+import { Star, CheckCircle, Sparkles } from "lucide-react";
 
 interface DepoimentosProgramaProps {
   nome: string;
@@ -46,18 +46,27 @@ const depoimentos = [
 ];
 
 const beneficios = [
-  "Dietas personalizadas por trimestre",
-  "Treinos adaptados (pilates, caminhada, musculação)",
-  "Acompanhamento da saúde mental",
-  "Checklists e orientações semanais",
+  "Segurança, leveza e apoio em cada fase",
+  "Trimestre a trimestre: nutrição + emocional",
+  "Aulas rápidas em vídeo + PDF + Checklist",
+  "Grupo de suporte diário no WhatsApp",
 ];
 
 export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgramaProps) {
   const router = useRouter();
+  const programaSectionRef = useRef<HTMLDivElement>(null);
 
+  const handleScrollToProgram = () => {
+    programaSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  
   const handleCtaClick = () => {
     console.log('[DepoimentosPrograma] CTA clicked, navigating to /oferta');
     router.push(`/oferta?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
+  };
+
+  const handleFinalCtaClick = () => {
+    router.push('/checkout?plan=completo');
   };
 
   return (
@@ -74,83 +83,114 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             />
         </div>
 
-      {/* Seção do Programa */}
-      <section className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
-          <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
-             <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-foreground">
-                👶 Conheça o Programa Bem-Estar Gestacional
-            </h2>
-            <p className="text-muted-foreground mb-6 max-w-md">
-                Uma jornada completa para você viver uma gestação mais leve, saudável e consciente, semana a semana.
+        {/* Seção 1: Headline */}
+        <section className="w-full flex flex-col items-center justify-center gap-4 text-center">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                Conheça o Programa Bem-Estar Gestacional
+            </h1>
+            <p className="text-center text-[17px] font-medium mt-2 text-[#344154] max-w-sm mx-auto">
+                ✨ Seu plano de bem-estar físico e emocional durante a gravidez, feito pra sua realidade e sua rotina.
             </p>
-            <ul className="space-y-3 mb-8">
-                {beneficios.map((beneficio, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                        <CheckCircle className="w-5 h-5 text-primary" />
-                        <span className="text-foreground">{beneficio}</span>
-                    </li>
-                ))}
-            </ul>
-             <Button 
-                size="lg"
-                onClick={handleCtaClick}
-                className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+            <Button
+                variant="ghost"
+                onClick={handleScrollToProgram}
+                className="text-primary hover:bg-pink-100/50"
             >
-                Quero saber mais
+                Quero começar agora
             </Button>
-          </Card>
-          <div className="hidden lg:block lg:w-1/2">
-            <Image 
-                src="https://placehold.co/600x400.png"
-                alt="Mockup do programa"
-                width={600}
-                height={400}
-                className="rounded-lg shadow-xl"
-                data-ai-hint="app mockup"
-            />
-          </div>
-      </section>
+        </section>
 
-      {/* Seção de Depoimentos */}
-      <section className="w-full flex flex-col items-center text-center">
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
-          🗣️ O que outras mamães estão dizendo
-        </h2>
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-sm sm:max-w-md"
-        >
-          <CarouselContent>
-            {depoimentos.map((depoimento, index) => (
-              <CarouselItem key={index}>
-                <div className="p-1">
-                  <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4">
-                    <Avatar className="w-20 h-20 border-4 border-pink-100">
-                      <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
-                      <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-center">
-                      <p className="font-bold text-lg">{depoimento.nome}</p>
-                      <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
+        {/* Seção 2: Apresentação do Programa */}
+        <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
+            <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
+                <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground">
+                    O que você vai receber 📦
+                </h2>
+                <ul className="space-y-3 mb-8">
+                    {beneficios.map((beneficio, index) => (
+                        <li key={index} className="flex items-center gap-3">
+                            <CheckCircle className="w-5 h-5 text-primary" />
+                            <span className="text-foreground">{beneficio}</span>
+                        </li>
+                    ))}
+                </ul>
+                 <Button 
+                    size="lg"
+                    onClick={handleCtaClick}
+                    className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+                >
+                    Quero acesso completo ao meu plano
+                </Button>
+            </Card>
+            <div className="hidden lg:block lg:w-1/2">
+                <Image 
+                    src="https://placehold.co/600x400.png"
+                    alt="Mockup do programa"
+                    width={600}
+                    height={400}
+                    className="rounded-lg shadow-xl"
+                    data-ai-hint="app mockup"
+                />
+            </div>
+        </section>
+
+        {/* Seção 3: Prova Social e Autoridade */}
+        <section className="w-full flex flex-col items-center text-center">
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
+            🗣️ O que outras mamães estão dizendo
+            </h2>
+            <Carousel
+            opts={{ align: "start", loop: true }}
+            className="w-full max-w-sm sm:max-w-md"
+            >
+            <CarouselContent>
+                {depoimentos.map((depoimento, index) => (
+                <CarouselItem key={index}>
+                    <div className="p-1">
+                    <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4">
+                        <Avatar className="w-20 h-20 border-4 border-pink-100">
+                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
+                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="text-center">
+                        <p className="font-bold text-lg">{depoimento.nome}</p>
+                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
+                        </div>
+                        <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+                        ))}
+                        </div>
+                        <p className="text-center text-foreground italic">"{depoimento.depoimento}"</p>
+                    </Card>
                     </div>
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                      ))}
-                    </div>
-                    <p className="text-center text-foreground italic">"{depoimento.depoimento}"</p>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="hidden sm:flex" />
-          <CarouselNext className="hidden sm:flex" />
-        </Carousel>
-      </section>
+                </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+        </section>
+
+        <section className="w-full max-w-2xl text-center">
+             <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center gap-4">
+                 <Sparkles className="w-8 h-8 text-primary" data-ai-hint="sparkles" />
+                <h3 className="text-xl font-semibold text-foreground">Quem criou este programa?</h3>
+                <p className="text-muted-foreground">
+                    Criado por um time de especialistas (nutrição, fisioterapia pélvica e psicologia), baseado em evidências científicas e com mais de 3.740 mamães acompanhadas.
+                </p>
+            </Card>
+        </section>
+
+         <div className="w-full max-w-lg px-4">
+            <Button
+                size="lg"
+                onClick={handleFinalCtaClick}
+                className="w-full bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
+            >
+                Sim, quero começar minha jornada com segurança agora!
+            </Button>
+        </div>
     </div>
   );
 }
