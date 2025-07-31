@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, CheckCircle, Sparkles } from "lucide-react";
+import { Star, CheckCircle, Sparkles, BrainCircuit, BarChart3, Pin } from "lucide-react";
 
 interface DepoimentosProgramaProps {
   nome: string;
@@ -45,20 +45,48 @@ const depoimentos = [
   },
 ];
 
+const especialistas = [
+    {
+        nome: "Dra. Amanda R.",
+        especialidade: "Nutricionista Materna",
+        descricao: "Especializada em alimentação por trimestre e controle de sintomas como enjoo, azia e ganho de peso.",
+        avatar: "https://i.imgur.com/5J0kZ9Q.jpeg",
+        dataAiHint: "nutritionist portrait"
+    },
+    {
+        nome: "Dra. Luiza B.",
+        especialidade: "Psicóloga Gestacional",
+        descricao: "Focada em saúde emocional, ansiedade, vínculo com o bebê e acolhimento psicológico da mãe.",
+        avatar: "https://i.imgur.com/vSOaFkR.jpeg",
+        dataAiHint: "psychologist portrait"
+    },
+    {
+        nome: "Equipe Multidisciplinar",
+        especialidade: "Fisioterapeutas e Doulas",
+        descricao: "Suporte ao parto, dores lombares, fortalecimento do assoalho pélvico e recuperação pós-parto.",
+        avatar: "https://i.imgur.com/i3vT9Gz.jpeg",
+        dataAiHint: "healthcare team"
+    }
+];
+
 const beneficios = [
     {
+        icon: CheckCircle,
         title: "Etapa 1 – Nutrição Essencial por Trimestre",
         description: "Planos adaptados ao seu corpo, com foco em energia, imunidade e desenvolvimento saudável do bebê."
     },
     {
+        icon: CheckCircle,
         title: "Etapa 2 – Bem-estar Emocional e Ansiedade Gestacional",
         description: "Técnicas validadas por psicólogas que ajudam a lidar com medos, insegurança e pressão do dia a dia."
     },
     {
+        icon: CheckCircle,
         title: "Etapa 3 – Movimento Seguro e Ativo",
         description: "Rotinas simples de alongamento, caminhada e respiração, pra aliviar dores e melhorar o sono."
     },
     {
+        icon: CheckCircle,
         title: "Etapa 4 – Apoio e Acompanhamento no WhatsApp",
         description: "Grupo exclusivo com especialistas e outras gestantes, pra você nunca se sentir sozinha."
     }
@@ -95,7 +123,6 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             />
         </div>
 
-        {/* Seção 1: Headline */}
         <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center justify-center gap-4 text-center">
             <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">
                 Conheça o Programa Bem-Estar Gestacional
@@ -112,7 +139,6 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             </Button>
         </Card>
 
-        {/* Seção 2: Apresentação do Programa */}
         <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
             <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
                 <div className="text-center lg:text-left mb-6">
@@ -131,7 +157,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                 <ul className="space-y-4 mb-6 text-left">
                     {beneficios.map((beneficio, index) => (
                         <li key={index} className="flex items-start gap-3">
-                            <span className="mt-1">✅</span>
+                            <beneficio.icon className="text-primary mt-1 h-5 w-5 flex-shrink-0" />
                             <div className="flex-1">
                                 <span className="font-semibold text-foreground">{beneficio.title}</span>
                                 <p className="text-sm text-muted-foreground">{beneficio.description}</p>
@@ -141,7 +167,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                 </ul>
                 
                 <p className="text-sm text-muted-foreground text-center lg:text-left w-full mb-8">
-                    📌 Tudo entregue de forma prática: vídeos rápidos, áudio-guias e ferramentas pra usar no seu tempo.
+                📌 Tudo entregue de forma prática: vídeos rápidos, áudio-guias e ferramentas pra usar no seu tempo.
                 </p>
 
                  <Button 
@@ -164,7 +190,6 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             </div>
         </section>
 
-        {/* Seção 3: Prova Social e Autoridade */}
         <section className="w-full flex flex-col items-center text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
             🗣️ O que outras mamães estão dizendo
@@ -202,14 +227,56 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             </Carousel>
         </section>
 
-        <section className="w-full max-w-2xl text-center">
+         <section className="w-full max-w-3xl text-center flex flex-col items-center gap-8">
              <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center gap-4">
-                 <Sparkles className="w-8 h-8 text-primary" data-ai-hint="sparkles" />
+                 <BrainCircuit className="w-8 h-8 text-primary" data-ai-hint="brain" />
                 <h3 className="text-xl font-semibold text-foreground">Quem criou este programa?</h3>
-                <p className="text-muted-foreground">
-                    Criado por um time de especialistas (nutrição, fisioterapia pélvica e psicologia), baseado em evidências científicas e com mais de 3.740 mamães acompanhadas.
+                <p className="text-muted-foreground max-w-xl">
+                    O Programa Bem-Estar Gestacional nasceu no Instituto B.E.M. – Bem-Estar Materno, uma iniciativa formada por profissionais especializados no cuidado com a gestante em todas as fases da gravidez.
                 </p>
             </Card>
+
+            <h4 className="text-2xl font-semibold text-foreground/80">Especialistas por trás do método:</h4>
+            <Carousel
+                opts={{ align: "start", loop: true }}
+                className="w-full max-w-sm sm:max-w-md"
+            >
+                <CarouselContent>
+                    {especialistas.map((especialista, index) => (
+                    <CarouselItem key={index}>
+                        <div className="p-1">
+                        <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-8 flex flex-col items-center gap-4 h-full">
+                            <Avatar className="w-24 h-24 border-4 border-pink-100">
+                            <AvatarImage src={especialista.avatar} alt={especialista.nome} data-ai-hint={especialista.dataAiHint} />
+                            <AvatarFallback>{especialista.nome.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div className="text-center">
+                            <p className="font-bold text-lg">{especialista.nome}</p>
+                            <p className="text-sm text-primary font-semibold">{especialista.especialidade}</p>
+                            </div>
+                            <p className="text-center text-foreground text-sm flex-grow">"{especialista.descricao}"</p>
+                        </Card>
+                        </div>
+                    </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden sm:flex" />
+                <CarouselNext className="hidden sm:flex" />
+            </Carousel>
+             <div className="w-full max-w-2xl space-y-4 text-left">
+                <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-lg ring-1 ring-white/50 p-4 flex items-start gap-4">
+                    <BarChart3 className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                    <p className="text-muted-foreground flex-1">
+                        <span className="font-semibold text-foreground">Mais de 3.740 gestantes</span> já passaram pelo nosso acompanhamento, com suporte direto e acolhimento profissional.
+                    </p>
+                </Card>
+                <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-lg ring-1 ring-white/50 p-4 flex items-start gap-4">
+                    <Pin className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                    <p className="text-muted-foreground flex-1">
+                        <span className="font-semibold text-foreground">Cada etapa do programa</span> foi pensada com base em evidências científicas e no que realmente funciona na rotina de quem está vivendo esse momento.
+                    </p>
+                </Card>
+            </div>
         </section>
 
          <div className="w-full max-w-lg px-4">
