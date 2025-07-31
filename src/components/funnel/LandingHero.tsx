@@ -33,18 +33,18 @@ export default function LandingHero() {
                   <strong> bônus incrível</strong> que só quem conclui o quiz recebe.
                 </CardDescription>
                 
-                <ul className="flex flex-col gap-3 text-foreground/90 items-start text-left sm:items-center sm:text-center">
-                    <li className="flex items-center gap-2">
-                        <Sparkles size={18} className="text-primary" aria-hidden="true" />
-                        Diagnóstico gestacional gratuito em <strong>&lt; 3&nbsp;min</strong>
+                <ul className="flex flex-col gap-3 text-foreground/90 text-left w-full max-w-sm mx-auto">
+                    <li className="flex items-start gap-2">
+                        <Sparkles size={18} className="text-primary mt-1 flex-shrink-0" aria-hidden="true" />
+                        <span className="flex-grow">Diagnóstico gestacional gratuito em <strong>&lt; 3&nbsp;min</strong></span>
                     </li>
-                    <li className="flex items-center gap-2">
-                        <Sparkles size={18} className="text-primary" />
-                        Pontos valem <strong>recompensas reais</strong> na etapa final
+                    <li className="flex items-start gap-2">
+                        <Sparkles size={18} className="text-primary mt-1 flex-shrink-0" />
+                         <span className="flex-grow">Pontos valem <strong>recompensas reais</strong> na etapa final</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                        <Sparkles size={18} className="text-primary" />
-                        Acesso a conteúdos premium já no primeiro login
+                    <li className="flex items-start gap-2">
+                        <Sparkles size={18} className="text-primary mt-1 flex-shrink-0" />
+                        <span className="flex-grow">Acesso a conteúdos premium já no primeiro login</span>
                     </li>
                 </ul>
 
