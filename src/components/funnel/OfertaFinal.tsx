@@ -57,10 +57,14 @@ const depoimentos = [
 ];
 
 const faqItems = [
-  { q: "O que acontece após a compra?", a: "Você recebe um e-mail de boas-vindas com o link para acessar a plataforma imediatamente. Todo o conteúdo, incluindo dietas, treinos e bônus, já estará liberado para você começar sua jornada." },
-  { q: "Posso pedir reembolso caso queira?", a: "Sim! Você tem uma garantia incondicional de 7 dias. Se por qualquer motivo você achar que o programa não é para você dentro desse período, basta nos enviar um e-mail e devolveremos 100% do seu investimento, sem burocracia." },
-  { q: "Preciso de equipamentos especiais?", a: "Não. Os treinos foram pensados para serem feitos em casa, utilizando o peso do corpo ou itens simples que você já tem. Para a alimentação, focamos em alimentos acessíveis e fáceis de encontrar." },
-  { q: "O programa serve para qualquer fase da gestação?", a: "Sim! O conteúdo é dividido por trimestre e se adapta às suas necessidades específicas em cada fase, desde o primeiro dia até o pós-parto, garantindo segurança e eficácia." }
+    { q: "Esse plano ajuda quem sente muito enjoo ou tem restrições alimentares?", a: "Sim! O bônus 'Guia Anti-Enjoo' foi criado especificamente para isso. Além disso, os cardápios são flexíveis e ensinamos você a fazer substituições inteligentes para lidar com restrições e aversões, sempre com foco em alimentos seguros e nutritivos." },
+    { q: "É seguro pra quem está no 1º trimestre ou pré-eclâmpsia?", a: "Com certeza. Todo o conteúdo é adaptado para cada trimestre, incluindo o primeiro, que é o mais delicado. Para casos específicos como pré-eclâmpsia, o programa serve como um forte apoio, mas é fundamental que você continue o acompanhamento com seu médico. Nossas orientações complementam e não substituem o cuidado profissional." },
+    { q: "Sou mãe de primeira viagem, esse programa vai me deixar mais segura?", a: "Absolutamente. O programa foi desenhado pensando especialmente nas mães de primeira viagem, oferecendo um passo a passo claro e seguro, desde a alimentação até a preparação emocional, para que você se sinta amparada e confiante em cada etapa." },
+    { q: "Posso comprar mesmo com pouco tempo pra mim no dia a dia?", a: "Sim! O método é pensado para a realidade da mulher moderna. As orientações são práticas, as receitas são rápidas e os exercícios são curtos e eficientes. Você só precisa de 15 a 20 minutos por dia para aplicar e já sentir os benefícios." },
+    { q: "O que acontece após a compra?", a: "Você recebe um e-mail de boas-vindas com o link para acessar a plataforma imediatamente. Todo o conteúdo, incluindo dietas, treinos e bônus, já estará liberado para você começar sua jornada." },
+    { q: "Posso pedir reembolso caso queira?", a: "Sim! Você tem uma garantia incondicional de 7 dias. Se por qualquer motivo você achar que o programa não é para você dentro desse período, basta nos enviar um e-mail e devolveremos 100% do seu investimento, sem burocracia." },
+    { q: "Preciso de equipamentos especiais?", a: "Não. Os treinos foram pensados para serem feitos em casa, utilizando o peso do corpo ou itens simples que você já tem. Para a alimentação, focamos em alimentos acessíveis e fáceis de encontrar." },
+    { q: "O programa serve para qualquer fase da gestação?", a: "Sim! O conteúdo é dividido por trimestre e se adapta às suas necessidades específicas em cada fase, desde o primeiro dia até o pós-parto, garantindo segurança e eficácia." }
 ];
 
 const planos = {
@@ -256,7 +260,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                  <div className="flex items-start justify-center gap-3">
                     <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500 mt-1" />
                     <Label htmlFor="bonus-checkbox" className="flex flex-col items-start text-left">
-                        <span className="font-semibold text-foreground/90 leading-tight">🧠 BÔNUS EXCLUSIVO - <span className="text-primary line-through">R$97</span> por R$0</span>
+                        <span className="font-semibold text-foreground/90 leading-tight">🧠 BÔNUS EXCLUSIVO - <span className="text-primary">R$97 de Valor</span></span>
                         <span className="text-foreground/80 mt-1 text-sm">📘 Guia Anti-Enjoo + 🗓️ Calendário da Gestante Saudável</span>
                         <blockquote className="mt-2 text-xs italic text-foreground/70 border-l-2 border-emerald-300 pl-2">
                            “Feito pra te dar alívio imediato nos momentos mais difíceis da gestação — sem depender de remédios ou suposições.”
