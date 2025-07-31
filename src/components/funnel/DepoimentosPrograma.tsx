@@ -60,8 +60,8 @@ const especialistas = [
         avatar: "https://i.imgur.com/vSOaFkR.jpeg",
         dataAiHint: "psychologist portrait"
     },
-    {
-        nome: "Equipe Multidisciplinar",
+     {
+        nome: "Equipe de Fisioterapeutas e Doulas",
         especialidade: "Fisioterapeutas e Doulas",
         descricao: "Suporte ao parto, dores lombares, fortalecimento do assoalho pélvico e recuperação pós-parto.",
         avatar: "https://i.imgur.com/i3vT9Gz.jpeg",
@@ -230,7 +230,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
          <section className="w-full max-w-3xl text-center flex flex-col items-center gap-8">
              <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center gap-4">
                  <BrainCircuit className="w-8 h-8 text-primary" data-ai-hint="brain" />
-                <h3 className="text-xl font-semibold text-foreground">Quem criou este programa?</h3>
+                <h3 className="text-xl font-semibold text-foreground">🧠 “Quem criou este programa?”</h3>
                 <p className="text-muted-foreground max-w-xl">
                     O Programa Bem-Estar Gestacional nasceu no Instituto B.E.M. – Bem-Estar Materno, uma iniciativa formada por profissionais especializados no cuidado com a gestante em todas as fases da gravidez.
                 </p>
