@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users } from 'lucide-react';
+import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users, AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card as UICard, CardContent } from "@/components/ui/card";
@@ -252,7 +252,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 {mensagemPersonalizada}
             </p>
 
-            <div className="mt-6 mb-6 p-4 rounded-xl bg-emerald-500/10 backdrop-blur ring-1 ring-emerald-300/20 max-w-lg mx-auto text-center">
+            <div className="mt-6 mb-2 p-4 rounded-xl bg-emerald-500/10 backdrop-blur ring-1 ring-emerald-300/20 max-w-lg mx-auto text-center">
                  <div className="flex items-start justify-center gap-3">
                     <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500 mt-1" />
                     <Label htmlFor="bonus-checkbox" className="flex flex-col items-start text-left">
@@ -263,6 +263,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                         </blockquote>
                     </Label>
                 </div>
+            </div>
+            <div className="flex items-center justify-center gap-2 mb-6 text-sm font-semibold text-amber-700 bg-amber-100 border border-amber-300 rounded-lg p-2 max-w-sm mx-auto">
+                <AlertTriangle className="h-5 w-5" />
+                <span>Só ganha se comprar HOJE</span>
             </div>
 
             <div className="mt-4 w-full max-w-sm mx-auto">
@@ -450,5 +454,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
