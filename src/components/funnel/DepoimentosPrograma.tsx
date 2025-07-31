@@ -105,10 +105,6 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
     router.push(`/oferta?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
   };
 
-  const handleFinalCtaClick = () => {
-    router.push('/checkout?plan=completo');
-  };
-
   return (
     <div className="w-full flex flex-col items-center gap-12 py-8">
         
@@ -282,14 +278,12 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
          <div className="w-full max-w-lg px-4">
             <Button
                 size="lg"
-                onClick={handleFinalCtaClick}
+                onClick={handleCtaClick}
                 className="w-full bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
             >
-                Quero começar minha jornada com segurança
+                Começar com segurança
             </Button>
         </div>
     </div>
   );
 }
-
-    
