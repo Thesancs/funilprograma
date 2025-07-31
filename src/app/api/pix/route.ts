@@ -34,7 +34,10 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
         const errorBody = await response.text();
         console.error('Erro da API Push in Pay:', errorBody);
-        throw new Error(`Falha na API Push in Pay: ${response.statusText}`);
+        return NextResponse.json(
+          { error: 'PushInPayError', details: `Status: ${response.status} - ${errorBody}` },
+          { status: response.status },
+        )
     }
 
     const data = await response.json();

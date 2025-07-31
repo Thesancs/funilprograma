@@ -28,7 +28,10 @@ export async function GET(
     if (!response.ok) {
       const errorBody = await response.text();
       console.error(`Erro ao consultar status da cobrança ${chargeId}:`, errorBody);
-      throw new Error(`Falha na API Push in Pay: ${response.statusText}`);
+       return NextResponse.json(
+          { error: 'PushInPayStatusError', details: `Status: ${response.status} - ${errorBody}` },
+          { status: response.status },
+        )
     }
 
     const data = await response.json();

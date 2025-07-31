@@ -127,20 +127,22 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Falha na resposta da API');
-      }
-
       const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.details || 'Falha na resposta da API');
+      }
+      
       setQrCode(data.qrCodeBase64);
       setChargeId(data.chargeId);
 
     } catch (error) {
-      console.error("Erro ao gerar PIX:", error);
+      const errorMessage = error instanceof Error ? error.message : "Tente novamente.";
+      console.error("Erro ao gerar PIX:", errorMessage);
       toast({
         variant: "destructive",
-        title: "Erro",
-        description: "Falha ao gerar o código PIX. Tente novamente.",
+        title: "Erro ao gerar PIX",
+        description: errorMessage,
       });
     } finally {
       setIsLoading(false);
@@ -241,7 +243,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
                 <div className="flex flex-col items-center">
                     <h3 className="font-semibold">Pagamento via PIX</h3>
                     <p className="text-sm text-gray-600 mb-2">Escaneie o código para pagar</p>
-                    <img src={qrCode} alt="QR Code PIX" className="w-48 h-48 mx-auto my-4" />
+                    <img src={`data:image/png;base64,${qrCode}`} alt="QR Code PIX" className="w-48 h-48 mx-auto my-4" />
                     <div className="flex items-center gap-2 text-gray-500">
                         <Loader2 className="animate-spin h-4 w-4" />
                         <span>Aguardando pagamento...</span>
