@@ -14,7 +14,7 @@ function PlanoContent() {
     const nome = searchParams.get('nome') || 'Mamãe';
 
     return (
-        <main className="relative min-h-screen w-full">
+        <main className="relative min-h-screen w-full overflow-hidden">
              <div className="absolute inset-0 z-0 h-full">
                  <Image
                     src="https://i.postimg.cc/RFbg7KVC/file-000000006d8c623095818c1747892548.png"

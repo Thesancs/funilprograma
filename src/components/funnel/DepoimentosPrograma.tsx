@@ -84,7 +84,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
         </div>
 
         {/* Seção 1: Headline */}
-        <section className="w-full flex flex-col items-center justify-center gap-4 text-center">
+        <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center justify-center gap-4 text-center">
             <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">
                 Conheça o Programa Bem-Estar Gestacional
             </h1>
@@ -98,7 +98,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             >
                 Quero começar agora
             </Button>
-        </section>
+        </Card>
 
         {/* Seção 2: Apresentação do Programa */}
         <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
@@ -188,7 +188,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                 onClick={handleFinalCtaClick}
                 className="w-full bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
             >
-                Sim, quero começar minha jornada com segurança agora!
+                Quero começar minha jornada com segurança
             </Button>
         </div>
     </div>
