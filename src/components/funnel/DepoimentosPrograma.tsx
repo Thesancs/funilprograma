@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, CheckCircle, Sparkles, BrainCircuit, BarChart3, Pin } from "lucide-react";
+import { CheckCircle, Sparkles, BrainCircuit, BarChart3, Pin } from "lucide-react";
 
 interface DepoimentosProgramaProps {
   nome: string;
@@ -139,7 +139,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
             <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
                 <div className="text-center lg:text-left mb-6">
                     <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                        Você terá acesso ao Método B.E.M. – Bem-Estar Materno
+                       Você terá acesso ao Método B.E.M. – Bem-Estar Materno
                     </h2>
                     <p className="mt-2 text-muted-foreground">
                         Um passo a passo criado pra ajudar você a viver sua gestação com mais segurança, leveza e equilíbrio, do início ao final da gravidez.
@@ -147,7 +147,7 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                 </div>
 
                 <h3 className="text-xl font-semibold mb-4 text-foreground w-full">
-                    📦 O que você vai desbloquear dentro do método:
+                   📦 O que você vai desbloquear dentro do método:
                 </h3>
 
                 <ul className="space-y-4 mb-6 text-left">
@@ -218,8 +218,8 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="flex -left-4" />
+            <CarouselNext className="flex -right-4" />
             </Carousel>
         </section>
 
@@ -256,8 +256,8 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
                     </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden sm:flex" />
-                <CarouselNext className="hidden sm:flex" />
+                <CarouselPrevious className="flex -left-4" />
+                <CarouselNext className="flex -right-4" />
             </Carousel>
              <div className="w-full max-w-2xl space-y-4 text-left">
                 <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-lg ring-1 ring-white/50 p-4 flex items-start gap-4">
