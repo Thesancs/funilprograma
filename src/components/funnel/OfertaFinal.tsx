@@ -349,8 +349,9 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
 
              <div className="my-6 p-4 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-lg mx-auto text-center">
-                <p className="font-semibold text-foreground/90 leading-tight">Com o valor de <span className="underline decoration-wavy decoration-pink-400">UM</span> hambúrguer, você garante:</p>
-                <p className="text-foreground/80 mt-2 text-sm">Alívio da ansiedade, apoio contínuo, e a certeza de estar fazendo o <span className="font-bold">MELHOR</span> pelo seu bebê.</p>
+                <p className="font-semibold text-foreground/90 leading-tight">
+                    “Por menos de R$1,50 por dia você evita problemas sérios, cuida da sua saúde e protege seu bebê com orientação real!”
+                </p>
             </div>
             
             <div className="text-center">
