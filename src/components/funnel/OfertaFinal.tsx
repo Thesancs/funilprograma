@@ -253,11 +253,14 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </p>
 
             <div className="mt-6 mb-6 p-4 rounded-xl bg-emerald-500/10 backdrop-blur ring-1 ring-emerald-300/20 max-w-lg mx-auto text-center">
-                <div className="flex items-center justify-center gap-3">
-                    <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500" />
+                 <div className="flex items-start justify-center gap-3">
+                    <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500 mt-1" />
                     <Label htmlFor="bonus-checkbox" className="flex flex-col items-start text-left">
-                        <span className="font-semibold text-foreground/90 leading-tight">🌟 BÔNUS EXCLUSIVO RESGATADO!</span>
-                        <span className="text-foreground/80 mt-1 text-sm">📘 Guia Anti-Enjoo + Calendário da Gestante Saudável</span>
+                        <span className="font-semibold text-foreground/90 leading-tight">🧠 BÔNUS EXCLUSIVO - <span className="text-primary line-through">R$97</span> por R$0</span>
+                        <span className="text-foreground/80 mt-1 text-sm">📘 Guia Anti-Enjoo + 🗓️ Calendário da Gestante Saudável</span>
+                        <blockquote className="mt-2 text-xs italic text-foreground/70 border-l-2 border-emerald-300 pl-2">
+                           “Feito pra te dar alívio imediato nos momentos mais difíceis da gestação — sem depender de remédios ou suposições.”
+                        </blockquote>
                     </Label>
                 </div>
             </div>
@@ -349,7 +352,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
 
              <div className="my-6 p-4 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-lg mx-auto text-center">
-                <p className="font-semibold text-foreground/90 leading-tight">
+                <p className="font-semibold text-foreground/90 leading-relaxed">
                     “Por menos de R$1,50 por dia você evita problemas sérios, cuida da sua saúde e protege seu bebê com orientação real!”
                 </p>
             </div>
@@ -447,3 +450,5 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
+
+    
