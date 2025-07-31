@@ -34,7 +34,7 @@ function OfertaContent() {
 
 export default function OfertaPage() {
   return (
-    <main className="relative min-h-screen w-full flex items-center justify-center bg-white">
+    <main className="relative min-h-screen w-full flex items-center justify-center bg-white overflow-hidden">
         <div className="absolute inset-0 z-0 h-screen md:h-screen">
              <Image
                 src="https://i.postimg.cc/RFbg7KVC/file-000000006d8c623095818c1747892548.png"
