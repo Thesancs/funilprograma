@@ -22,6 +22,7 @@ function QuizContent() {
   
   const [isLoading, setIsLoading] = useState(false);
   const nome = searchParams.get('nome') || 'Mamãe';
+  const email = searchParams.get('email') || '';
   
   useEffect(() => {
     addPoints(0, {
@@ -36,7 +37,12 @@ function QuizContent() {
     const newPoints = addPoints(100);
     
     setTimeout(() => {
-      router.push(`/quiz/sono?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/sono?${params.toString()}`);
     }, 1500);
   };
 

@@ -21,6 +21,7 @@ function QuizAnsiedadeContent() {
   }, [setStep, searchParams, setInitialPontos]);
 
   const nome = searchParams.get('nome') || 'Mamãe';
+  const email = searchParams.get('email') || '';
 
   return (
     <main className={cn("flex min-h-screen flex-col items-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500")}>
@@ -36,7 +37,7 @@ function QuizAnsiedadeContent() {
         <span>Pontos de cuidado: {pontos}</span>
       </div>
       <div className="flex-1 flex items-center justify-center w-full">
-        <QuizAnsiedade nome={nome} />
+        <QuizAnsiedade nome={nome} email={email} />
       </div>
     </main>
   );

@@ -20,6 +20,7 @@ function TermometroEmocionalContent() {
     }, [setStep, searchParams, setInitialPontos]);
 
     const nome = searchParams.get('nome') || 'Mamãe';
+    const email = searchParams.get('email') || '';
     const [nivelMedo, setNivelMedo] = useState(0);
 
     const faixa = getBackgroundColor(nivelMedo, true);
@@ -47,6 +48,7 @@ function TermometroEmocionalContent() {
                 </div>
                 <TermometroEmocional
                     nome={nome}
+                    email={email}
                     nivelMedo={nivelMedo}
                     setNivelMedo={setNivelMedo} 
                 />

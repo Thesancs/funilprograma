@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
@@ -12,6 +13,10 @@ interface CheckoutContextType {
   selectedPlan: 'essencial' | 'completo';
   setSelectedPlan: (plan: 'essencial' | 'completo') => void;
   totalPrice: number;
+  nome: string;
+  email: string;
+  setNome: (name: string) => void;
+  setEmail: (email: string) => void;
 }
 
 const CheckoutContext = createContext<CheckoutContextType | null>(null);
@@ -24,6 +29,8 @@ const planPrices = {
 export function CheckoutProvider({ children }: { children: ReactNode }) {
   const [orderBumps, setOrderBumps] = useState<OrderBumps>({});
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
 
   const toggleBump = useCallback((id: string, price: number) => {
     setOrderBumps(prev => {
@@ -45,7 +52,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <CheckoutContext.Provider value={{ orderBumps, toggleBump, selectedPlan, setSelectedPlan, totalPrice }}>
+    <CheckoutContext.Provider value={{ orderBumps, toggleBump, selectedPlan, setSelectedPlan, totalPrice, nome, setNome, email, setEmail }}>
       {children}
     </CheckoutContext.Provider>
   );

@@ -13,6 +13,7 @@ import Image from 'next/image';
 
 interface AtividadeFisicaProps {
   nome: string;
+  email: string;
 }
 
 const atividades = [
@@ -39,7 +40,7 @@ const getFeedbackParaValor = (valor: number) => {
   return "Incrível! Você é uma inspiração!";
 };
 
-export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
+export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
   const [frequencia, setFrequencia] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +64,12 @@ export default function AtividadeFisica({ nome }: AtividadeFisicaProps) {
     console.log('[AtividadeFisica]', {frequencia, newPoints});
 
     setTimeout(() => {
-      router.push(`/quiz/espelho?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/espelho?${params.toString()}`);
     }, 1500);
   };
 

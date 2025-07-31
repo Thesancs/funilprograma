@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users, AlertTriangle } from 'lucide-react';
@@ -26,6 +25,7 @@ interface OfertaFinalProps {
   segundos: number;
   totalDuration: number;
   secondsLeft: number;
+  onCtaClick: () => void;
 }
 
 const depoimentos = [
@@ -197,8 +197,7 @@ function Footer() {
     );
 }
 
-export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft }: OfertaFinalProps) {
-  const router = useRouter();
+export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft, onCtaClick }: OfertaFinalProps) {
   const { selectedPlan, setSelectedPlan, totalPrice, orderBumps } = useCheckout();
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
@@ -211,12 +210,6 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
       handleSelectPlan(plan);
     }
   }
-
-  const handleCtaClick = () => {
-    if (ofertaExpirada) return;
-    const extrasQuery = JSON.stringify(orderBumps);
-    router.push(`/checkout?plan=${selectedPlan}&extras=${encodeURIComponent(extrasQuery)}`);
-  };
 
   const descontoPercentual = 70;
   const mensagemPersonalizada = getMensagemPorPontos(pontos, nome);
@@ -257,7 +250,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
             
             <h1 className="text-2xl md:text-3xl font-bold">
-                Parabéns, ${nome}!
+                Parabéns, {nome}!
             </h1>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
                 {mensagemPersonalizada}
@@ -383,7 +376,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             <div className="mt-8">
                 <Button 
                     size="lg"
-                    onClick={handleCtaClick}
+                    onClick={onCtaClick}
                     disabled={ofertaExpirada}
                     className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
                 >
@@ -448,13 +441,13 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </Carousel>
         </section>
         
-        <FAQ ctaAction={handleCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
+        <FAQ ctaAction={onCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>
         <Guarantee />
 
         <div className="px-4 w-full max-w-3xl text-center">
             <Button 
               size="lg"
-              onClick={handleCtaClick}
+              onClick={onCtaClick}
               disabled={ofertaExpirada}
               className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
           >

@@ -12,6 +12,7 @@ function PlanoContent() {
     const searchParams = useSearchParams();
     const pontos = parseInt(searchParams.get('pontos') || '0', 10);
     const nome = searchParams.get('nome') || 'Mamãe';
+    const email = searchParams.get('email') || '';
 
     return (
         <main className="relative min-h-screen w-full overflow-hidden">
@@ -34,7 +35,7 @@ function PlanoContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <DepoimentosPrograma nome={nome} pontos={pontos} />
+                <DepoimentosPrograma nome={nome} email={email} pontos={pontos} />
             </div>
         </main>
     );

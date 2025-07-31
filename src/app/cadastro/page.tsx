@@ -54,7 +54,11 @@ export default function CadastroPage() {
     setSubmittedName(values.name);
     setIsLoading(true);
     setTimeout(() => {
-      router.push(`/quiz?nome=${encodeURIComponent(values.name)}`);
+      const params = new URLSearchParams({
+        nome: values.name,
+        email: values.email,
+      });
+      router.push(`/quiz?${params.toString()}`);
     }, 4000);
   }
 

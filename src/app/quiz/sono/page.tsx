@@ -30,6 +30,7 @@ function QuizSonoContent() {
   }, [setStep, searchParams, setInitialPontos]);
 
   const nome = searchParams.get('nome') || 'Mamãe';
+  const email = searchParams.get('email') || '';
   const bgColor = bgColors[selecionado];
 
   return (
@@ -43,6 +44,7 @@ function QuizSonoContent() {
        <div className="h-[60px] md:h-[70px] w-full" />
       <QuizSono 
         nome={nome}
+        email={email}
         selecionado={selecionado}
         setSelecionado={setSelecionado}
       />

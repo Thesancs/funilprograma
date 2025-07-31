@@ -8,10 +8,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { CheckCircle, Sparkles, BrainCircuit, BarChart3, Pin } from "lucide-react";
+import { CheckCircle, Sparkles, BrainCircuit, BarChart3, Pin, Star } from "lucide-react";
 
 interface DepoimentosProgramaProps {
   nome: string;
+  email: string;
   pontos: number;
 }
 
@@ -92,7 +93,7 @@ const beneficios = [
     }
 ];
 
-export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgramaProps) {
+export default function DepoimentosPrograma({ nome, email, pontos }: DepoimentosProgramaProps) {
   const router = useRouter();
   const programaSectionRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +103,12 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
   
   const handleCtaClick = () => {
     console.log('[DepoimentosPrograma] CTA clicked, navigating to /oferta');
-    router.push(`/oferta?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
+    const params = new URLSearchParams({
+        pontos: pontos.toString(),
+        nome,
+        email
+    });
+    router.push(`/oferta?${params.toString()}`);
   };
 
   return (

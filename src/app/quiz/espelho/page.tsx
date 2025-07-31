@@ -20,6 +20,7 @@ function EspelhoContent() {
     }, [setStep, searchParams, setInitialPontos]);
 
     const nome = searchParams.get('nome') || 'Mamãe';
+    const email = searchParams.get('email') || '';
     const [bgColor, setBgColor] = useState('bg-gray-100'); 
 
     return (
@@ -46,6 +47,7 @@ function EspelhoContent() {
                 </div>
                 <MirrorSlider
                     nome={nome}
+                    email={email}
                     setBgColor={setBgColor}
                 />
             </div>

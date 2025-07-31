@@ -20,6 +20,7 @@ function RespiracaoContent() {
     }, [setStep, searchParams, setInitialPontos]);
 
     const nome = searchParams.get('nome') || 'Mamãe';
+    const email = searchParams.get('email') || '';
 
     return (
          <main className={cn("flex min-h-screen flex-col items-center p-4 bg-gradient-to-b from-[#D9A8B6] to-background transition-colors duration-500")}>
@@ -37,7 +38,7 @@ function RespiracaoContent() {
                         <span>Pontos de cuidado: {pontos}</span>
                     </div>
                 </div>
-                <RespiracaoGuiada nome={nome} />
+                <RespiracaoGuiada nome={nome} email={email} />
             </div>
         </main>
     );

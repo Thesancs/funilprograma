@@ -13,6 +13,7 @@ import { Loader2 } from 'lucide-react';
 
 interface MirrorSliderProps {
   nome: string;
+  email: string;
   setBgColor: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -63,7 +64,7 @@ const estados = [
   }
 ];
 
-export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
+export default function MirrorSlider({ nome, email, setBgColor }: MirrorSliderProps) {
   const [nivel, setNivel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -92,7 +93,12 @@ export default function MirrorSlider({ nome, setBgColor }: MirrorSliderProps) {
     console.log(`[MirrorSlider] User chose state ${nivel}. Awarding 100 points. New total: ${newPoints}`);
 
     setTimeout(() => {
-      router.push(`/quiz/termometro-emocional?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/termometro-emocional?${params.toString()}`);
     }, 1500);
   };
 

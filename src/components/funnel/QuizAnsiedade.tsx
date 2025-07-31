@@ -10,6 +10,7 @@ import { useQuiz } from '@/contexts/QuizContext';
 type OpcaoAnsiedade = "alta" | "media" | "baixa";
 interface QuizAnsiedadeProps {
   nome: string;
+  email: string;
 }
 
 const frasesEmpaticas = {
@@ -24,7 +25,7 @@ const opcoes = [
   { id: 'baixa', emoji: '😌', label: 'Baixa, estou tranquila' },
 ] as const;
 
-export default function QuizAnsiedade({ nome }: QuizAnsiedadeProps) {
+export default function QuizAnsiedade({ nome, email }: QuizAnsiedadeProps) {
   const [selecionado, setSelecionado] = useState<OpcaoAnsiedade | null>(null);
   const [frase, setFrase] = useState("");
   const router = useRouter();
@@ -41,7 +42,12 @@ export default function QuizAnsiedade({ nome }: QuizAnsiedadeProps) {
 
     setTimeout(() => {
       console.log('Navegando para a proxima etapa...');
-      router.push(`/quiz/respiracao?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/respiracao?${params.toString()}`);
     }, 2500);
   };
 

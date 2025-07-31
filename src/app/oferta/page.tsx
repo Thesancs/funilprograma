@@ -1,20 +1,42 @@
 
 "use client";
 
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react';
 import OfertaFinal from '@/components/funnel/OfertaFinal';
+import CheckoutSheet from '@/components/checkout/CheckoutSheet';
 import { useCountdown } from '@/hooks/use-countdown';
-
+import { useCheckout } from '@/contexts/CheckoutContext';
 
 function OfertaContent() {
     const searchParams = useSearchParams();
-    const pontos = parseInt(searchParams.get('pontos') || '0', 10);
+    const { setNome, setEmail } = useCheckout();
+    const [isCheckoutOpen, setCheckoutOpen] = useState(false);
+
     const nome = searchParams.get('nome') || 'Mamãe';
+    const email = searchParams.get('email') || '';
+
+    useEffect(() => {
+        setNome(nome);
+        setEmail(email);
+    }, [nome, email, setNome, setEmail]);
+
+    const pontos = parseInt(searchParams.get('pontos') || '0', 10);
     const DURATION_SECONDS = 15 * 60; // 15 minutos
     const { minutos, segundos, acabou, secondsLeft } = useCountdown(DURATION_SECONDS);
+
+    useEffect(() => {
+        if (isCheckoutOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isCheckoutOpen]);
 
     return (
         <div className="relative z-10 flex flex-col items-center justify-center w-full min-h-full py-12 px-4">
@@ -26,11 +48,15 @@ function OfertaContent() {
                 segundos={segundos}
                 totalDuration={DURATION_SECONDS}
                 secondsLeft={secondsLeft}
+                onCtaClick={() => setCheckoutOpen(true)}
+             />
+             <CheckoutSheet
+                isOpen={isCheckoutOpen}
+                onClose={() => setCheckoutOpen(false)}
              />
         </div>
     );
 }
-
 
 export default function OfertaPage() {
   return (

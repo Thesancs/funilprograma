@@ -13,6 +13,7 @@ import { Loader2, ArrowRight } from 'lucide-react';
 
 interface RespiracaoGuiadaProps {
   nome: string;
+  email: string;
 }
 
 const CYCLE_PHASES = [
@@ -26,7 +27,7 @@ const TOTAL_DURATION = CYCLE_DURATION * TOTAL_CYCLES;
 const PRE_START_COUNTDOWN = 5;
 
 
-export default function RespiracaoGuiada({ nome }: RespiracaoGuiadaProps) {
+export default function RespiracaoGuiada({ nome, email }: RespiracaoGuiadaProps) {
   const [status, setStatus] = useState<'initial' | 'countdown' | 'running' | 'finished'>('initial');
   const [countdown, setCountdown] = useState(PRE_START_COUNTDOWN);
   const [timeLeft, setTimeLeft] = useState(TOTAL_DURATION);
@@ -105,7 +106,12 @@ export default function RespiracaoGuiada({ nome }: RespiracaoGuiadaProps) {
     setIsLoading(true);
     console.log('[RespiracaoGuiada] Navegando para a próxima etapa');
     
-    router.push(`/quiz/alimentacao?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
+    const params = new URLSearchParams({
+      pontos: pontos.toString(),
+      nome,
+      email,
+    });
+    router.push(`/quiz/alimentacao?${params.toString()}`);
   };
 
   const formatTime = (seconds: number) => {

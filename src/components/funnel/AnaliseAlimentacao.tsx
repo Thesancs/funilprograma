@@ -12,6 +12,7 @@ import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 interface AnaliseAlimentacaoProps {
   nome: string;
+  email: string;
 }
 
 const pratos = [
@@ -42,7 +43,7 @@ const cardVariants = {
   }),
 };
 
-export default function AnaliseAlimentacao({ nome }: AnaliseAlimentacaoProps) {
+export default function AnaliseAlimentacao({ nome, email }: AnaliseAlimentacaoProps) {
   const [index, setIndex] = useState(0);
   const [resultados, setResultados] = useState<string[]>([]);
   const [feedback, setFeedback] = useState('');
@@ -96,7 +97,12 @@ export default function AnaliseAlimentacao({ nome }: AnaliseAlimentacaoProps) {
   };
 
   const handleNext = () => {
-    router.push(`/quiz/agua?pontos=${pontos}&nome=${encodeURIComponent(nome)}`);
+    const params = new URLSearchParams({
+      pontos: pontos.toString(),
+      nome,
+      email,
+    });
+    router.push(`/quiz/agua?${params.toString()}`);
   }
 
   return (

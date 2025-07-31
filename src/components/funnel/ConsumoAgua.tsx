@@ -11,9 +11,10 @@ import { Loader2 } from 'lucide-react';
 
 interface ConsumoAguaProps {
   nome: string;
+  email: string;
 }
 
-export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
+export default function ConsumoAgua({ nome, email }: ConsumoAguaProps) {
   const [litros, setLitros] = useState(2.5);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +44,12 @@ export default function ConsumoAgua({ nome }: ConsumoAguaProps) {
     console.log('[ConsumoAgua]', {litros, newPoints});
 
     setTimeout(() => {
-      router.push(`/quiz/atividade-fisica?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/atividade-fisica?${params.toString()}`);
     }, 1500);
   };
 

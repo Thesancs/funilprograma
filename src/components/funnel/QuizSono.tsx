@@ -13,6 +13,7 @@ type OpcaoSono = "nenhuma" | "facil" | "mal" | "pessimo";
 
 interface QuizSonoProps {
   nome: string;
+  email: string;
   selecionado: OpcaoSono;
   setSelecionado: (value: OpcaoSono) => void;
 }
@@ -30,7 +31,7 @@ const opcoes = [
   { id: 'pessimo', emoji: '😩', label: 'Não durmo nada bem' },
 ] as const;
 
-export default function QuizSono({ nome, selecionado, setSelecionado }: QuizSonoProps) {
+export default function QuizSono({ nome, email, selecionado, setSelecionado }: QuizSonoProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { pontos, addPoints } = useQuiz();
@@ -53,7 +54,12 @@ export default function QuizSono({ nome, selecionado, setSelecionado }: QuizSono
     console.log('[QuizSono] +100 pontos adicionados');
     console.log('[QuizSono] Avançando para a próxima etapa...');
     setTimeout(() => {
-      router.push(`/quiz/ansiedade?pontos=${newPoints}&nome=${encodeURIComponent(nome)}`);
+      const params = new URLSearchParams({
+        pontos: newPoints.toString(),
+        nome,
+        email,
+      });
+      router.push(`/quiz/ansiedade?${params.toString()}`);
     }, 1500);
   };
 
