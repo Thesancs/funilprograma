@@ -14,6 +14,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import OrderBumps from '@/components/funnel/OrderBumps';
+import { useCheckout } from '@/contexts/CheckoutContext';
 
 
 interface OfertaFinalProps {
@@ -197,7 +199,7 @@ function Footer() {
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft }: OfertaFinalProps) {
   const router = useRouter();
-  const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
+  const { selectedPlan, setSelectedPlan, totalPrice, orderBumps } = useCheckout();
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
     setSelectedPlan(plan);
@@ -212,15 +214,20 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
   const handleCtaClick = () => {
     if (ofertaExpirada) return;
-    router.push(`/checkout?plan=${selectedPlan}`);
+    const extrasQuery = JSON.stringify(orderBumps);
+    router.push(`/checkout?plan=${selectedPlan}&extras=${encodeURIComponent(extrasQuery)}`);
   };
 
   const descontoPercentual = 70;
   const mensagemPersonalizada = getMensagemPorPontos(pontos, nome);
 
-  const ctaText = selectedPlan === 'essencial' 
-    ? `Garantir Essencial por R$ ${planos.essencial.price}` 
-    : `Garantir Completo por R$ ${planos.completo.price}`;
+  const extrasCount = Object.keys(orderBumps).length;
+  const totalString = totalPrice.toFixed(2).replace('.', ',');
+
+  const ctaText = extrasCount > 0
+    ? `Finalizar minha compra por R$ ${totalString}`
+    : `Quero cuidar da saude do meu bebê agora`;
+
 
   const vagas = Math.floor((secondsLeft / totalDuration) * 32);
 
@@ -359,6 +366,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </div>
             </div>
 
+            <OrderBumps />
+
              <div className="my-6 p-4 rounded-xl bg-rose-400/10 backdrop-blur ring-1 ring-rose-300/20 max-w-lg mx-auto text-center">
                 <p className="font-semibold text-foreground/90 leading-relaxed">
                     “Por menos de R$1,50 por dia você evita problemas sérios, cuida da sua saúde e protege seu bebê com orientação real!”
@@ -378,7 +387,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                     disabled={ofertaExpirada}
                     className="w-full max-w-lg mx-auto h-auto py-3 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full text-lg font-bold shadow-lg shadow-pink-400/40 hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out animate-pulse hover:animate-none disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed disabled:animate-none disabled:shadow-none"
                 >
-                   {ofertaExpirada ? "Oferta Expirada" : "Quero cuidar da saude do meu bebê agora"}
+                   {ofertaExpirada ? "Oferta Expirada" : ctaText}
                 </Button>
             </div>
             
