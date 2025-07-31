@@ -39,12 +39,15 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json();
     
-    if (!data.pix || !data.pix.qr_code_base64) {
+    if (!data.pix || !data.pix.qr_code_base64 || !data.id) {
         console.error('Resposta inesperada da API Push in Pay:', data);
         throw new Error('Formato de resposta inesperado da API.');
     }
 
-    return NextResponse.json({ qrCodeBase64: data.pix.qr_code_base64 });
+    return NextResponse.json({ 
+        qrCodeBase64: data.pix.qr_code_base64,
+        chargeId: data.id 
+    });
 
   } catch (error) {
     console.error('Erro ao gerar PIX:', error);

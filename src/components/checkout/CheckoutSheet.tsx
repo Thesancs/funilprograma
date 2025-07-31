@@ -1,14 +1,14 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCheckout } from '@/contexts/CheckoutContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, CheckCircle } from 'lucide-react';
 
 interface CheckoutSheetProps {
   isOpen: boolean;
@@ -31,14 +31,70 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [chargeId, setChargeId] = useState<string | null>(null);
+  const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '' });
+  const pollingInterval = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isOpen) {
       setFormData({ name: nome, email: email });
-      setQrCode(null); // Reset QR code when sheet opens
+      setQrCode(null);
+      setChargeId(null);
+      setPaymentStatus(null);
+      if (pollingInterval.current) {
+        clearInterval(pollingInterval.current);
+      }
+    } else {
+       if (pollingInterval.current) {
+        clearInterval(pollingInterval.current);
+      }
     }
   }, [isOpen, nome, email]);
+
+  const checkPaymentStatus = async (id: string) => {
+    try {
+      const response = await fetch(`/api/pix/status/${id}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.status === 'paid') {
+          setPaymentStatus('paid');
+          toast({
+            title: "Pagamento Aprovado!",
+            description: "Sua compra foi confirmada com sucesso.",
+            variant: "default"
+          });
+          if (pollingInterval.current) {
+            clearInterval(pollingInterval.current);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao verificar status do pagamento:", error);
+    }
+  };
+  
+  useEffect(() => {
+    if (chargeId && paymentStatus !== 'paid') {
+      pollingInterval.current = setInterval(() => {
+        checkPaymentStatus(chargeId);
+      }, 3000); // Check every 3 seconds
+
+      // Stop polling after some time to avoid infinite loops
+      setTimeout(() => {
+        if (pollingInterval.current) {
+          clearInterval(pollingInterval.current);
+        }
+      }, 5 * 60 * 1000); // Stop after 5 minutes
+    }
+    
+    return () => {
+      if (pollingInterval.current) {
+        clearInterval(pollingInterval.current);
+      }
+    }
+  }, [chargeId, paymentStatus]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -77,6 +133,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
 
       const data = await response.json();
       setQrCode(data.qrCodeBase64);
+      setChargeId(data.chargeId);
 
     } catch (error) {
       console.error("Erro ao gerar PIX:", error);
@@ -173,12 +230,23 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
                         {isLoading ? <Loader2 className="animate-spin" /> : 'Gerar PIX'}
                     </Button>
                 </>
+            ) : paymentStatus === 'paid' ? (
+                <div className="flex flex-col items-center text-center">
+                    <CheckCircle className="w-20 h-20 text-emerald-500 mx-auto my-4" />
+                    <h3 className="font-semibold text-xl">Pagamento Aprovado!</h3>
+                    <p className="text-sm text-gray-600 mt-2 mb-4">Parabéns! Você receberá um e-mail em breve com todos os detalhes de acesso ao seu programa.</p>
+                    <Button variant="outline" onClick={onClose} className="mt-4">Fechar</Button>
+                </div>
             ) : (
                 <div className="flex flex-col items-center">
                     <h3 className="font-semibold">Pagamento via PIX</h3>
                     <p className="text-sm text-gray-600 mb-2">Escaneie o código para pagar</p>
                     <img src={qrCode} alt="QR Code PIX" className="w-48 h-48 mx-auto my-4" />
-                    <p className="text-xs text-center text-gray-500">Após o pagamento, você receberá um e-mail de confirmação com acesso ao programa.</p>
+                    <div className="flex items-center gap-2 text-gray-500">
+                        <Loader2 className="animate-spin h-4 w-4" />
+                        <span>Aguardando pagamento...</span>
+                    </div>
+                    <p className="text-xs text-center text-gray-500 mt-4">Após o pagamento, você receberá um e-mail de confirmação com acesso ao programa.</p>
                     <Button variant="link" onClick={onClose} className="mt-4">Fechar</Button>
                 </div>
             )}
