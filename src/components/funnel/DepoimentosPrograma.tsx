@@ -46,10 +46,22 @@ const depoimentos = [
 ];
 
 const beneficios = [
-  "Segurança, leveza e apoio em cada fase",
-  "Trimestre a trimestre: nutrição + emocional",
-  "Aulas rápidas em vídeo + PDF + Checklist",
-  "Grupo de suporte diário no WhatsApp",
+    {
+        title: "Etapa 1 – Nutrição Essencial por Trimestre",
+        description: "Planos adaptados ao seu corpo, com foco em energia, imunidade e desenvolvimento saudável do bebê."
+    },
+    {
+        title: "Etapa 2 – Bem-estar Emocional e Ansiedade Gestacional",
+        description: "Técnicas validadas por psicólogas que ajudam a lidar com medos, insegurança e pressão do dia a dia."
+    },
+    {
+        title: "Etapa 3 – Movimento Seguro e Ativo",
+        description: "Rotinas simples de alongamento, caminhada e respiração, pra aliviar dores e melhorar o sono."
+    },
+    {
+        title: "Etapa 4 – Apoio e Acompanhamento no WhatsApp",
+        description: "Grupo exclusivo com especialistas e outras gestantes, pra você nunca se sentir sozinha."
+    }
 ];
 
 export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgramaProps) {
@@ -103,23 +115,41 @@ export default function DepoimentosPrograma({ nome, pontos }: DepoimentosProgram
         {/* Seção 2: Apresentação do Programa */}
         <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
             <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
-                <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground">
-                    O que você vai receber 📦
-                </h2>
-                <ul className="space-y-3 mb-8">
+                <div className="text-center lg:text-left mb-6">
+                    <h2 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                        Você terá acesso ao Método B.E.M. – Bem-Estar Materno
+                    </h2>
+                    <p className="mt-2 text-muted-foreground">
+                        Um passo a passo criado pra ajudar você a viver sua gestação com mais segurança, leveza e equilíbrio, do início ao final da gravidez.
+                    </p>
+                </div>
+
+                <h3 className="text-xl font-semibold mb-4 text-foreground w-full">
+                    📦 O que você vai desbloquear dentro do método:
+                </h3>
+
+                <ul className="space-y-4 mb-6 text-left">
                     {beneficios.map((beneficio, index) => (
-                        <li key={index} className="flex items-center gap-3">
-                            <CheckCircle className="w-5 h-5 text-primary" />
-                            <span className="text-foreground">{beneficio}</span>
+                        <li key={index} className="flex items-start gap-3">
+                            <span className="mt-1">✅</span>
+                            <div className="flex-1">
+                                <span className="font-semibold text-foreground">{beneficio.title}</span>
+                                <p className="text-sm text-muted-foreground">{beneficio.description}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>
+                
+                <p className="text-sm text-muted-foreground text-center lg:text-left w-full mb-8">
+                    📌 Tudo entregue de forma prática: vídeos rápidos, áudio-guias e ferramentas pra usar no seu tempo.
+                </p>
+
                  <Button 
                     size="lg"
                     onClick={handleCtaClick}
                     className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
                 >
-                    Quero acesso completo ao meu plano
+                    Quero acesso ao Método B.E.M.
                 </Button>
             </Card>
             <div className="hidden lg:block lg:w-1/2">
