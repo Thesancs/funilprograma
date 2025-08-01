@@ -53,7 +53,7 @@ const depoimentos = [
     trimestre: "3º Trimestre",
     avaliacao: 5,
     depoimento: "Na reta final, a ansiedade estava a mil. As técnicas de respiração e o acompanhamento fizeram toda a diferença. Cheguei no parto muito mais tranquila.",
-    avatar: "https://i.imgur.com/N1aE24Z.jpeg",
+    avatar: "https://i.postimg.cc/0N9dN7LG/images-11.jpg",
     dataAiHint: "serene woman"
   },
   {
@@ -461,8 +461,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="flex -left-2 sm:-left-8" />
-            <CarouselNext className="flex -right-2 sm:-right-8" />
+            <CarouselPrevious className="flex -left-2 sm:-left-4" />
+            <CarouselNext className="flex -right-2 sm:-right-4" />
             </Carousel>
         </section>
         
