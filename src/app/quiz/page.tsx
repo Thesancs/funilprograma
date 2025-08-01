@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import QuizGravidez from '@/components/funnel/QuizGravidez';
@@ -14,6 +14,7 @@ function QuizContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setStep, stepIndex, totalSteps, bonusStep, stepLabels, pontos, addPoints, setInitialPontos } = useQuiz();
+  const toastShownRef = useRef(false);
 
   useEffect(() => {
     setStep(0);
@@ -25,11 +26,14 @@ function QuizContent() {
   const email = searchParams.get('email') || '';
   
   useEffect(() => {
-    addPoints(0, {
-        title: `🎉 Bem-vinda, ${nome}! Você ganhou 150 Pontos de Cuidado!`,
-        description: "Responda o quiz para ganhar mais pontos.",
-        duration: 4000,
-    });
+    if (!toastShownRef.current) {
+        addPoints(0, {
+            title: `🎉 Bem-vinda, ${nome}! Você ganhou 150 Pontos de Cuidado!`,
+            description: "Responda o quiz para ganhar mais pontos.",
+            duration: 3000,
+        });
+        toastShownRef.current = true;
+    }
   }, [addPoints, nome]);
 
   const handleNext = () => {
