@@ -35,7 +35,7 @@ const depoimentos = [
     trimestre: "Mãe de primeira viagem",
     avaliacao: 5,
     depoimento: "O plano completo foi a melhor decisão! Tive todo o suporte que precisava, desde a dieta até os exercícios de relaxamento. Me senti muito mais segura e preparada.",
-    avatar: "https://i.imgur.com/w8kf5xT.jpeg",
+    avatar: "https://i.postimg.cc/Jzvpxpd1/images-14.jpg",
     dataAiHint: "happy mother"
   },
   {
