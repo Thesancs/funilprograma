@@ -298,5 +298,3 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
 }
 
     
-
-    
