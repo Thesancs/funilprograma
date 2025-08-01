@@ -65,7 +65,7 @@ const especialistas = [
         nome: "Equipe de Fisioterapeutas e Doulas",
         especialidade: "Fisioterapeutas e Doulas",
         descricao: "Suporte ao parto, dores lombares, fortalecimento do assoalho pélvico e recuperação pós-parto.",
-        avatar: "https://i.imgur.com/i3vT9Gz.jpeg",
+        avatar: "https://i.postimg.cc/hhFNLf90/file-00000000506061f7bbfacb7b2199f2c3.png",
         dataAiHint: "healthcare team"
     }
 ];
