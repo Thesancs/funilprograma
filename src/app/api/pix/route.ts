@@ -9,47 +9,48 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 });
     }
     
-    // Chamada real para a API Push in Pay
-    const PUSHINPAY_KEY = process.env.PUSHINPAY_KEY;
-    if (!PUSHINPAY_KEY) {
-      throw new Error('Chave da API Push in Pay não configurada');
+    const apiKey = process.env.PUSHINPAY_KEY;
+    if (!apiKey) {
+      throw new Error('Chave da API Push in Pay (PUSHINPAY_KEY) não configurada no ambiente.');
     }
 
     console.log('Gerando PIX para:', { amount, description, payer });
     
-    const response = await fetch('https://api.pushinpay.com/v1/charges', {
+    const response = await fetch('https://api.pushinpay.com.br/api/pix/cashIn', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${PUSHINPAY_KEY}`,
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
         },
         body: JSON.stringify({
-            amount,
+            value: amount,
             description,
             payer,
             "payment_methods": ["pix"],
         })
     });
 
+    const responseBody = await response.text();
+    
     if (!response.ok) {
-        const errorBody = await response.text();
-        console.error('Erro da API Push in Pay:', errorBody);
+        console.error('Erro da API Push in Pay:', responseBody);
         return NextResponse.json(
-          { error: 'PushInPayError', details: `Status: ${response.status} - ${errorBody}` },
+          { error: 'PushInPayError', details: `Status: ${response.status} - ${responseBody}` },
           { status: response.status },
         )
     }
 
-    const data = await response.json();
+    const data = JSON.parse(responseBody);
     
-    if (!data.pix || !data.pix.qr_code_base64 || !data.id) {
+    if (!data.pix || !data.pix.qr_code_base64 || !data.pix.txid) {
         console.error('Resposta inesperada da API Push in Pay:', data);
         throw new Error('Formato de resposta inesperado da API.');
     }
 
     return NextResponse.json({ 
         qrCodeBase64: data.pix.qr_code_base64,
-        chargeId: data.id 
+        chargeId: data.pix.txid, // txid é o ID que usaremos para consultar o status
     });
 
   } catch (error) {
