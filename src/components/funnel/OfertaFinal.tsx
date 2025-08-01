@@ -56,6 +56,33 @@ const depoimentos = [
     avatar: "https://i.imgur.com/N1aE24Z.jpeg",
     dataAiHint: "serene woman"
   },
+  {
+    nome: "Juliana A.",
+    cidade: "SP",
+    trimestre: "mãe de primeira gestação",
+    avaliacao: 5,
+    depoimento: "Eu chorava de medo de comer algo errado e prejudicar meu bebê. O programa me deu segurança, clareza e uma paz absurda. Hoje, sigo o cardápio certinho e até meu marido entrou no clima da alimentação saudável. Valeu cada centavo!",
+    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
+    dataAiHint: "woman portrait"
+  },
+  {
+    nome: "Renata M.",
+    cidade: "MG",
+    trimestre: "32 semanas",
+    avaliacao: 5,
+    depoimento: "Tava sofrendo com enjoos diários e me sentindo fraca. Quando comecei o plano, em 3 dias já senti diferença! O bônus anti-enjoo salvou minha rotina. Recomendo pra toda grávida que quer parar de sofrer calada!",
+    avatar: "https://i.imgur.com/11ScJIc.jpeg",
+    dataAiHint: "woman portrait"
+  },
+  {
+    nome: "Patrícia S.",
+    cidade: "BA",
+    trimestre: "mãe de segunda viagem",
+    avaliacao: 4,
+    depoimento: "Na primeira gestação eu fiquei perdida. Agora fiz diferente. Esse método me ajudou a organizar tudo: dieta, mente e rotina. O grupo de apoio também me deu força quando bateu a ansiedade. Me sinto muito mais preparada.",
+    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
+    dataAiHint: "happy woman"
+  }
 ];
 
 const faqItems = [
@@ -434,8 +461,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="flex" />
+            <CarouselNext className="flex" />
             </Carousel>
         </section>
         

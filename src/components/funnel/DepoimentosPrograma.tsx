@@ -131,7 +131,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
                     Conheça o Programa Bem-Estar Gestacional
                 </h1>
                 <p className="text-center text-[17px] font-medium mt-2 text-[#344154] max-w-sm mx-auto">
-                    ✨ Seu plano de bem-estar físico e emocional durante a gravidez, feito pra sua realidade e sua rotina.
+                     Seu plano de bem-estar físico e emocional durante a gravidez, feito pra sua realidade e sua rotina.
                 </p>
             </Card>
              <Button
@@ -156,7 +156,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
                 </div>
 
                 <h3 className="text-xl font-semibold mb-4 text-foreground w-full">
-                   📦 O que você vai desbloquear dentro do método:
+                    O que você vai desbloquear dentro do método:
                 </h3>
 
                 <ul className="space-y-4 mb-6 text-left">
@@ -172,7 +172,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
                 </ul>
                 
                 <p className="text-sm text-muted-foreground text-center lg:text-left w-full mb-8">
-                📌 Tudo entregue de forma prática: vídeos rápidos, áudio-guias e ferramentas pra usar no seu tempo.
+                 Tudo entregue de forma prática: vídeos rápidos, áudio-guias e ferramentas pra usar no seu tempo.
                 </p>
 
                  <Button 
@@ -197,7 +197,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
 
         <section className="w-full flex flex-col items-center text-center">
             <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-foreground/80">
-            🗣️ O que outras mamães estão dizendo
+             O que outras mamães estão dizendo
             </h2>
             <Carousel
             opts={{ align: "start", loop: true }}
@@ -235,7 +235,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
          <section className="w-full max-w-3xl text-center flex flex-col items-center gap-8">
              <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center gap-4">
                  <BrainCircuit className="w-8 h-8 text-primary" data-ai-hint="brain" />
-                <h3 className="text-xl font-semibold text-foreground">🧠 “Quem criou este programa?”</h3>
+                <h3 className="text-xl font-semibold text-foreground"> Quem criou este programa?”</h3>
                 <p className="text-muted-foreground max-w-xl">
                     O Programa Bem-Estar Gestacional nasceu no Instituto B.E.M. – Bem-Estar Materno, uma iniciativa formada por profissionais especializados no cuidado com a gestante em todas as fases da gravidez.
                 </p>

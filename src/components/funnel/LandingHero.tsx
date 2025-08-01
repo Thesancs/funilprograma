@@ -29,7 +29,7 @@ export default function LandingHero() {
               </CardHeader>
               <CardContent className="space-y-6 flex flex-col items-center">
                  <CardDescription className="text-lg leading-relaxed max-w-xl mx-auto text-muted-foreground">
-                  👉 Responda às perguntas, acumule pontos e desbloqueie um
+                   Responda às perguntas, acumule pontos e desbloqueie um
                   <strong> bônus incrível</strong> que só quem conclui o quiz recebe.
                 </CardDescription>
                 
