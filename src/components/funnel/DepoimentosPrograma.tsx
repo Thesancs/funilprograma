@@ -58,7 +58,7 @@ const especialistas = [
         nome: "Dra. Luiza B.",
         especialidade: "Psicóloga Gestacional",
         descricao: "Focada em saúde emocional, ansiedade, vínculo com o bebê e acolhimento psicológico da mãe.",
-        avatar: "https://i.imgur.com/vSOaFkR.jpeg",
+        avatar: "https://i.postimg.cc/ydw5FDK8/Save-Clip-App-504022772-17976656351854795-5017315893212782664-n.jpg",
         dataAiHint: "psychologist portrait"
     },
      {
