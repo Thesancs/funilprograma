@@ -71,7 +71,7 @@ const depoimentos = [
     trimestre: "32 semanas",
     avaliacao: 5,
     depoimento: "Tava sofrendo com enjoos diários e me sentindo fraca. Quando comecei o plano, em 3 dias já senti diferença! O bônus anti-enjoo salvou minha rotina. Recomendo pra toda grávida que quer parar de sofrer calada!",
-    avatar: "https://i.imgur.com/11ScJIc.jpeg",
+    avatar: "https://i.postimg.cc/QCWCX8cT/images-10.jpg",
     dataAiHint: "woman portrait"
   },
   {
@@ -461,8 +461,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="flex -left-4 sm:-left-8" />
-            <CarouselNext className="flex -right-4 sm:-right-8" />
+            <CarouselPrevious className="flex -left-2 sm:-left-8" />
+            <CarouselNext className="flex -right-2 sm:-right-8" />
             </Carousel>
         </section>
         
