@@ -57,7 +57,7 @@ const depoimentos = [
     dataAiHint: "serene woman"
   },
   {
-    nome: "Juliana A.",
+    nome: "Júlia A.",
     cidade: "SP",
     trimestre: "mãe de primeira gestação",
     avaliacao: 5,
@@ -485,5 +485,3 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
     </>
   );
 }
-
-    
