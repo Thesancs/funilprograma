@@ -104,7 +104,7 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
             </CardContent>
             </Card>
             
-            <div className="mt-12">
+            <div className="mt-8">
                 <Button
                 onClick={handleNext}
                 disabled={selecionado === "nenhuma" || isLoading}
