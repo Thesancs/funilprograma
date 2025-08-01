@@ -62,7 +62,7 @@ const depoimentos = [
     trimestre: "mãe de primeira gestação",
     avaliacao: 5,
     depoimento: "Eu chorava de medo de comer algo errado e prejudicar meu bebê. O programa me deu segurança, clareza e uma paz absurda. Hoje, sigo o cardápio certinho e até meu marido entrou no clima da alimentação saudável. Valeu cada centavo!",
-    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
+    avatar: "https://i.postimg.cc/Fz4qZTzf/images-12.jpg",
     dataAiHint: "woman portrait"
   },
   {
