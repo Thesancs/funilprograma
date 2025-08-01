@@ -125,21 +125,24 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
             />
         </div>
 
-        <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center justify-center gap-4 text-center">
-            <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">
-                Conheça o Programa Bem-Estar Gestacional
-            </h1>
-            <p className="text-center text-[17px] font-medium mt-2 text-[#344154] max-w-sm mx-auto">
-                ✨ Seu plano de bem-estar físico e emocional durante a gravidez, feito pra sua realidade e sua rotina.
-            </p>
-            <Button
-                variant="ghost"
+        <div className="w-full max-w-4xl flex flex-col items-center justify-center gap-6 text-center">
+            <Card className="w-full bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6">
+                <h1 className="text-2xl sm:text-3xl font-semibold text-foreground">
+                    Conheça o Programa Bem-Estar Gestacional
+                </h1>
+                <p className="text-center text-[17px] font-medium mt-2 text-[#344154] max-w-sm mx-auto">
+                    ✨ Seu plano de bem-estar físico e emocional durante a gravidez, feito pra sua realidade e sua rotina.
+                </p>
+            </Card>
+             <Button
+                size="lg"
                 onClick={handleScrollToProgram}
-                className="text-primary hover:bg-pink-100/50"
+                className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105"
             >
                 Quero começar agora
             </Button>
-        </Card>
+        </div>
+
 
         <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
             <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
@@ -293,3 +296,5 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
     </div>
   );
 }
+
+    
