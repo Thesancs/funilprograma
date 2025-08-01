@@ -275,7 +275,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
             
             <h1 className="text-2xl md:text-3xl font-bold">
-                Parabéns, {nome}!
+                Parabéns, ${nome}!
             </h1>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
                 {mensagemPersonalizada}
@@ -461,8 +461,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="flex" />
-            <CarouselNext className="flex" />
+            <CarouselPrevious className="flex -left-4 sm:-left-8" />
+            <CarouselNext className="flex -right-4 sm:-right-8" />
             </Carousel>
         </section>
         
