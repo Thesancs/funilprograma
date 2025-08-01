@@ -51,7 +51,7 @@ const especialistas = [
         nome: "Dra. Amanda R.",
         especialidade: "Nutricionista Materna",
         descricao: "Especializada em alimentação por trimestre e controle de sintomas como enjoo, azia e ganho de peso.",
-        avatar: "https://i.imgur.com/5J0kZ9Q.jpeg",
+        avatar: "https://i.postimg.cc/MTHpfQGf/Save-Clip-App-471654552-18260581438257553-9002701838454704383-n.jpg",
         dataAiHint: "nutritionist portrait"
     },
     {
@@ -296,5 +296,7 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
     </div>
   );
 }
+
+    
 
     
