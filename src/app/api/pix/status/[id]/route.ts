@@ -12,7 +12,7 @@ export async function GET(
   }
 
   try {
-    const PUSHINPAY_KEY = "40720|ZTeDFx0PSENL95JRHva9SWKXZnXhVIQOohifCp03f9d22c92";
+    const PUSHINPAY_KEY = process.env.PUSHINPAY_KEY;
     if (!PUSHINPAY_KEY) {
       throw new Error('Chave da API Push in Pay não configurada');
     }
