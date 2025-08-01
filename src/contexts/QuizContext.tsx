@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { Heart, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { Toast } from '@/hooks/use-toast';
 
@@ -112,6 +112,14 @@ const CarePointsFlash = ({ points, onClose }: { points: number, onClose: () => v
     );
 };
 
+const fakePurchases = [
+    { name: 'Juliana S.', plan: 'Método Gestante Blindada™' },
+    { name: 'Fernanda L.', plan: 'Nutrição Expressa™' },
+    { name: 'Carla M.', plan: 'Método Gestante Blindada™' },
+    { name: 'Aline P.', plan: 'Método Gestante Blindada™' },
+    { name: 'Mariana C.', plan: 'Nutrição Expressa™' },
+    { name: 'Patrícia A.', plan: 'Método Gestante Blindada™' },
+];
 
 export function QuizProvider({ children }: { children: ReactNode }) {
   const [stepIndex, setStepIndex] = useState(0);
@@ -149,6 +157,38 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       
       return newTotal;
   }, [pontos, toast]);
+
+  useEffect(() => {
+    let socialProofInterval: NodeJS.Timeout;
+
+    const showSocialProofToast = () => {
+        const randomPurchase = fakePurchases[Math.floor(Math.random() * fakePurchases.length)];
+        toast({
+            title: (
+                <div className="flex items-center gap-3">
+                    <CheckCircle className="h-6 w-6 text-emerald-500" />
+                    <p className="text-sm font-medium text-foreground">
+                        <span className="font-bold">{randomPurchase.name}</span>
+                        {' acabou de adquirir o '}
+                        <span className="font-semibold text-primary/90">{randomPurchase.plan}</span>!
+                    </p>
+                </div>
+            ),
+            duration: 4000,
+        });
+
+        // Schedule next toast
+        const nextInterval = Math.random() * (25000 - 10000) + 10000; // between 10-25 seconds
+        socialProofInterval = setTimeout(showSocialProofToast, nextInterval);
+    };
+
+    // Start the first toast after a delay
+    socialProofInterval = setTimeout(showSocialProofToast, 8000); // Wait 8 seconds before the first one
+
+    return () => {
+        clearTimeout(socialProofInterval);
+    };
+}, [toast]);
 
 
   return (
