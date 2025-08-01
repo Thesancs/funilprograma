@@ -80,7 +80,7 @@ const depoimentos = [
     trimestre: "mãe de segunda viagem",
     avaliacao: 4,
     depoimento: "Na primeira gestação eu fiquei perdida. Agora fiz diferente. Esse método me ajudou a organizar tudo: dieta, mente e rotina. O grupo de apoio também me deu força quando bateu a ansiedade. Me sinto muito mais preparada.",
-    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
+    avatar: "https://i.postimg.cc/rpRP2Bt0/images-13.jpg",
     dataAiHint: "happy woman"
   }
 ];
@@ -461,8 +461,8 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselPrevious className="flex -left-2 sm:-left-4" />
-            <CarouselNext className="flex -right-2 sm:-right-4" />
+            <CarouselPrevious className="flex left-2 sm:-left-4" />
+            <CarouselNext className="flex right-2 sm:-right-4" />
             </Carousel>
         </section>
         
