@@ -44,7 +44,7 @@ const depoimentos = [
     trimestre: "2ª Gestação",
     avaliacao: 5,
     depoimento: "Mesmo já tendo um filho, cada gestação é única. O programa me ajudou a organizar minha rotina e a cuidar de mim. O grupo VIP é fantástico!",
-    avatar: "https://i.imgur.com/gplExUE.jpeg",
+    avatar: "https://i.postimg.cc/wTb2xWzh/images-15.jpg",
     dataAiHint: "smiling woman"
   },
   {
