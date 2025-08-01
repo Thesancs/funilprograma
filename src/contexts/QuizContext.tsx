@@ -178,12 +178,12 @@ export function QuizProvider({ children }: { children: ReactNode }) {
         });
 
         // Schedule next toast
-        const nextInterval = Math.random() * (25000 - 10000) + 10000; // between 10-25 seconds
+        const nextInterval = Math.random() * (45000 - 25000) + 25000; // between 25-45 seconds
         socialProofInterval = setTimeout(showSocialProofToast, nextInterval);
     };
 
     // Start the first toast after a delay
-    socialProofInterval = setTimeout(showSocialProofToast, 8000); // Wait 8 seconds before the first one
+    socialProofInterval = setTimeout(showSocialProofToast, 12000); // Wait 12 seconds before the first one
 
     return () => {
         clearTimeout(socialProofInterval);
