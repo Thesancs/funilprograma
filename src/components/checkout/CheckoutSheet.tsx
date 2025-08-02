@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle } from 'lucide-react';
+import { Loader2, CheckCircle, Copy, Check, QrCode, CreditCard } from 'lucide-react';
 
 interface CheckoutSheetProps {
   isOpen: boolean;
@@ -31,22 +31,23 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
+  const [pixCode, setPixCode] = useState<string | null>(null); // NOVO: PIX Copia e Cola
   const [chargeId, setChargeId] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '' });
+  const [copied, setCopied] = useState(false); // NOVO: Estado do botão copiar
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isOpen) {
-      setFormData({ name: nome, email: email });
+      setFormData({ name: nome, email });
+    } else {
       setQrCode(null);
+      setPixCode(null); // NOVO: Limpar PIX code
       setChargeId(null);
       setPaymentStatus(null);
+      setCopied(false); // NOVO: Reset copied state
       if (pollingInterval.current) {
-        clearInterval(pollingInterval.current);
-      }
-    } else {
-       if (pollingInterval.current) {
         clearInterval(pollingInterval.current);
       }
     }
@@ -59,6 +60,17 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
         const data = await response.json();
         if (data.status === 'paid') {
           setPaymentStatus('paid');
+          
+          // DISPARAR EVENTO UTMIFY DE PURCHASE
+          if (typeof window !== 'undefined' && (window as any).utmify) {
+            (window as any).utmify('event', 'Purchase', {
+              transaction_id: id,
+              content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
+              currency: 'BRL',
+              value: totalPrice
+            });
+          }
+          
           toast({
             title: "Pagamento Aprovado!",
             description: "Sua compra foi confirmada com sucesso.",
@@ -95,10 +107,31 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
     }
   }, [chargeId, paymentStatus]);
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // NOVA FUNÇÃO: Copiar PIX code
+  const copyPixCode = async () => {
+    if (pixCode) {
+      try {
+        await navigator.clipboard.writeText(pixCode);
+        setCopied(true);
+        toast({
+          title: "PIX Copiado!",
+          description: "Código PIX copiado para a área de transferência.",
+          variant: "default"
+        });
+        setTimeout(() => setCopied(false), 3000);
+      } catch (error) {
+        toast({
+          title: "Erro ao copiar",
+          description: "Não foi possível copiar o código PIX.",
+          variant: "destructive"
+        });
+      }
+    }
   };
 
   const generatePix = async () => {
@@ -113,6 +146,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
 
     setIsLoading(true);
     setQrCode(null);
+    setPixCode(null); // NOVO: Limpar PIX code anterior
 
     const description = `Plano: ${planos[selectedPlan].title}`;
 
@@ -134,6 +168,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
       }
       
       setQrCode(data.qrCodeBase64);
+      setPixCode(data.qrCode); // NOVO: Salvar PIX Copia e Cola
       setChargeId(data.chargeId);
 
     } catch (error) {
@@ -187,7 +222,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           />
 
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl p-6 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] touch-none"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl p-6 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] touch-none max-h-[90vh] overflow-y-auto"
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
             onDragEnd={(e, info) => {
@@ -240,15 +275,85 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
                     <Button variant="outline" onClick={onClose} className="mt-4">Fechar</Button>
                 </div>
             ) : (
-                <div className="flex flex-col items-center">
-                    <h3 className="font-semibold">Pagamento via PIX</h3>
-                    <p className="text-sm text-gray-600 mb-2">Escaneie o código para pagar</p>
-                    <img src={`data:image/png;base64,${qrCode}`} alt="QR Code PIX" className="w-48 h-48 mx-auto my-4" />
-                    <div className="flex items-center gap-2 text-gray-500">
-                        <Loader2 className="animate-spin h-4 w-4" />
-                        <span>Aguardando pagamento...</span>
+                <div className="flex flex-col items-center space-y-4">
+                    <h3 className="font-semibold text-xl">Pagamento via PIX</h3>
+                    
+                    {/* SEÇÃO QR CODE */}
+                    <div className="bg-gray-50 rounded-2xl p-4 w-full">
+                        <div className="flex items-center gap-2 mb-3">
+                            <QrCode className="w-5 h-5 text-emerald-600" />
+                            <span className="font-medium text-gray-700">Escaneie o QR Code</span>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 flex justify-center">
+                            <img 
+                                src={`data:image/png;base64,${qrCode}`} 
+                                alt="QR Code PIX" 
+                                className="w-48 h-48" 
+                            />
+                        </div>
+                        <p className="text-xs text-gray-500 text-center mt-2">
+                            Abra o app do seu banco e escaneie o código
+                        </p>
                     </div>
-                    <p className="text-xs text-center text-gray-500 mt-4">Após o pagamento, você receberá um e-mail de confirmação com acesso ao programa.</p>
+
+                    {/* DIVISOR */}
+                    <div className="flex items-center w-full my-4">
+                        <div className="flex-1 h-px bg-gray-200"></div>
+                        <span className="px-3 text-sm text-gray-500 bg-white">ou</span>
+                        <div className="flex-1 h-px bg-gray-200"></div>
+                    </div>
+
+                    {/* SEÇÃO PIX COPIA E COLA */}
+                    <div className="bg-blue-50 rounded-2xl p-4 w-full">
+                        <div className="flex items-center gap-2 mb-3">
+                            <CreditCard className="w-5 h-5 text-blue-600" />
+                            <span className="font-medium text-gray-700">PIX Copia e Cola</span>
+                        </div>
+                        
+                        <div className="bg-white rounded-xl border-2 border-dashed border-blue-200 p-3">
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span className="text-xs font-medium text-blue-600">CÓDIGO PIX</span>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                                <p className="text-xs text-gray-600 font-mono break-all leading-relaxed">
+                                    {pixCode}
+                                </p>
+                            </div>
+                            <Button
+                                onClick={copyPixCode}
+                                variant="outline"
+                                className="w-full flex items-center gap-2 border-blue-200 text-blue-600 hover:bg-blue-50"
+                            >
+                                {copied ? (
+                                    <>
+                                        <Check className="w-4 h-4" />
+                                        Copiado!
+                                    </>
+                                ) : (
+                                    <>
+                                        <Copy className="w-4 h-4" />
+                                        Copiar código PIX
+                                    </>
+                                )}
+                            </Button>
+                        </div>
+                        
+                        <p className="text-xs text-gray-500 text-center mt-2">
+                            Cole este código no seu app bancário na opção "PIX Copia e Cola"
+                        </p>
+                    </div>
+
+                    {/* STATUS DE PAGAMENTO */}
+                    <div className="flex items-center gap-2 text-gray-500 mt-4">
+                        <Loader2 className="animate-spin h-4 w-4" />
+                        <span className="text-sm">Aguardando pagamento...</span>
+                    </div>
+                    
+                    <p className="text-xs text-center text-gray-500 mt-2">
+                        Após o pagamento, você receberá um e-mail de confirmação com acesso ao programa.
+                    </p>
+                    
                     <Button variant="link" onClick={onClose} className="mt-4">Fechar</Button>
                 </div>
             )}
