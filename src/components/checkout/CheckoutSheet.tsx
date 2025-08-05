@@ -214,7 +214,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 touch-none"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -222,7 +222,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           />
 
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl p-6 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] touch-none max-h-[90vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl p-6 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] touch-pan-y max-h-[90vh] overflow-y-auto"
             drag="y"
             dragConstraints={{ top: 0, bottom: 0 }}
             onDragEnd={(e, info) => {
