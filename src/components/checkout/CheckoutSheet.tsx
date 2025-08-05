@@ -235,9 +235,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
   exit={{ y: '100%' }}
   transition={{ type: 'spring', stiffness: 260, damping: 25 }}
 >
-  {/* conteúdo */}
-</motion.div
-          >
+          
             <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-3" />
             <button
               onClick={onClose}
