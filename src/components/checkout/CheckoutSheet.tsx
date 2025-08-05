@@ -221,17 +221,22 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
             exit={{ opacity: 0 }}
           />
 
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-3xl p-6 pb-10 shadow-[0_-10px_30px_rgba(0,0,0,0.15)] touch-pan-y max-h-[90vh] overflow-y-auto"
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            onDragEnd={(e, info) => {
-              if (info.offset.y > 100) onClose();
-            }}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+         <motion.div
+  className="
+    fixed inset-0 z-50 bg-white
+    h-[100vh] w-[100vw]
+    flex flex-col
+    p-0
+    rounded-none
+    shadow-none
+  "
+  initial={{ y: '100%' }}
+  animate={{ y: 0 }}
+  exit={{ y: '100%' }}
+  transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+>
+  {/* conteúdo */}
+</motion.div
           >
             <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mb-3" />
             <button
