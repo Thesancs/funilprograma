@@ -213,7 +213,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div
+         <motion.div
             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
             onClick={onClose}
             initial={{ opacity: 0 }}
@@ -229,6 +229,7 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
     p-0
     rounded-none
     shadow-none
+    overflow-y-auto
   "
   initial={{ y: '100%' }}
   animate={{ y: 0 }}
