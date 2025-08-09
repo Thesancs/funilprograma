@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users, AlertTriangle } from 'lucide-react';
@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import OrderBumps from '@/components/funnel/OrderBumps';
 import { useCheckout } from '@/contexts/CheckoutContext';
+import { useToast } from '@/hooks/use-toast';
 
 
 interface OfertaFinalProps {
@@ -127,6 +128,15 @@ const planos = {
   }
 }
 
+const fakePurchases = [
+  { name: 'Juliana S.', plan: 'Método Gestante Blindada™' },
+  { name: 'Fernanda L.', plan: 'Nutrição Expressa™' },
+  { name: 'Carla M.', plan: 'Método Gestante Blindada™' },
+  { name: 'Aline P.', plan: 'Método Gestante Blindada™' },
+  { name: 'Mariana C.', plan: 'Nutrição Expressa™' },
+  { name: 'Patrícia A.', plan: 'Método Gestante Blindada™' },
+];
+
 const getMensagemPorPontos = (pontos: number, nome: string) => {
     if (pontos > 800) {
         return `Você é uma supermãe, ${nome}! Seu cuidado e dedicação são inspiradores. Por isso, preparamos um presente especial para você continuar brilhando.`;
@@ -226,6 +236,7 @@ function Footer() {
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft, onCtaClick }: OfertaFinalProps) {
   const { selectedPlan, setSelectedPlan, totalPrice, orderBumps } = useCheckout();
+  const { toast } = useToast();
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
     setSelectedPlan(plan);
@@ -248,6 +259,35 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
 
   const vagas = Math.floor((secondsLeft / totalDuration) * 32);
+
+  useEffect(() => {
+    let socialProofTimeout: NodeJS.Timeout;
+
+    const showSocialProofToast = () => {
+      const randomPurchase = fakePurchases[Math.floor(Math.random() * fakePurchases.length)];
+      toast({
+        title: (
+          <div className="flex items-center gap-3">
+            <CheckCircle className="h-6 w-6 text-emerald-500" />
+            <p className="text-sm font-medium text-foreground">
+              <span className="font-bold">{randomPurchase.name}</span>
+              {' acabou de adquirir o '}
+              <span className="font-semibold text-primary/90">{randomPurchase.plan}</span>!
+            </p>
+          </div>
+        ),
+        duration: 4000,
+      });
+
+      const nextInterval = Math.random() * (10000 - 3000) + 3000;
+      socialProofTimeout = setTimeout(showSocialProofToast, nextInterval);
+    };
+
+    const initialDelay = Math.random() * (10000 - 3000) + 3000;
+    socialProofTimeout = setTimeout(showSocialProofToast, initialDelay);
+
+    return () => clearTimeout(socialProofTimeout);
+  }, [toast]);
 
 
   return (

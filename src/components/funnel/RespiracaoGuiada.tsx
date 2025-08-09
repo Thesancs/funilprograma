@@ -187,13 +187,6 @@ export default function RespiracaoGuiada({ nome, email }: RespiracaoGuiadaProps)
                 >
                     Iniciar Respiração Guiada
                 </Button>
-                <Button
-                    onClick={handleNext}
-                    variant="link"
-                    className="mt-2"
-                >
-                    Pular
-                </Button>
                 </motion.div>
             )}
             
