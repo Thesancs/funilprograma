@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, CheckCircle, Copy, Check, QrCode, CreditCard } from 'lucide-react';
+import { track } from '@/lib/tracking';
 
 interface CheckoutSheetProps {
   isOpen: boolean;
@@ -62,13 +63,29 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           setPaymentStatus('paid');
           
           // DISPARAR EVENTO UTMIFY DE PURCHASE
-          if (typeof window !== 'undefined' && (window as any).utmify) {
-            (window as any).utmify('event', 'Purchase', {
-              transaction_id: id,
-              content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
-              currency: 'BRL',
-              value: totalPrice
-            });
+          track('Purchase', {
+            transaction_id: id,
+            content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
+            currency: 'BRL',
+            value: totalPrice,
+          });
+          if (process.env.NEXT_PUBLIC_TRACKING_MODE !== 'legacy-client') {
+            fetch('/api/fb/capi', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event_name: 'Purchase',
+                event_time: Math.floor(Date.now() / 1000),
+                event_id: id,
+                event_source_url: window.location.href,
+                custom_data: {
+                  currency: 'BRL',
+                  value: totalPrice,
+                  content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
+                  transaction_id: id,
+                },
+              }),
+            }).catch(() => {});
           }
           
           toast({
