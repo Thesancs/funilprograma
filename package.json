@@ -64,5 +64,15 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all",
+      "not IE > 0",
+      "last 3 Chrome versions",
+      "last 3 Android versions"
+    ]
   }
 }

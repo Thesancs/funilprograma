@@ -5,7 +5,8 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Heart, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import DepoimentosPrograma from '@/components/funnel/DepoimentosPrograma';
+import dynamic from 'next/dynamic';
+const DepoimentosPrograma = dynamic(() => import('@/components/funnel/DepoimentosPrograma'), { ssr: false, loading: () => null });
 import Image from 'next/image';
 
 function PlanoContent() {
