@@ -9,7 +9,7 @@ import { Button } from '../ui/button';
 export default function LandingHero() {
 
   const handleCtaClick = () => {
-    console.log('[LandingHero] CTA clicked, navigating to /cadastro');
+    console.log('[LandingHero] CTA clicked, navigating to /quiz');
   };
 
   return (
@@ -23,7 +23,7 @@ export default function LandingHero() {
             <Card className="w-full max-w-2xl text-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
               <CardHeader>
                 <CardTitle className="text-[clamp(1.8rem,5vw,2.75rem)] font-extrabold text-foreground leading-tight">
-                  Faça seu cadastro e{' '}
+                  Comece seu quiz e{' '}
                   <span className="text-pink-600">ganhe uma promoção extra!</span>
                 </CardTitle>
               </CardHeader>
@@ -49,7 +49,7 @@ export default function LandingHero() {
                 </ul>
 
                 <div className="pt-4 text-center">
-                    <Link href="/cadastro" passHref>
+                    <Link href="/quiz" passHref>
                         <Button
                         size="lg"
                         className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 animate-pulse hover:animate-none"
