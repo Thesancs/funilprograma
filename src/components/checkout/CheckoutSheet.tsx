@@ -53,6 +53,26 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
     }
   }, [isOpen, nome, email]);
 
+  // DISPARAR EVENTO UTMIFY DE INITIATE CHECKOUT ao abrir o checkout
+  useEffect(() => {
+    if (!isOpen) return;
+    if (typeof window !== 'undefined' && (window as any).utmify) {
+      const items = [
+        { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+        ...Object.entries(orderBumps).map(([id, price]) => ({
+          id: `bump_${id}`,
+          name: bumpDetails[id],
+          price,
+          quantity: 1
+        }))
+      ];
+      (window as any).utmify('event', 'InitiateCheckout', {
+        currency: 'BRL',
+        value: totalPrice,
+        items
+      });
+    }
+  }, [isOpen, selectedPlan, orderBumps, totalPrice]);
   const checkPaymentStatus = async (id: string) => {
     try {
       const response = await fetch(`/api/pix/status/${id}`);
@@ -63,11 +83,21 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           
           // DISPARAR EVENTO UTMIFY DE PURCHASE
           if (typeof window !== 'undefined' && (window as any).utmify) {
+            const items = [
+              { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+              ...Object.entries(orderBumps).map(([id, price]) => ({
+                id: `bump_${id}`,
+                name: bumpDetails[id],
+                price,
+                quantity: 1
+              }))
+            ];
             (window as any).utmify('event', 'Purchase', {
               transaction_id: id,
               content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
               currency: 'BRL',
-              value: totalPrice
+              value: totalPrice,
+              items
             });
           }
           
@@ -78,6 +108,20 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           });
           if (pollingInterval.current) {
             clearInterval(pollingInterval.current);
+          }
+
+          // Redirecionar para a página de obrigado
+          const params = new URLSearchParams({
+            tx: id,
+            plan: selectedPlan,
+            value: totalPrice.toFixed(2),
+            name: nome || '',
+            email: email || '',
+            bumps: JSON.stringify(orderBumps) // Incluir order bumps
+          });
+          // Evita múltiplos redirects em caso de chamadas quase simultâneas
+          if (typeof window !== 'undefined') {
+            window.location.href = `/obrigado?${params.toString()}`;
           }
         }
       }
@@ -170,6 +214,26 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
       setQrCode(data.qrCodeBase64);
       setPixCode(data.qrCode); // NOVO: Salvar PIX Copia e Cola
       setChargeId(data.chargeId);
+
+      // DISPARAR EVENTO UTMIFY DE ADD PAYMENT INFO (venda iniciada - geração do PIX)
+      if (typeof window !== 'undefined' && (window as any).utmify) {
+        const items = [
+          { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+          ...Object.entries(orderBumps).map(([id, price]) => ({
+            id: `bump_${id}`,
+            name: bumpDetails[id],
+            price,
+            quantity: 1
+          }))
+        ];
+        (window as any).utmify('event', 'AddPaymentInfo', {
+          transaction_id: data.chargeId,
+          currency: 'BRL',
+          value: totalPrice,
+          payment_method: 'pix',
+          items
+        });
+      }
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Tente novamente.";
