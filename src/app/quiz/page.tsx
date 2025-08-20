@@ -36,7 +36,7 @@ function QuizContent() {
     }
   }, [addPoints, nome]);
 
-  const handleNext = () => {
+  const handleTrimestreSelect = (trimestre: number) => {
     setIsLoading(true);
     const newPoints = addPoints(100);
     
@@ -45,6 +45,7 @@ function QuizContent() {
         pontos: newPoints.toString(),
         nome,
         email,
+        trimestre: trimestre.toString(),
       });
       router.push(`/quiz/sono?${params.toString()}`);
     }, 1500);
@@ -66,18 +67,15 @@ function QuizContent() {
                 <span>Pontos de cuidado: {pontos}</span>
             </Card>
         </div>
-        <QuizGravidez nome={nome} />
-        <div className="mt-8 text-center">
-            <Button 
-              size="lg" 
-              onClick={handleNext} 
-              disabled={isLoading} 
-              className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Avançar
-            </Button>
-        </div>
+        <QuizGravidez nome={nome} onTrimestreSelect={handleTrimestreSelect} />
+        {isLoading && (
+          <div className="mt-8 text-center">
+            <div className="flex items-center justify-center gap-2 text-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span>Avançando...</span>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

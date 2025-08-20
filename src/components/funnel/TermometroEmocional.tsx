@@ -63,7 +63,7 @@ export default function TermometroEmocional({ nome, email, nivelMedo, setNivelMe
 
   const faixaAtual = useMemo(() => getFaixa(nivelMedo), [nivelMedo]);
   const corGradiente = faixaAtual.mercúrioColor;
-  const hColuna = nivelMedo * 0.82;
+  const hColuna = nivelMedo; // Mudança: removido o multiplicador 0.82
 
   const updateNivelFromY = useCallback((y: number) => {
     if (!termometroRef.current) return;

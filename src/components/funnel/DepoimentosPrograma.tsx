@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,32 +18,55 @@ interface DepoimentosProgramaProps {
 
 const depoimentos = [
   {
-    nome: "Juliana S.",
-    cidade: "São Paulo, SP",
-    trimestre: "2º Trimestre",
-    avaliacao: 5,
-    depoimento: "O programa mudou minha relação com a comida! Me sinto mais disposta e segura.",
-    avatar: "https://i.imgur.com/iIAQUAE.jpeg",
-    dataAiHint: "woman portrait"
+    id: 1,
+    imagem: "/depoimentos/depoimentos (1).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
   {
-    nome: "Carla M.",
-    cidade: "Recife, PE",
-    trimestre: "3º Trimestre",
-    avaliacao: 5,
-    depoimento: "Os exercícios de respiração me ajudaram muito com a ansiedade. Recomendo demais!",
-    avatar: "https://i.imgur.com/11ScJIc.jpeg",
-    dataAiHint: "woman portrait"
+    id: 2,
+    imagem: "/depoimentos/depoimentos (2).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
   {
-    nome: "Fernanda L.",
-    cidade: "Curitiba, PR",
-    trimestre: "1º Trimestre",
-    avaliacao: 4,
-    depoimento: "Estava perdida com a alimentação e os treinos. O app me deu um norte e mais tranquilidade.",
-    avatar: "https://i.imgur.com/qjuaY0w.jpeg",
-    dataAiHint: "happy woman"
+    id: 3,
+    imagem: "/depoimentos/depoimentos (3).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
+  {
+    id: 4,
+    imagem: "/depoimentos/depoimentos (4).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 5,
+    imagem: "/depoimentos/depoimentos (5).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 6,
+    imagem: "/depoimentos/depoimentos (6).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 7,
+    imagem: "/depoimentos/depoimentos (7).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 8,
+    imagem: "/depoimentos/depoimentos (8).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 9,
+    imagem: "/depoimentos/depoimentos (9).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  },
+  {
+    id: 10,
+    imagem: "/depoimentos/depoimentos (10).jpg",
+    alt: "Depoimento de cliente satisfeita"
+  }
 ];
 
 const especialistas = [
@@ -111,6 +134,23 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
     router.push(`/oferta?${params.toString()}`);
   };
 
+  // Estados do carrossel de depoimentos (bloco anterior)
+  const [depoimentosApi, setDepoimentosApi] = useState<any | null>(null);
+  const [depoimentoIdx, setDepoimentoIdx] = useState(1);
+  const totalDepoimentos = depoimentos.length;
+
+  useEffect(() => {
+    if (!depoimentosApi) return;
+    const updateIndex = () => setDepoimentoIdx(depoimentosApi.selectedScrollSnap() + 1);
+    updateIndex();
+    depoimentosApi.on('select', updateIndex);
+    depoimentosApi.on('reInit', updateIndex);
+    return () => {
+      depoimentosApi.off('select', updateIndex);
+      depoimentosApi.off('reInit', updateIndex);
+    };
+  }, [depoimentosApi]);
+
   return (
     <div className="w-full flex flex-col items-center gap-12 py-8">
         
@@ -142,7 +182,6 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
                 Quero começar agora
             </Button>
         </div>
-
 
         <section ref={programaSectionRef} id="programa" className="w-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 text-center lg:text-left">
             <Card className="lg:w-1/2 bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-8 flex flex-col items-center lg:items-start">
@@ -200,42 +239,47 @@ export default function DepoimentosPrograma({ nome, email, pontos }: Depoimentos
              O que outras mamães estão dizendo
             </h2>
             <Carousel
-            opts={{ align: "start", loop: true }}
-            className="w-full max-w-sm sm:max-w-md"
+                opts={{ align: "start", loop: true }}
+                setApi={setDepoimentosApi}
+                className="w-full max-w-xs sm:max-w-sm md:max-w-md"
             >
-            <CarouselContent>
-                {depoimentos.map((depoimento, index) => (
-                <CarouselItem key={index}>
-                    <div className="p-1">
-                    <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4">
-                        <Avatar className="w-20 h-20 border-4 border-pink-100">
-                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
-                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="text-center">
-                        <p className="font-bold text-lg">{depoimento.nome}</p>
-                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
+              {/* Wrapper relativo para alinhar setas à altura do conteúdo (foto) */}
+              <div className="relative">
+                <CarouselContent>
+                    {depoimentos.map((depoimento) => (
+                    <CarouselItem key={depoimento.id}>
+                        <div className="p-2">
+                            <Card className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden">
+                                <div className="relative w-full">
+                                    <Image 
+                                        src={depoimento.imagem}
+                                        alt={depoimento.alt}
+                                        width={400}
+                                        height={600}
+                                        className="w-full h-auto object-contain rounded-2xl"
+                                        sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 360px"
+                                    />
+                                </div>
+                            </Card>
                         </div>
-                        <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                        ))}
-                        </div>
-                        <p className="text-center text-foreground italic">"{depoimento.depoimento}"</p>
-                    </Card>
-                    </div>
-                </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselPrevious className="flex -left-4" />
-            <CarouselNext className="flex -right-4" />
+                    </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2 top-1/2 -translate-y-1/2" />
+                <CarouselNext className="right-2 top-1/2 -translate-y-1/2" />
+              </div>
             </Carousel>
+
+            {/* Indicador de posição do depoimento */}
+            <p className="mt-3 text-sm text-muted-foreground">
+              Está no depoimento {depoimentoIdx} ({depoimentoIdx}/{totalDepoimentos})
+            </p>
         </section>
 
          <section className="w-full max-w-3xl text-center flex flex-col items-center gap-8">
              <Card className="bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50 p-6 flex flex-col items-center gap-4">
                  <BrainCircuit className="w-8 h-8 text-primary" data-ai-hint="brain" />
-                <h3 className="text-xl font-semibold text-foreground"> Quem criou este programa?”</h3>
+                <h3 className="text-xl font-semibold text-foreground"> Quem criou este programa?"</h3>
                 <p className="text-muted-foreground max-w-xl">
                     O Programa Bem-Estar Gestacional nasceu no Instituto B.E.M. – Bem-Estar Materno, uma iniciativa formada por profissionais especializados no cuidado com a gestante em todas as fases da gravidez.
                 </p>

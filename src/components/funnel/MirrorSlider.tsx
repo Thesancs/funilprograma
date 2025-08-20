@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Slider } from '@/components/ui/slider';
 import { useQuiz } from '@/contexts/QuizContext';
 import { Loader2 } from 'lucide-react';
 
@@ -67,6 +66,7 @@ const estados = [
 export default function MirrorSlider({ nome, email, setBgColor }: MirrorSliderProps) {
   const [nivel, setNivel] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasSelected, setHasSelected] = useState(false);
   
   const router = useRouter();
   const { addPoints } = useQuiz();
@@ -82,9 +82,10 @@ export default function MirrorSlider({ nome, email, setBgColor }: MirrorSliderPr
       console.log(`[MirrorSlider] Background color changed to: ${estadoAtual.corFundo}`);
   }, [estadoAtual.corFundo, setBgColor]);
 
-  const handleSliderChange = (value: number[]) => {
-    setNivel(value[0]);
-    console.log(`[MirrorSlider] Slider value changed to: ${value[0]}`);
+  const handleOptionSelect = (selectedNivel: number) => {
+    setNivel(selectedNivel);
+    setHasSelected(true);
+    console.log(`[MirrorSlider] Option selected: ${selectedNivel}`);
   };
 
   const handleNext = () => {
@@ -106,7 +107,7 @@ export default function MirrorSlider({ nome, email, setBgColor }: MirrorSliderPr
     <Card className="w-full max-w-lg mx-auto bg-white/60 backdrop-blur-xl rounded-3xl shadow-2xl ring-1 ring-white/50">
        <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Como você se sente com seu corpo?</CardTitle>
-         <CardDescription>Deslize para nos dizer como você se sente.</CardDescription>
+         <CardDescription>Toque na opção que melhor representa como você se sente.</CardDescription>
       </CardHeader>
       <CardContent className="p-6 pt-0 flex flex-col items-center justify-center min-h-[36rem]">
         <AnimatePresence mode="wait">
@@ -144,25 +145,41 @@ export default function MirrorSlider({ nome, email, setBgColor }: MirrorSliderPr
           </AnimatePresence>
         </div>
 
-        <div className="w-full max-w-sm px-4">
-          <Slider
-            value={[nivel]}
-            min={0}
-            max={estados.length - 1}
-            step={1}
-            onValueChange={handleSliderChange}
-            aria-label="Seletor de emoção corporal"
-          />
-          <div className="flex justify-between text-2xl mt-2 px-1">
-            {estados.map(e => <span key={e.nivel}>{e.emoji}</span>)}
+        <div className="w-full max-w-sm px-4 mb-6">
+          <div className="flex justify-center gap-3 mb-4">
+            {estados.map((estado) => (
+              <motion.button
+                key={estado.nivel}
+                onClick={() => handleOptionSelect(estado.nivel)}
+                className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl transition-all duration-200 border-2 ${
+                  nivel === estado.nivel 
+                    ? 'bg-gradient-to-br from-pink-500 to-purple-600 border-pink-500 shadow-lg scale-110' 
+                    : 'bg-white/80 border-gray-200 hover:border-pink-300 hover:scale-105 shadow-md'
+                }`}
+                whileHover={{ scale: nivel === estado.nivel ? 1.1 : 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {estado.emoji}
+              </motion.button>
+            ))}
           </div>
+          
+          {hasSelected && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center text-sm text-muted-foreground"
+            >
+              Você selecionou: {estadoAtual.emoji}
+            </motion.div>
+          )}
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4">
             <Button 
                 onClick={handleNext} 
                 size="lg" 
-                disabled={isLoading}
+                disabled={isLoading || !hasSelected}
                 className="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-70 disabled:cursor-not-allowed"
             >
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : estadoAtual.cta}
