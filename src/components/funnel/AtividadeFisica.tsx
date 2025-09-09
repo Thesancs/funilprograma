@@ -25,7 +25,6 @@ const atividades = [
 
 export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
   const [frequenciaSelecionada, setFrequenciaSelecionada] = useState<number | null>(null);
-  const [hoveredOption, setHoveredOption] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
@@ -40,17 +39,18 @@ export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
     addPoints = (value: number) => value; // Fallback simples
   }
 
-  // Mostra a atividade selecionada ou a que está sendo hovereada
+  // Mostra a primeira atividade por padrão ou a selecionada
   const atividadeParaMostrar = atividades.find(a => 
-    a.valor === (frequenciaSelecionada !== null ? frequenciaSelecionada : hoveredOption)
-  );
+    a.valor === (frequenciaSelecionada !== null ? frequenciaSelecionada : atividades[0].valor)
+  ) || atividades[0];
 
-  const handleNext = () => {
-    if (frequenciaSelecionada === null) return;
+  const handleAtividadeSelect = (valor: number) => {
+    if (isLoading) return;
     
+    setFrequenciaSelecionada(valor);
     setIsLoading(true);
     const newPoints = addPoints(100);
-    console.log('[AtividadeFisica]', {frequencia: frequenciaSelecionada, newPoints});
+    console.log('[AtividadeFisica]', {frequencia: valor, newPoints});
 
     setTimeout(() => {
       const params = new URLSearchParams({
@@ -59,7 +59,7 @@ export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
         email,
       });
       router.push(`/quiz/espelho?${params.toString()}`);
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -90,9 +90,7 @@ export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
                     alt={atividadeParaMostrar.label} 
                     width={120} 
                     height={120} 
-                    className={`drop-shadow-lg transition-opacity duration-300 ${
-                      frequenciaSelecionada === null && hoveredOption !== null ? 'opacity-70' : 'opacity-100'
-                    }`}
+                    className="drop-shadow-lg transition-all duration-300"
                     data-ai-hint={atividadeParaMostrar.dataAiHint}
                   />
                 </motion.div>
@@ -104,16 +102,9 @@ export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
               key={atividadeParaMostrar.feedback}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className={`text-center font-medium transition-colors duration-300 ${
-                frequenciaSelecionada === null && hoveredOption !== null 
-                  ? 'text-muted-foreground' 
-                  : 'text-primary'
-              }`}
+              className="text-center font-medium text-primary transition-colors duration-300"
             >
-              {frequenciaSelecionada === null && hoveredOption !== null 
-                ? `Prévia: ${atividadeParaMostrar.feedback}` 
-                : atividadeParaMostrar.feedback
-              }
+              {atividadeParaMostrar.feedback}
             </motion.p>
           )}
         </div>
@@ -123,37 +114,28 @@ export default function AtividadeFisica({ nome, email }: AtividadeFisicaProps) {
             <Button
               key={atividade.valor}
               variant={frequenciaSelecionada === atividade.valor ? "default" : "outline"}
+              disabled={isLoading}
               className={`w-full p-4 h-auto flex items-center gap-3 transition-all duration-300 ${
                 frequenciaSelecionada === atividade.valor 
                   ? "bg-primary text-primary-foreground shadow-lg scale-105" 
-                  : hoveredOption === atividade.valor
-                  ? "bg-primary/20 border-primary/50 scale-102"
-                  : "hover:bg-primary/10"
-              }`}
-              onClick={() => setFrequenciaSelecionada(atividade.valor)}
-              onMouseEnter={() => setHoveredOption(atividade.valor)}
-              onMouseLeave={() => setHoveredOption(null)}
+                  : "hover:bg-primary/10 hover:scale-102"
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+              onClick={() => handleAtividadeSelect(atividade.valor)}
             >
               <span className="text-2xl">{atividade.emoji}</span>
               <span className="font-semibold">{atividade.label}</span>
+              {isLoading && frequenciaSelecionada === atividade.valor && (
+                <Loader2 className="ml-auto h-4 w-4 animate-spin" />
+              )}
             </Button>
           ))}
         </div>
 
-        <Button 
-          onClick={handleNext} 
-          disabled={frequenciaSelecionada === null || isLoading}
-          className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-3 rounded-full transition-all duration-300 disabled:opacity-50"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processando...
-            </>
-          ) : (
-            'Continuar'
-          )}
-        </Button>
+        {isLoading && (
+          <div className="w-full text-center text-muted-foreground">
+            <p className="text-sm">Processando sua resposta...</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

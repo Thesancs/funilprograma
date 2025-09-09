@@ -123,7 +123,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const bonusStep = 4;
 
   const setStep = (index: number) => {
-    console.log(`[QuizContext] Setting step to: ${index}`);
+    // console.log(`[QuizContext] Setting step to: ${index}`);
     setStepIndex(index);
   };
   

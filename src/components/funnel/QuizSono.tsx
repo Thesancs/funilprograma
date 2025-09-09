@@ -37,7 +37,7 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
   const { pontos, addPoints } = useQuiz();
 
   useEffect(() => {
-    console.log('[QuizSono] Component mounted');
+    // console.log('[QuizSono] Component mounted');
   }, []);
   
   const textColor = textColors[selecionado];
@@ -46,12 +46,12 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
   const handleSelect = (opcao: OpcaoSono) => {
     if (isLoading) return;
     setSelecionado(opcao);
-    console.log(`[QuizSono] Opção selecionada: ${opcao}`);
-    setIsLoading(true);
-
+    // console.log(`[QuizSono] Opção selecionada: ${opcao}`);
+    setSelecionado(opcao);
+    
     const newPoints = addPoints(100);
-    console.log('[QuizSono] +100 pontos adicionados');
-    console.log('[QuizSono] Avançando para a próxima etapa...');
+    // console.log('[QuizSono] +100 pontos adicionados');
+    // console.log('[QuizSono] Avançando para a próxima etapa...');
 
     setTimeout(() => {
       const params = new URLSearchParams({

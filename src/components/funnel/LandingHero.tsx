@@ -22,7 +22,7 @@ export default function LandingHero() {
   }, []);
 
   const handleCtaClick = () => {
-    console.log('[LandingHero] CTA clicked, navigating to /quiz');
+    // console.log('[LandingHero] CTA clicked, navigating to /quiz');
   };
 
   return (

@@ -34,14 +34,14 @@ export default function QuizAnsiedade({ nome, email }: QuizAnsiedadeProps) {
   const handleSelect = (opcao: OpcaoAnsiedade) => {
     if (selecionado) return; // Previne múltiplas seleções
 
-    console.log('[QuizAnsiedade] Opção selecionada:', opcao);
+    // console.log('[QuizAnsiedade] Opção selecionada:', opcao);
     setSelecionado(opcao);
     setFrase(frasesEmpaticas[opcao]);
     
     const newPoints = addPoints(100);
 
     setTimeout(() => {
-      console.log('Navegando para a proxima etapa...');
+      // console.log('Navegando para a proxima etapa...');
       const params = new URLSearchParams({
         pontos: newPoints.toString(),
         nome,

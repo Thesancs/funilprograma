@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, MessageCircle, Mail, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type SearchParams = {
   tx?: string;
@@ -35,6 +38,9 @@ export default function ObrigadoPage({
     bumps = "{}",
   } = searchParams;
 
+  const [paymentStatus, setPaymentStatus] = useState<'checking' | 'paid' | 'pending' | 'cancelled'>('checking');
+  const [isLoading, setIsLoading] = useState(true);
+
   const planTitle = planTitles[plan] ?? (plan ? plan : "Seu programa");
   
   // Parse order bumps
@@ -42,8 +48,47 @@ export default function ObrigadoPage({
   try {
     orderBumps = JSON.parse(bumps);
   } catch (error) {
-    console.error("Erro ao parsear bumps:", error);
+    // console.error("Erro ao parsear bumps:", error);
   }
+
+  // Verificar status do pagamento
+  useEffect(() => {
+    const checkPaymentStatus = async () => {
+      if (!tx) {
+        setPaymentStatus('pending');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/pix/status/${tx}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+          setPaymentStatus(data.status);
+        } else {
+          // console.error('Erro ao verificar status:', data);
+          setPaymentStatus('pending');
+        }
+      } catch (error) {
+        console.error('Erro ao verificar status do pagamento:', error);
+        setPaymentStatus('pending');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkPaymentStatus();
+    
+    // Verificar novamente a cada 30 segundos se ainda estiver pendente
+    const interval = setInterval(() => {
+      if (paymentStatus === 'pending' || paymentStatus === 'checking') {
+        checkPaymentStatus();
+      }
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [tx, paymentStatus]);
 
   return (
     <main className="relative min-h-screen w-full flex items-center justify-center bg-white overflow-hidden">
@@ -116,6 +161,61 @@ export default function ObrigadoPage({
               </div>
             )}
           </div>
+
+          {/* Status do Pagamento */}
+          {isLoading ? (
+            <div className="flex items-center justify-center gap-2 mt-4 p-3 bg-blue-50 rounded-lg">
+              <Clock className="w-5 h-5 text-blue-500 animate-spin" />
+              <span className="text-blue-700 font-medium">Verificando status do pagamento...</span>
+            </div>
+          ) : paymentStatus === 'paid' ? (
+            <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+              <h3 className="font-semibold text-emerald-800 mb-3 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                🎉 Pagamento Confirmado! Acesso Liberado
+              </h3>
+              <p className="text-emerald-700 text-sm mb-4">
+                Parabéns! Seu pagamento foi confirmado. Agora você tem acesso completo ao programa.
+              </p>
+              
+              <div className="space-y-3">
+                <a
+                  href="https://chat.whatsapp.com/Fm9YwzZwpYR8DdwX70zjGL" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 transition"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Entrar no Grupo WhatsApp
+                </a>
+                
+                <a
+                  href="mailto:agenciasancs@gmail.com"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-600 text-emerald-600 hover:bg-emerald-50 font-semibold py-3 px-4 transition"
+                >
+                  <Mail className="w-5 h-5" />
+                  Contato: agenciasancs@gmail.com
+                </a>
+              </div>
+            </div>
+          ) : paymentStatus === 'pending' ? (
+            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="w-5 h-5 text-yellow-600" />
+                <span className="text-yellow-800 font-medium">Aguardando Pagamento</span>
+              </div>
+              <p className="text-yellow-700 text-sm">
+                Seu pagamento ainda está sendo processado. Esta página será atualizada automaticamente quando o pagamento for confirmado.
+              </p>
+            </div>
+          ) : paymentStatus === 'cancelled' ? (
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <span className="text-red-800 font-medium">Pagamento Cancelado ou Expirado</span>
+              <p className="text-red-700 text-sm mt-1">
+                Entre em contato conosco se precisar de ajuda.
+              </p>
+            </div>
+          ) : null}
 
           <p className="text-xs text-gray-500 mt-3">
             Você receberá um e-mail com os detalhes de acesso em instantes.
