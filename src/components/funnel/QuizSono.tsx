@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Heart, Loader2 } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useQuiz } from '@/contexts/QuizContext';
 
 type OpcaoSono = "nenhuma" | "facil" | "mal" | "pessimo";
@@ -37,22 +37,22 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
   const { pontos, addPoints } = useQuiz();
 
   useEffect(() => {
-    console.log('[QuizSono] Component mounted');
+    // console.log('[QuizSono] Component mounted');
   }, []);
   
   const textColor = textColors[selecionado];
 
+  // Avançar automaticamente ao selecionar uma opção (botão removido)
   const handleSelect = (opcao: OpcaoSono) => {
+    if (isLoading) return;
     setSelecionado(opcao);
-    console.log(`[QuizSono] Opção selecionada: ${opcao}`);
-  };
-
-  const handleNext = () => {
-    setIsLoading(true);
-    const newPoints = addPoints(100);
+    // console.log(`[QuizSono] Opção selecionada: ${opcao}`);
+    setSelecionado(opcao);
     
-    console.log('[QuizSono] +100 pontos adicionados');
-    console.log('[QuizSono] Avançando para a próxima etapa...');
+    const newPoints = addPoints(100);
+    // console.log('[QuizSono] +100 pontos adicionados');
+    // console.log('[QuizSono] Avançando para a próxima etapa...');
+
     setTimeout(() => {
       const params = new URLSearchParams({
         pontos: newPoints.toString(),
@@ -60,7 +60,7 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
         email,
       });
       router.push(`/quiz/ansiedade?${params.toString()}`);
-    }, 1500);
+    }, 1000);
   };
 
   return (
@@ -93,6 +93,7 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
                         {
                         "border-white scale-105 bg-white/40": selecionado === opcao.id,
                         "opacity-70 hover:opacity-100": selecionado !== "nenhuma" && selecionado !== opcao.id,
+                        "pointer-events-none opacity-60": isLoading
                         }
                     )}
                     >
@@ -104,17 +105,7 @@ export default function QuizSono({ nome, email, selecionado, setSelecionado }: Q
             </CardContent>
             </Card>
             
-            <div className="mt-8">
-                <Button
-                onClick={handleNext}
-                disabled={selecionado === "nenhuma" || isLoading}
-                size="lg"
-                className="bg-white text-primary rounded-full px-8 py-6 text-base font-semibold shadow-lg transition-all duration-300 hover:scale-105 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Continuar
-                </Button>
-            </div>
+            {/* Removido o botão "Continuar" */}
         </div>
     </div>
   );

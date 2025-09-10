@@ -167,16 +167,26 @@ export default function AnaliseAlimentacao({ nome, email }: AnaliseAlimentacaoPr
                         </motion.div>
                     </AnimatePresence>
                   </div>
-                  <p className="mt-4 text-sm text-muted-foreground">Arraste e escolha sua opção</p>
+                  <p className="mt-4 text-sm text-muted-foreground">Arraste e escolha sua opção ou clique nos botões</p>
                   <div className="flex justify-between w-full max-w-[300px] px-4 mt-2 text-foreground">
-                    <div className="flex items-center gap-2">
-                      <ThumbsDown className="h-6 w-6" />
+                    <Button
+                      onClick={() => handleSwipe('ruim')}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 border-red-300 hover:bg-red-50 hover:border-red-400"
+                    >
+                      <ThumbsDown className="h-4 w-4" />
                       <span className="font-semibold">Não</span>
-                    </div>
-                    <div className="flex items-center gap-2">
+                    </Button>
+                    <Button
+                      onClick={() => handleSwipe('bom')}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2 border-green-300 hover:bg-green-50 hover:border-green-400"
+                    >
                       <span className="font-semibold">Sim</span>
-                      <ThumbsUp className="h-6 w-6" />
-                    </div>
+                      <ThumbsUp className="h-4 w-4" />
+                    </Button>
                   </div>
               </motion.div>
               ) : (

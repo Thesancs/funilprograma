@@ -106,3 +106,32 @@ input[type='range'].naked::-moz-range-thumb {
   -webkit-appearance: none;
   appearance: none;
 }
+
+/* Adicionar no final do arquivo */
+
+/* Desabilita zoom no mobile */
+* {
+  touch-action: manipulation;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Permite seleção de texto em inputs e textareas */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

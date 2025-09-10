@@ -27,20 +27,20 @@ const bumpDetails: { [key: string]: string } = {
 };
 
 export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
-  const { nome, email, selectedPlan, orderBumps, totalPrice } = useCheckout();
+  const { nome, email, rg, telefone, selectedPlan, orderBumps, totalPrice } = useCheckout();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [qrCode, setQrCode] = useState<string | null>(null);
   const [pixCode, setPixCode] = useState<string | null>(null); // NOVO: PIX Copia e Cola
   const [chargeId, setChargeId] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', rg: '', telefone: '' });
   const [copied, setCopied] = useState(false); // NOVO: Estado do botão copiar
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (isOpen) {
-      setFormData({ name: nome, email });
+      setFormData({ name: nome, email, rg, telefone });
     } else {
       setQrCode(null);
       setPixCode(null); // NOVO: Limpar PIX code
@@ -53,6 +53,26 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
     }
   }, [isOpen, nome, email]);
 
+  // DISPARAR EVENTO UTMIFY DE INITIATE CHECKOUT ao abrir o checkout
+  useEffect(() => {
+    if (!isOpen) return;
+    if (typeof window !== 'undefined' && (window as any).utmify) {
+      const items = [
+        { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+        ...Object.entries(orderBumps).map(([id, price]) => ({
+          id: `bump_${id}`,
+          name: bumpDetails[id],
+          price,
+          quantity: 1
+        }))
+      ];
+      (window as any).utmify('event', 'InitiateCheckout', {
+        currency: 'BRL',
+        value: totalPrice,
+        items
+      });
+    }
+  }, [isOpen, selectedPlan, orderBumps, totalPrice]);
   const checkPaymentStatus = async (id: string) => {
     try {
       const response = await fetch(`/api/pix/status/${id}`);
@@ -63,11 +83,21 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           
           // DISPARAR EVENTO UTMIFY DE PURCHASE
           if (typeof window !== 'undefined' && (window as any).utmify) {
+            const items = [
+              { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+              ...Object.entries(orderBumps).map(([id, price]) => ({
+                id: `bump_${id}`,
+                name: bumpDetails[id],
+                price,
+                quantity: 1
+              }))
+            ];
             (window as any).utmify('event', 'Purchase', {
               transaction_id: id,
               content_name: selectedPlan === 'completo' ? 'Método Gestante Blindada' : 'Nutrição Expressa',
               currency: 'BRL',
-              value: totalPrice
+              value: totalPrice,
+              items
             });
           }
           
@@ -78,6 +108,20 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
           });
           if (pollingInterval.current) {
             clearInterval(pollingInterval.current);
+          }
+
+          // Redirecionar para a página de obrigado
+          const params = new URLSearchParams({
+            tx: id,
+            plan: selectedPlan,
+            value: totalPrice.toFixed(2),
+            name: nome || '',
+            email: email || '',
+            bumps: JSON.stringify(orderBumps) // Incluir order bumps
+          });
+          // Evita múltiplos redirects em caso de chamadas quase simultâneas
+          if (typeof window !== 'undefined') {
+            window.location.href = `/obrigado?${params.toString()}`;
           }
         }
       }
@@ -135,11 +179,11 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
   };
 
   const generatePix = async () => {
-    if (!formData.name || !formData.email) {
+    if (!formData.name || !formData.email || !formData.rg || !formData.telefone) {
       toast({
         variant: "destructive",
         title: "Campos obrigatórios",
-        description: "Por favor, preencha seu nome e e-mail.",
+        description: "Por favor, preencha todos os campos: nome, e-mail, RG e telefone.",
       });
       return;
     }
@@ -157,7 +201,12 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
         body: JSON.stringify({
           amount: Math.round(totalPrice * 100), // em centavos
           description: description,
-          payer: { name: formData.name, email: formData.email }
+          payer: { 
+            name: formData.name, 
+            email: formData.email,
+            rg: formData.rg,
+            telefone: formData.telefone
+          }
         }),
       });
 
@@ -170,6 +219,47 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
       setQrCode(data.qrCodeBase64);
       setPixCode(data.qrCode); // NOVO: Salvar PIX Copia e Cola
       setChargeId(data.chargeId);
+
+      // Salvar dados do cliente no banco de dados
+      try {
+        await fetch('/api/clientes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome: formData.name,
+            email: formData.email,
+            rg: formData.rg,
+            telefone: formData.telefone,
+            plano_selecionado: selectedPlan,
+            valor_total: totalPrice,
+            order_bumps: orderBumps,
+            transaction_id: data.chargeId
+          })
+        });
+      } catch (clienteError) {
+        console.error('Erro ao salvar dados do cliente:', clienteError);
+        // Não interrompe o fluxo, apenas loga o erro
+      }
+
+      // DISPARAR EVENTO UTMIFY DE ADD PAYMENT INFO (venda iniciada - geração do PIX)
+      if (typeof window !== 'undefined' && (window as any).utmify) {
+        const items = [
+          { id: `plan_${selectedPlan}`, name: planos[selectedPlan].title, price: planPrices[selectedPlan], quantity: 1 },
+          ...Object.entries(orderBumps).map(([id, price]) => ({
+            id: `bump_${id}`,
+            name: bumpDetails[id],
+            price,
+            quantity: 1
+          }))
+        ];
+        (window as any).utmify('event', 'AddPaymentInfo', {
+          transaction_id: data.chargeId,
+          currency: 'BRL',
+          value: totalPrice,
+          payment_method: 'pix',
+          items
+        });
+      }
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Tente novamente.";
@@ -258,6 +348,14 @@ export default function CheckoutSheet({ isOpen, onClose }: CheckoutSheetProps) {
                         <div>
                             <Label htmlFor="email">E-mail</Label>
                             <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="seu.email@exemplo.com" />
+                        </div>
+                        <div>
+                            <Label htmlFor="rg">RG</Label>
+                            <Input id="rg" name="rg" value={formData.rg} onChange={handleInputChange} placeholder="00.000.000-0" />
+                        </div>
+                        <div>
+                            <Label htmlFor="telefone">Telefone</Label>
+                            <Input id="telefone" name="telefone" type="tel" value={formData.telefone} onChange={handleInputChange} placeholder="(11) 99999-9999" />
                         </div>
                     </div>
 

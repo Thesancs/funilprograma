@@ -30,6 +30,15 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/cadastro',
+        destination: '/quiz',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

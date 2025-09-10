@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Check, CheckCircle, Zap, Shield, CreditCard, Star, Clock, Sparkles, Gift, Heart, ShoppingBag, ShieldCheck, RefreshCcw, X, Users, AlertTriangle } from 'lucide-react';
@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import OrderBumps from '@/components/funnel/OrderBumps';
 import { useCheckout } from '@/contexts/CheckoutContext';
+import { useToast } from '@/hooks/use-toast';
 
 
 interface OfertaFinalProps {
@@ -30,58 +31,24 @@ interface OfertaFinalProps {
 
 const depoimentos = [
   {
-    nome: "Mariana P.",
-    cidade: "Belo Horizonte, MG",
-    trimestre: "Mãe de primeira viagem",
-    avaliacao: 5,
-    depoimento: "O plano completo foi a melhor decisão! Tive todo o suporte que precisava, desde a dieta até os exercícios de relaxamento. Me senti muito mais segura e preparada.",
-    avatar: "https://i.postimg.cc/Jzvpxpd1/images-14.jpg",
-    dataAiHint: "happy mother"
+    id: 1,
+    imagem: "/depoimentos/depoimentos (1).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
   {
-    nome: "Luiza F.",
-    cidade: "Porto Alegre, RS",
-    trimestre: "2ª Gestação",
-    avaliacao: 5,
-    depoimento: "Mesmo já tendo um filho, cada gestação é única. O programa me ajudou a organizar minha rotina e a cuidar de mim. O grupo VIP é fantástico!",
-    avatar: "https://i.postimg.cc/wTb2xWzh/images-15.jpg",
-    dataAiHint: "smiling woman"
+    id: 3,
+    imagem: "/depoimentos/depoimentos (3).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
   {
-    nome: "Ana Clara R.",
-    cidade: "Salvador, BA",
-    trimestre: "3º Trimestre",
-    avaliacao: 5,
-    depoimento: "Na reta final, a ansiedade estava a mil. As técnicas de respiração e o acompanhamento fizeram toda a diferença. Cheguei no parto muito mais tranquila.",
-    avatar: "https://i.postimg.cc/0N9dN7LG/images-11.jpg",
-    dataAiHint: "serene woman"
+    id: 6,
+    imagem: "/depoimentos/depoimentos (6).jpg",
+    alt: "Depoimento de cliente satisfeita"
   },
   {
-    nome: "Júlia A.",
-    cidade: "SP",
-    trimestre: "mãe de primeira gestação",
-    avaliacao: 5,
-    depoimento: "Eu chorava de medo de comer algo errado e prejudicar meu bebê. O programa me deu segurança, clareza e uma paz absurda. Hoje, sigo o cardápio certinho e até meu marido entrou no clima da alimentação saudável. Valeu cada centavo!",
-    avatar: "https://i.postimg.cc/Fz4qZTzf/images-12.jpg",
-    dataAiHint: "woman portrait"
-  },
-  {
-    nome: "Renata M.",
-    cidade: "MG",
-    trimestre: "32 semanas",
-    avaliacao: 5,
-    depoimento: "Tava sofrendo com enjoos diários e me sentindo fraca. Quando comecei o plano, em 3 dias já senti diferença! O bônus anti-enjoo salvou minha rotina. Recomendo pra toda grávida que quer parar de sofrer calada!",
-    avatar: "https://i.postimg.cc/QCWCX8cT/images-10.jpg",
-    dataAiHint: "woman portrait"
-  },
-  {
-    nome: "Patrícia S.",
-    cidade: "BA",
-    trimestre: "mãe de segunda viagem",
-    avaliacao: 4,
-    depoimento: "Na primeira gestação eu fiquei perdida. Agora fiz diferente. Esse método me ajudou a organizar tudo: dieta, mente e rotina. O grupo de apoio também me deu força quando bateu a ansiedade. Me sinto muito mais preparada.",
-    avatar: "https://i.postimg.cc/rpRP2Bt0/images-13.jpg",
-    dataAiHint: "happy woman"
+    id: 9,
+    imagem: "/depoimentos/depoimentos (9).jpg",
+    alt: "Depoimento de cliente satisfeita"
   }
 ];
 
@@ -126,6 +93,15 @@ const planos = {
     summary: "Feito pra quem quer segurança total, apoio contínuo e mais conforto em cada fase da gravidez.",
   }
 }
+
+const fakePurchases = [
+  { name: 'Juliana S.', plan: 'Método Gestante Blindada™' },
+  { name: 'Fernanda L.', plan: 'Nutrição Expressa™' },
+  { name: 'Carla M.', plan: 'Método Gestante Blindada™' },
+  { name: 'Aline P.', plan: 'Método Gestante Blindada™' },
+  { name: 'Mariana C.', plan: 'Nutrição Expressa™' },
+  { name: 'Patrícia A.', plan: 'Método Gestante Blindada™' },
+];
 
 const getMensagemPorPontos = (pontos: number, nome: string) => {
     if (pontos > 800) {
@@ -226,6 +202,7 @@ function Footer() {
 
 export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, segundos, totalDuration, secondsLeft, onCtaClick }: OfertaFinalProps) {
   const { selectedPlan, setSelectedPlan, totalPrice, orderBumps } = useCheckout();
+  const { toast } = useToast();
   
   const handleSelectPlan = (plan: 'essencial' | 'completo') => {
     setSelectedPlan(plan);
@@ -249,6 +226,22 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
 
   const vagas = Math.floor((secondsLeft / totalDuration) * 32);
 
+  // Estados para o carrossel de depoimentos (oferta final)
+  const [depoimentosApi, setDepoimentosApi] = useState<any | null>(null);
+  const [depoimentoIdx, setDepoimentoIdx] = useState(1);
+  const totalDepoimentosOferta = depoimentos.length;
+
+  useEffect(() => {
+    if (!depoimentosApi) return;
+    const updateIndex = () => setDepoimentoIdx(depoimentosApi.selectedScrollSnap() + 1);
+    updateIndex();
+    depoimentosApi.on('select', updateIndex);
+    depoimentosApi.on('reInit', updateIndex);
+    return () => {
+      depoimentosApi.off('select', updateIndex);
+      depoimentosApi.off('reInit', updateIndex);
+    };
+  }, [depoimentosApi]);
 
   return (
     <>
@@ -275,7 +268,7 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             </div>
             
             <h1 className="text-2xl md:text-3xl font-bold">
-                Parabéns, ${nome}!
+                Parabéns, Mamãe!
             </h1>
             <p className="mt-2 text-muted-foreground max-w-2xl mx-auto">
                 {mensagemPersonalizada}
@@ -285,10 +278,10 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                  <div className="flex items-start justify-center gap-3">
                     <Checkbox id="bonus-checkbox" defaultChecked className="border-emerald-400 data-[state=checked]:bg-emerald-500 mt-1" />
                     <Label htmlFor="bonus-checkbox" className="flex flex-col items-start text-left">
-                        <span className="font-semibold text-foreground/90 leading-tight">🧠 BÔNUS EXCLUSIVO - <span className="text-primary">R$97 de Valor</span></span>
+                        <span className="font-semibold text-foreground/90 leading-tight">🧠 BÔNUS EXCLUSIVO - <span className="text-primary line-through">R$97</span> <span className="text-emerald-600 font-bold">R$ 0</span></span>
                         <span className="text-foreground/80 mt-1 text-sm">📘 Guia Anti-Enjoo + 🗓️ Calendário da Gestante Saudável</span>
                         <blockquote className="mt-2 text-xs italic text-foreground/70 border-l-2 border-emerald-300 pl-2">
-                           “Feito pra te dar alívio imediato nos momentos mais difíceis da gestação — sem depender de remédios ou suposições.”
+                           "Feito pra te dar alívio imediato nos momentos mais difíceis da gestação — sem depender de remédios ou suposições."
                         </blockquote>
                     </Label>
                 </div>
@@ -435,28 +428,25 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
                 align: "start",
                 loop: true,
             }}
-            className="w-full max-w-sm sm:max-w-md md:max-w-xl"
+            setApi={setDepoimentosApi}
+            className="w-full max-w-xs sm:max-w-sm md:max-w-md"
             >
             <CarouselContent>
-                {depoimentos.map((depoimento, index) => (
-                <CarouselItem key={index}>
-                    <div className="p-1">
-                    <UICard className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md px-6 py-6 flex flex-col items-center gap-4 text-foreground">
-                        <Avatar className="w-20 h-20 border-4 border-pink-100">
-                        <AvatarImage src={depoimento.avatar} alt={depoimento.nome} data-ai-hint={depoimento.dataAiHint} />
-                        <AvatarFallback>{depoimento.nome.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="text-center">
-                        <p className="font-bold text-lg">{depoimento.nome}</p>
-                        <p className="text-sm text-muted-foreground">{depoimento.cidade} | {depoimento.trimestre}</p>
-                        </div>
-                        <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-5 h-5 ${i < depoimento.avaliacao ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                        ))}
-                        </div>
-                        <p className="text-center text-foreground italic">"{depoimento.depoimento}"</p>
-                    </UICard>
+                {depoimentos.map((depoimento) => (
+                <CarouselItem key={depoimento.id}>
+                    <div className="p-2">
+                        <UICard className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-md overflow-hidden">
+                            <div className="relative w-full">
+                                <Image 
+                                    src={depoimento.imagem}
+                                    alt={depoimento.alt}
+                                    width={400}
+                                    height={600}
+                                    className="w-full h-auto object-contain rounded-2xl"
+                                    sizes="(max-width: 640px) 280px, (max-width: 768px) 320px, 360px"
+                                />
+                            </div>
+                        </UICard>
                     </div>
                 </CarouselItem>
                 ))}
@@ -464,6 +454,11 @@ export default function OfertaFinal({ nome, pontos, ofertaExpirada, minutos, seg
             <CarouselPrevious className="flex left-2 sm:-left-4" />
             <CarouselNext className="flex right-2 sm:-right-4" />
             </Carousel>
+
+            {/* Indicador de posição do depoimento */}
+            <p className="mt-3 text-sm text-muted-foreground">
+              Está no depoimento {depoimentoIdx} ({depoimentoIdx}/{totalDepoimentosOferta})
+            </p>
         </section>
         
         <FAQ ctaAction={onCtaClick} ctaText={ctaText} ofertaExpirada={ofertaExpirada}/>

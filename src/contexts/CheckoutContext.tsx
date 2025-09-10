@@ -15,8 +15,12 @@ interface CheckoutContextType {
   totalPrice: number;
   nome: string;
   email: string;
+  rg: string;
+  telefone: string;
   setNome: (name: string) => void;
   setEmail: (email: string) => void;
+  setRg: (rg: string) => void;
+  setTelefone: (telefone: string) => void;
 }
 
 const CheckoutContext = createContext<CheckoutContextType | null>(null);
@@ -31,6 +35,8 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   const [selectedPlan, setSelectedPlan] = useState<'essencial' | 'completo'>('completo');
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
+  const [rg, setRg] = useState('');
+  const [telefone, setTelefone] = useState('');
 
   const toggleBump = useCallback((id: string, price: number) => {
     setOrderBumps(prev => {
@@ -52,7 +58,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
 
   return (
-    <CheckoutContext.Provider value={{ orderBumps, toggleBump, selectedPlan, setSelectedPlan, totalPrice, nome, setNome, email, setEmail }}>
+    <CheckoutContext.Provider value={{ orderBumps, toggleBump, selectedPlan, setSelectedPlan, totalPrice, nome, setNome, email, setEmail, rg, setRg, telefone, setTelefone }}>
       {children}
     </CheckoutContext.Provider>
   );
